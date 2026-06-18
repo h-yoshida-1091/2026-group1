@@ -32,6 +32,9 @@ return new class extends Migration
 
             // 在庫数
             $table->integer('stock');
+
+            // 作成日時、更新日時
+            $table->timestamps();
         });
     }
 
