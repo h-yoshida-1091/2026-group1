@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
 
             //画像URL
-            $table->varchar('image_url', 500);
+            $table->string('image_url', 500);
         });
     }
 
