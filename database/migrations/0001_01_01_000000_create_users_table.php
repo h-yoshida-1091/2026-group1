@@ -16,16 +16,31 @@ return new class extends Migration
             $table->id();
 
             //ユーザー名
-            $table->varchar('name', 100);
+            $table->string('name', 100);
 
             //メールアドレス
-            $table->varchar('email', 255);
+            $table->string('email', 255);
 
             //パスワード
-            $table->varchar('password', 255);
+            $table->string('password', 255);
 
             //住所
-            $table->varchar('address', 255);
+            $table->string('address', 255);
+        });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+ 
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
         });
     }
 
@@ -35,5 +50,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
     }
 };
