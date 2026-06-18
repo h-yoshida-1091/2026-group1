@@ -16,14 +16,14 @@ return new class extends Migration
             $table->id();
 
             // ユーザーID
-            $table->varchar('user_id', 100);
+            $table->string('user_id', 100);
 
             // 商品ID
-            $table->varchar('product_id', 10);
+            $table->string('product_id', 10);
 
             // 個数
             $table->integer('quantity');
-            
+
             $table->timestamps();
         });
     }

@@ -16,10 +16,10 @@ return new class extends Migration
             $table->id();
 
             // ユーザーID（外部キー）
-            $table->varchar('user_id', 100);
+            $table->string('user_id', 100);
 
             // 商品ID（外部キー）
-            $table->varchar('product_id', 10);
+            $table->string('product_id', 10);
 
             $table->timestamps();
         });
