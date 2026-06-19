@@ -1,8 +1,14 @@
 <div class="login-container">
     <h1>ログイン</h1>
 
+    @if (session('error_message'))
+        <div class="alert alert-danger" style="color: red; margin-bottom: 15px;">
+            {{ session('error_message') }}
+        </div>
+    @endif
+
     <form action="/login" method="post" class="login-form">
-        <div class="form-group">
+        @csrf <div class="form-group">
             <label for="email">メールアドレス</label>
             <input type="email" id="email" name="email" placeholder="example@email.com" required>
         </div>
