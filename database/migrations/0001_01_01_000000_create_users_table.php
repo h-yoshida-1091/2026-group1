@@ -12,13 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
+            //主キー、負数を使えない、自動採番
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+
+            //ユーザー名
+            $table->string('name', 100);
+
+            //メールアドレス
+            $table->string('email', 255);
+
+            //パスワード
+            $table->string('password', 255);
+
+            //住所
+            $table->string('address', 255);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -26,7 +33,7 @@ return new class extends Migration
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
-
+ 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
