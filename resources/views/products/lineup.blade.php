@@ -4,7 +4,7 @@
         
         <!-- 左：画像 -->
         <div style="width:300px;">
-            <img src="" alt="商品画像" style="width:100%;">
+            <img src="{{ $product->image_url }}" alt="商品画像" style="width:100%;">
         </div>
 
         <!-- 右：商品情報 -->
