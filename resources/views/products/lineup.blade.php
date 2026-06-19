@@ -16,6 +16,7 @@
              
             <br>
 
+
             <!-- カートボタン -->
             <form action="/cart/add" method="post">
                 @csrf
@@ -24,9 +25,13 @@
             <button type="submit">カートに入れる</button>
             </form>
 
+
+
             <br><br>
-            <!-- 購入ボタン -->
-            <button>今すぐ購入</button>
+            <!-- 購入ボタン(同上) -->
+            <a href="/purchase/direct?id={{ $product->id }}" class="btn-buy" style="display:inline-block; padding: 5px 10px; border: 1px solid #ccc; background-color: #ff9900; text-decoration: none; color: white; font-weight: bold;">
+                今すぐ購入
+            </a>
 
             <br><br>
             <!-- 詳細リンク -->
