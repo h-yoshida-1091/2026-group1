@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 // 商品一覧
 Route::get('/products', [ProductController::class, 'index']);
@@ -23,11 +24,16 @@ Route::get('/purchase', [OrderController::class, 'order']);
 //　購入完了
 Route::get('/purchase/complete', [OrderController::class, 'complete']);
 
+
 // ログイン画面
-Route::get('/login', [AuthController::class, 'showLogin']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/login', [UserController::class, 'login_Get']);
+Route::post('/login', [UserController::class, 'login_Post']);
 
 // 新規登録画面
+
+Route::get('/account', [UserController::class, 'account_Get']);
+Route::post('/account', [UserController::class, 'account_Post']);
+
 Route::get('/account', [AuthController::class, 'showRegister']);
 Route::post('/account', [AuthController::class, 'register']);
 
@@ -39,3 +45,4 @@ Route::post('/cart/add', [CartController::class, 'addCart']);
 
 // カートから商品を削除
 Route::post('/cart/delete', [CartController::class, 'deleteCart']);
+
