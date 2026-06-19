@@ -17,7 +17,12 @@
             <br>
 
             <!-- カートボタン -->
-            <button>カートに入れる</button>
+            <form action="/cart/add" method="post">
+                @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit">カートに入れる</button>
+            </form>
 
             <br><br>
             <!-- 購入ボタン -->
