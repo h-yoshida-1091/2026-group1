@@ -31,7 +31,7 @@ class AuthController extends Controller
             // 本来はAuth::login()等を使いますが、今回は仮でセッションに入れます
             session(['user_name' => '山田 太郎（テストユーザー）']);
             
-            return "<h2>ログイン成功！</h2><p>ようこそ、" . e(session('user_name')) . "様</p><a href='/login'>戻る</a>";
+            return redirect('/products');
         }
 
         // 失敗したらメッセージを持ってログイン画面にリダイレクト
