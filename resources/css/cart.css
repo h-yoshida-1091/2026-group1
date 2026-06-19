@@ -1,0 +1,158 @@
+/* 全体のリセットと基本設定 */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+    color: #222;
+}
+
+.product-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+.product-link:hover {
+    text-decoration: underline;
+}
+
+/* カートアイテムのカード型デザイン */
+.cart-item {
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+/* 画像エリア */
+.image-area {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+.image-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 画像の比率を崩さず枠いっぱいに表示 */
+}
+
+/* 情報エリア全体 */
+.info-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 商品名 */
+.product-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 個数変更エリア */
+.quantity-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #666;
+}
+.quantity-area button {
+    background-color: #eee;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+.quantity-area button:hover {
+    background-color: #ddd;
+}
+.quantity-area span {
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* 価格・小計 */
+.price-area {
+    font-size: 14px;
+    color: #666;
+}
+.subtotal-area {
+    font-size: 15px;
+    font-weight: bold;
+    color: #d9534f; /* 小計を少し目立たせる赤色 */
+}
+
+/* 削除ボタン */
+.info-area form {
+    margin-top: 5px;
+}
+.info-area button[type="submit"] {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+}
+.info-area button[type="submit"]:hover {
+    color: #cc0000;
+}
+
+/* 下部合計エリア */
+.total {
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 2px solid #ddd;
+}
+
+/* 購入手続きボタン */
+.purchase {
+    text-align: right;
+    margin-top: 15px;
+}
+.purchase button[type="submit"] {
+    background-color: #28a745; /* 安心感のあるグリーン */
+    color: #fff;
+    border: none;
+    padding: 12px 35px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background 0.2s, transform 0.1s;
+}
+.purchase button[type="submit"]:hover {
+    background-color: #218838;
+}
+.purchase button[type="submit"]:active {
+    transform: scale(0.98);
+}
