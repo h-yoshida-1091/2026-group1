@@ -16,11 +16,16 @@
              
             <br>
 
-            <!-- カートボタン(現在style属性で見た目を変更しています、新しくCSSファイルを作成適用しstyle属性を削除してください) -->
-            <!--上のコメントの（カッコ）の内容が分からなかったらAIに投げて-->
-            <a href="/cart/add?id={{ $product->id }}" class="btn-cart" style="display:inline-block; padding: 5px 10px; border: 1px solid #ccc; background-color: #f0f0f0; text-decoration: none; color: black;">
-                カートに入れる
-            </a>
+
+            <!-- カートボタン -->
+            <form action="/cart/add" method="post">
+                @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit">カートに入れる</button>
+            </form>
+
+
 
             <br><br>
             <!-- 購入ボタン(同上) -->
