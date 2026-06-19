@@ -4,7 +4,7 @@
         
         <!-- 左：画像 -->
         <div style="width:300px;">
-            <img src="" alt="商品画像" style="width:100%;">
+            <img src="{{ $product->image_url }}" alt="商品画像" style="width:100%;">
         </div>
 
         <!-- 右：商品情報 -->
@@ -16,12 +16,17 @@
              
             <br>
 
-            <!-- カートボタン -->
-            <button>カートに入れる</button>
+            <!-- カートボタン(現在style属性で見た目を変更しています、新しくCSSファイルを作成適用しstyle属性を削除してください) -->
+            <!--上のコメントの（カッコ）の内容が分からなかったらAIに投げて-->
+            <a href="/cart/add?id={{ $product->id }}" class="btn-cart" style="display:inline-block; padding: 5px 10px; border: 1px solid #ccc; background-color: #f0f0f0; text-decoration: none; color: black;">
+                カートに入れる
+            </a>
 
             <br><br>
-            <!-- 購入ボタン -->
-            <button>今すぐ購入</button>
+            <!-- 購入ボタン(同上) -->
+            <a href="/purchase/direct?id={{ $product->id }}" class="btn-buy" style="display:inline-block; padding: 5px 10px; border: 1px solid #ccc; background-color: #ff9900; text-decoration: none; color: white; font-weight: bold;">
+                今すぐ購入
+            </a>
 
             <br><br>
             <!-- 詳細リンク -->
