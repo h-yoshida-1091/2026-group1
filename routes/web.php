@@ -15,11 +15,12 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/detail', [ProductController::class, 'show']);
 
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 // ログイン画面
-Route::get('/login', [AuthController::class, 'showLogin']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/login', [UserController::class, 'login_Get']);
+Route::post('/login', [UserController::class, 'login_Post']);
 
 // 新規登録画面
-Route::get('/account', [AuthController::class, 'showRegister']);
-Route::post('/account', [AuthController::class, 'register']);
+Route::get('/account', [UserController::class, 'account_Get']);
+Route::post('/account', [UserController::class, 'account_Post']);
