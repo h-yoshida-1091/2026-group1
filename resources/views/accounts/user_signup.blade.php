@@ -2,7 +2,7 @@
     <h1>新規会員登録</h1>
 
     <form action="/account" method="post" class="register-form">
-        
+        @csrf
         <div class="form-group">
             <label for="name">お名前</label>
             <input type="text" id="name" name="name" placeholder="山田 太郎" required>
