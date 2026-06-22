@@ -94,11 +94,28 @@
         合計 ¥{{ number_format($total) }}
 </div>
  
-    <div class="purchase">
-<button type="submit">
-            購入確認
-</button>
-</div>
+<div class="purchase">
+        <form action="/purchase/confirm" method="post">
+            @csrf
+
+            @foreach ($products as $product)
+
+            <input type="hidden"
+                name="products[{{ $product->id }}][id]"
+                value="{{ $product->id }}">
+
+            <input type="hidden"
+                name="products[{{ $product->id }}][quantity]"
+                class="hidden-quantity-{{ $product->id }}"
+                value="{{ $product->quantity }}">
+
+            @endforeach
+
+            <button type="submit">
+                購入確認
+            </button>
+        </form>
+    </div>
  
 </body>
  
