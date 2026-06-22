@@ -1,34 +1,38 @@
-/* カートアイテム */
+/* 商品カード */
 .cart-item {
     display: flex;
     align-items: flex-start;
     background: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    padding: 20px;
+    border: 1px solid #ddd;
+    border-left: 5px solid #bf0000;
+    border-radius: 6px;
+    padding: 25px;
     margin-bottom: 20px;
 }
 
 /* 商品画像 */
 .image-area {
-    width: 160px;
-    height: 160px;
-    margin-right: 25px;
-    flex-shrink: 0;
+    width: 180px;
+    height: 180px;
+    min-width: 180px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     border: 1px solid #ddd;
-    background: #fff;
     border-radius: 4px;
+    background: #fff;
+
+    padding: 10px;
+    margin-right: 30px;
 }
 
 .image-area img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    display: block;
 }
 
 /* 商品情報 */
@@ -36,53 +40,64 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
 }
 
 /* 商品名 */
 .product-name {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
-    color: #222;
-    line-height: 1.5;
+    color: #bf0000;
+    line-height: 1.7;
+    margin-bottom: 15px;
 }
 
-/* 個数 */
+/* 在庫数 */
+.stock-area {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* 個数エリア */
 .quantity-area {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .quantity-area button {
-    width: 32px;
-    height: 32px;
-    border: 1px solid #ccc;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #bf0000;
     background: #fff;
+    color: #bf0000;
     cursor: pointer;
     font-size: 18px;
-}
-
-.quantity-area span {
-    min-width: 30px;
-    text-align: center;
-    font-size: 16px;
     font-weight: bold;
 }
 
-/* 価格 */
+.quantity-area button:hover {
+    background: #bf0000;
+    color: #fff;
+}
+
 .price-area {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
-    color: #b12704;
+    color: #bf0000;
+    margin-bottom: 10px;
+
+    text-align: right;
 }
 
-/* 小計 */
 .subtotal-area {
     font-size: 18px;
     font-weight: bold;
-    color: #333;
+    color: #bf0000;
+    margin-bottom: 20px;
+
+    text-align: right;
 }
 
 /* 削除ボタン */
@@ -90,38 +105,115 @@
     width: fit-content;
     border: none;
     background: none;
-    color: #0073e6;
+    color: #bf0000;
     text-decoration: underline;
     cursor: pointer;
+    font-size: 14px;
 }
 
 /* 合計 */
 .total {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 2px solid #ddd;
+    border-top: 3px solid #bf0000;
     text-align: right;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
+    color: #bf0000;
 }
 
 /* 購入ボタン */
 .purchase {
-    margin-top: 20px;
     text-align: right;
+    margin-top: 20px;
 }
 
 .purchase button {
-    background: #ff9900;
-    color: #111;
+    background: #bf0000;
+    color: #fff;
     border: none;
     padding: 14px 40px;
-    border-radius: 25px;
+    border-radius: 4px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
 }
 
 .purchase button:hover {
-    background: #f08804;
+    background: #990000;
+}
+
+/* Chrome, Edge, Safari */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.quantity-input {
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+/* 商品情報全体 */
+.info-area {
+    flex: 1;
+    display: grid;
+
+    grid-template-columns: 1fr 220px;
+    grid-template-areas:
+        "name price"
+        "stock price"
+        "quantity subtotal"
+        "delete subtotal";
+
+    gap: 12px 20px;
+}
+
+/* 各要素の配置 */
+.product-name {
+    grid-area: name;
+
+    font-size: 24px;
+    font-weight: bold;
+    color: #bf0000;
+    line-height: 1.7;
+}
+
+.stock-area {
+    grid-area: stock;
+}
+
+.quantity-area {
+    grid-area: quantity;
+}
+
+.price-area {
+    grid-area: price;
+
+    text-align: right;
+    font-size: 28px;
+    font-weight: bold;
+    color: #bf0000;
+}
+
+.subtotal-area {
+    grid-area: subtotal;
+
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+    color: #bf0000;
+    align-self: end;
+}
+
+.info-area form {
+    grid-area: delete;
 }

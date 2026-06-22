@@ -48,15 +48,13 @@ class CartController extends Controller
     }
 
     // 指定した商品をカートから削除
-    public function deleteCart(Request $request)
+    public function delete(Request $request)
     {
-        // HTMLのformがidを送っているので、$requestから受け取る
-        Cart_item::where('user_id', Auth::id())
-                 ->where('product_id', $request->input('id'))
-                 ->firstOrFail()
-                 ->delete();
+        $id = $request->id;
+
+        // カートから削除
+        Cart_item::where('product_id', $id)->delete();
 
         return redirect('/cart');
     }
-
 }
