@@ -15,12 +15,8 @@ class CartController extends Controller
     // カート一覧表示
     public function index()
     {
-        $userId = 1; // テスト用に固定
-
-        $cartItems = Cart_item::where('user_id', $userId)->get();
-
         // カートアイテムを取得して、商品情報をマージした$productsを作る
-        //$cartItems = Cart_item::where('user_id', Auth::id())->get();
+        $cartItems = Cart_item::where('user_id', Auth::id())->get();
 
         $products = $cartItems->map(function ($item) {
             $product = Product::find($item->product_id);
@@ -37,11 +33,10 @@ class CartController extends Controller
     // 指定した商品をカートに追加
     public function addCart(Request $request)
     {
-        $userId = 1;
         $product = Product::find($request->input('product_id'));
 
         // カートの現在の個数を取得
-        $cartItem = Cart_item::where('user_id', $userId)
+        $cartItem = Cart_item::where('user_id', Auth::id())
                             ->where('product_id', $product->id)
                             ->first();
         $currentQuantity = $cartItem ? $cartItem->quantity : 0;
@@ -52,7 +47,7 @@ class CartController extends Controller
         }
 
         Cart_item::updateOrCreate(
-            ['user_id' => $userId, 'product_id' => $product->id],
+            ['user_id' => Auth::id(), 'product_id' => $product->id],
             ['quantity' => DB::raw("quantity + 1")]
         );
         return redirect('/cart');
@@ -61,9 +56,7 @@ class CartController extends Controller
     // 指定した商品をカートから削除
     public function delete(Request $request)
     {
-        $userId = 1; // テスト用に固定
-
-        Cart_item::where('user_id', $userId)
+        Cart_item::where('user_id', Auth::id())
                 ->where('product_id', $request->input('id'))
                 ->firstOrFail()
                 ->delete();
@@ -74,9 +67,7 @@ class CartController extends Controller
     // 個数を減らす
     public function decreaseCart(Request $request)
     {
-        $userId = 1; // テスト用に固定
-
-        $cartItem = Cart_item::where('user_id', $userId)
+        $cartItem = Cart_item::where('user_id', Auth::id())
                             ->where('product_id', $request->input('product_id'))
                             ->firstOrFail();
 
@@ -92,11 +83,10 @@ class CartController extends Controller
     // 個数を増やす
     public function increaseCart(Request $request)
     {
-        $userId = 1;
         $product = Product::find($request->input('product_id'));
 
         // カートの現在の個数を取得
-        $cartItem = Cart_item::where('user_id', $userId)
+        $cartItem = Cart_item::where('user_id', Auth::id())
                             ->where('product_id', $product->id)
                             ->firstOrFail();
 
