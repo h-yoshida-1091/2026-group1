@@ -1,0 +1,127 @@
+/* カートアイテム */
+.cart-item {
+    display: flex;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* 商品画像 */
+.image-area {
+    width: 160px;
+    height: 160px;
+    margin-right: 25px;
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 4px;
+}
+
+.image-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 商品情報 */
+.info-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 商品名 */
+.product-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    line-height: 1.5;
+}
+
+/* 個数 */
+.quantity-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.quantity-area button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.quantity-area span {
+    min-width: 30px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 価格 */
+.price-area {
+    font-size: 24px;
+    font-weight: bold;
+    color: #b12704;
+}
+
+/* 小計 */
+.subtotal-area {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 削除ボタン */
+.info-area form button[type="submit"] {
+    width: fit-content;
+    border: none;
+    background: none;
+    color: #0073e6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* 合計 */
+.total {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #ddd;
+    text-align: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* 購入ボタン */
+.purchase {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.purchase button {
+    background: #ff9900;
+    color: #111;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.purchase button:hover {
+    background: #f08804;
+}
