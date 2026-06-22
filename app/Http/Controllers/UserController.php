@@ -58,7 +58,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|max:255',
+            'password' => 'required|string|min:8|max:255|confirmed',
             'address' => 'required|string|max:255',
         ]);
 
@@ -72,5 +72,50 @@ class UserController extends Controller
 
         //会員登録後、ログイン画面に移動しメッセージを表示
         return redirect('/login')->with('error_message', '会員登録が完了しました。ログインしてください。');
+    }
+
+
+    //===========================================
+    //      ログアウト機能
+    //==========================================
+    public function logout(Request $request)
+    {
+        //ログインを解除
+        Auth::logout();
+
+        //現在のセッションを無効化
+        $request->session()->invalidate();
+
+        //CSRFトークンを再生成（二重送信やセッション固定攻撃の対策）
+        $request->session()->regenerateToken();
+
+        //ログアウト後はログイン画面にメッセージを表示
+        return redirect('/login')->with('error_message', 'ログアウトしました。');
+    }
+
+
+    //=======================================
+    //      ゲストログイン機能
+    //=======================================
+    public function guestLogin(Request $request)
+    {
+        //ゲストユーザーをデータベースから探す、または自動生成
+        $guestUser = User::firstOrCreate(
+            ['email' => 'example@email.com'],
+            [
+                'name' => 'ゲストユーザー',
+                'password' => Hash::make('guest-password'),
+                'address' => '東京都千代田区霞が関2丁目1-1'
+            ]
+        );
+
+        //ゲストユーザーでログイン
+        Auth::login($guestUser);
+
+        //セッションの再生成
+        $request->session()->regenerate();
+
+        //商品ページへ
+        return redirect('/products')->with('error_message', 'ゲストユーザーでログインしました。');
     }
 }
