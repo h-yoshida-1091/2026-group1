@@ -1,0 +1,159 @@
+/* ===== 全体 ===== */
+body {
+    margin: 0;
+    padding: 30px;
+    background: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.title {
+    text-align: center;
+    color: #bf0000;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+/* ===== 戻るボタン ===== */
+.back-to-products {
+    margin-bottom: 20px;
+}
+
+.back-to-products a {
+    text-decoration: none;
+}
+
+/* ===== 商品一覧テーブル ===== */
+.confirm-table {
+    width: 100%;
+    background: #fff;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+}
+
+.confirm-table th {
+    background: #bf0000;
+    color: #fff;
+    padding: 15px;
+    font-size: 15px;
+}
+
+.confirm-table td {
+    padding: 18px;
+    border-bottom: 1px solid #ddd;
+}
+
+.confirm-table tr:hover {
+    background: #fafafa;
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.product-price {
+    color: #666;
+}
+
+.product-subtotal {
+    color: #bf0000;
+    font-weight: bold;
+}
+
+/* ===== フォームエリア ===== */
+.purchase-form {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* ===== 左側（住所入力） ===== */
+.user-info-section {
+    flex: 2;
+    background: #fff;
+    padding: 25px;
+    border: 1px solid #ddd;
+}
+
+.user-info-section h3 {
+    margin-top: 0;
+    color: #bf0000;
+    border-bottom: 2px solid #bf0000;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* ===== 右側（注文内容） ===== */
+.total-section {
+    flex: 1;
+    background: #fff;
+    border: 2px solid #bf0000;
+    padding: 20px;
+    position: sticky;
+    top: 20px;
+}
+
+.total-section h3 {
+    margin-top: 0;
+    text-align: center;
+    color: #bf0000;
+}
+
+.total-price {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #bf0000;
+    margin: 20px 0;
+}
+
+/* ===== 購入ボタン ===== */
+.submit-section {
+    text-align: center;
+}
+
+.btn-complete {
+    width: 100%;
+    background: #bf0000;
+    color: white;
+    border: none;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-complete:hover {
+    background: #990000;
+}
+
+.btn-complete:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* ===== 商品なし ===== */
+.empty-message {
+    text-align: center;
+    color: #888;
+    padding: 30px;
+}

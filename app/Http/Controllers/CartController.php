@@ -37,26 +37,81 @@ class CartController extends Controller
     // 指定した商品をカートに追加
     public function addCart(Request $request)
     {
-        $userId = 1; // テスト用に固定
+        $userId = 1;
+        $product = Product::find($request->input('product_id'));
+
+        // カートの現在の個数を取得
+        $cartItem = Cart_item::where('user_id', $userId)
+                            ->where('product_id', $product->id)
+                            ->first();
+        $currentQuantity = $cartItem ? $cartItem->quantity : 0;
+
+        // 在庫チェック
+        if ($currentQuantity >= $product->stock) {
+            return redirect('/cart')->with('error', $product->name . 'の在庫が足りません');
+        }
 
         Cart_item::updateOrCreate(
-            ['user_id' => $userId, 'product_id' => $request->input('product_id')],
-            ['quantity' => DB::raw("quantity + {$request->input('quantity', 1)}")]
+            ['user_id' => $userId, 'product_id' => $product->id],
+            ['quantity' => DB::raw("quantity + 1")]
         );
-
         return redirect('/cart');
     }
 
     // 指定した商品をカートから削除
-    public function deleteCart(Request $request)
+    public function delete(Request $request)
     {
-        // HTMLのformがidを送っているので、$requestから受け取る
-        Cart_item::where('user_id', Auth::id())
-                 ->where('product_id', $request->input('id'))
-                 ->firstOrFail()
-                 ->delete();
+        $userId = 1; // テスト用に固定
+
+        Cart_item::where('user_id', $userId)
+                ->where('product_id', $request->input('id'))
+                ->firstOrFail()
+                ->delete();
 
         return redirect('/cart');
     }
 
+    // 個数を減らす
+    public function decreaseCart(Request $request)
+    {
+        $userId = 1; // テスト用に固定
+
+        $cartItem = Cart_item::where('user_id', $userId)
+                            ->where('product_id', $request->input('product_id'))
+                            ->firstOrFail();
+
+        // 負の個数にならないように
+        if ($cartItem->quantity > 0) {
+            $cartItem->quantity -= 1;
+            $cartItem->save();
+        }
+
+        return redirect('/cart');
+    }
+
+    // 個数を増やす
+    public function increaseCart(Request $request)
+    {
+        $userId = 1;
+        $product = Product::find($request->input('product_id'));
+
+        // カートの現在の個数を取得
+        $cartItem = Cart_item::where('user_id', $userId)
+                            ->where('product_id', $product->id)
+                            ->firstOrFail();
+
+        // 在庫チェック
+        if ($cartItem->quantity >= $product->stock) {
+            return redirect('/cart')->with('error', $product->name . 'の在庫が足りません');
+        }
+
+        $cartItem->quantity += 1;
+        $cartItem->save();
+        $id = $request->id;
+
+        // カートから削除
+        Cart_item::where('product_id', $id)->delete();
+
+        return redirect('/cart');
+    }
 }
