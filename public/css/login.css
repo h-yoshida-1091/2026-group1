@@ -1,0 +1,126 @@
+/* ==========================================================================
+   全体の設定（画面の中央に配置する）
+   ========================================================================== */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    background-color: #f4f7f6; /* 薄いグレーの背景 */
+    
+    /* Flexboxを使って画面の真ん中に配置 */
+    display: flex;
+    justify-content: center;  /* 左右の中央揃え */
+    align-items: center;      /* 上下の中央揃え */
+    min-height: 100vh;        /* 画面の高さいっぱいに広げる */
+}
+
+/* ==========================================================================
+   白枠のコンテナ（新規登録のサイズ感に統一）
+   ========================================================================== */
+.login-container,
+.register-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* ほんのり影をつける */
+    width: 100%;
+    max-width: 400px; /* 新規登録の幅に統一 */
+    box-sizing: border-box;
+}
+
+/* タイトルを中央寄せ（新規登録の余白に合わせる） */
+.login-container h1,
+.register-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333333;
+}
+
+/* ==========================================================================
+   入力フォーム・ボタンのデザイン
+   ========================================================================== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555555;
+    font-size: 14px;
+}
+
+/* ログインのinputも、新規登録のtextarea等と完全に同じ見た目（縦幅・余白）にします */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+/* 住所欄（textarea）の引き伸ばし制限 */
+.form-group textarea {
+    resize: vertical;
+}
+
+/* 入力欄にカーソルが当たった時の色 */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* ボタン（新規登録のボタンと同じ高さ・スタイルに統一） */
+.btn-login,
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff; /* 青色のボタン */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+    background-color: #0056b3;
+}
+
+/* ==========================================================================
+   フッター（新規登録のテキスト配置にログイン側を合わせる）
+   ========================================================================== */
+.login-footer,
+.register-footer {
+    text-align: center;
+    margin-top: 25px; /* 少し余裕を持たせる */
+}
+
+/* 新規登録画面にあった「既にアカウントをお持ちですか？」等のテキスト用の設定 */
+.register-footer p {
+    margin: 0 0 8px 0;
+    color: #666666;
+    font-size: 14px;
+}
+
+/* リンクのデザイン */
+.login-footer a,
+.register-footer a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-footer a:hover,
+.register-footer a:hover {
+    text-decoration: underline;
+}
