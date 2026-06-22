@@ -30,35 +30,69 @@ body {
     border-collapse: collapse;
     margin-bottom: 30px;
     border: 1px solid #ddd;
+    table-layout: fixed;
 }
 
+/* ヘッダー */
 .confirm-table th {
     background: #bf0000;
     color: #fff;
-    padding: 15px;
-    font-size: 15px;
-}
-
-.confirm-table td {
     padding: 18px;
-    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
 }
 
+/* データ */
+.confirm-table td {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* ホバー */
 .confirm-table tr:hover {
     background: #fafafa;
 }
 
-.product-name {
-    font-weight: bold;
-    font-size: 16px;
+/* 列幅 */
+.confirm-table th:nth-child(1),
+.confirm-table td:nth-child(1) {
+    width: 40%;
 }
 
+.confirm-table th:nth-child(2),
+.confirm-table td:nth-child(2) {
+    width: 15%;
+}
+
+.confirm-table th:nth-child(3),
+.confirm-table td:nth-child(3) {
+    width: 20%;
+}
+
+.confirm-table th:nth-child(4),
+.confirm-table td:nth-child(4) {
+    width: 25%;
+}
+
+/* 商品名 */
+.product-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 値段 */
 .product-price {
     color: #666;
+    font-size: 18px;
 }
 
+/* 小計 */
 .product-subtotal {
     color: #bf0000;
+    font-size: 18px;
     font-weight: bold;
 }
 
@@ -156,4 +190,34 @@ body {
     text-align: center;
     color: #888;
     padding: 30px;
+}
+
+/* ヘッダー */
+.confirm-table th {
+    text-align: center;
+}
+
+/* セル */
+.confirm-table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* 商品名 */
+.product-name {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* 値段 */
+.product-price {
+    text-align: center;
+}
+
+/* 小計 */
+.product-subtotal {
+    text-align: center;
+    color: #bf0000;
+    font-weight: bold;
 }
