@@ -1,3 +1,4 @@
+@include('layouts.header')
 <h1>商品一覧</h1>
 @foreach ($products as $product)
     <div style="border:1px solid #000; margin-bottom:20px; padding:10px; display:flex;">

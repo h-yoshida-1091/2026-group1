@@ -1,3 +1,4 @@
+@include('layouts.header')
 <h1>商品詳細</h1>
 
 <h2>{{ $product->name }}</h2>
