@@ -59,7 +59,7 @@ class CartController extends Controller
     }
 
     // 指定した商品をカートから削除
-    public function deleteCart(Request $request)
+    public function delete(Request $request)
     {
         $userId = 1; // テスト用に固定
 
@@ -107,8 +107,11 @@ class CartController extends Controller
 
         $cartItem->quantity += 1;
         $cartItem->save();
+        $id = $request->id;
+
+        // カートから削除
+        Cart_item::where('product_id', $id)->delete();
 
         return redirect('/cart');
     }
-
 }

@@ -1,5 +1,7 @@
 <h1 class="title">購入確認</h1>
 
+<link rel="stylesheet" href="{{ asset('css/confirm.css') }}">
+
 <div class="back-to-products">
     <a href="/products">
         <img src="/images/back-to-products.png" alt="商品一覧に戻る" class="btn-back-img">
@@ -38,8 +40,6 @@
     </tbody>
 </table>
 
----
-
 <form action="/purchase/complete" method="post" class="purchase-form">
     @csrf
 
@@ -61,8 +61,6 @@
             <input type="text" id="address" name="address" required value="{{ old('address') }}">
         </div>
     </div>
-
-    ---
 
     <div class="total-section">
         <h3>合計金額</h3>
