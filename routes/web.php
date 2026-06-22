@@ -39,6 +39,12 @@ Route::post('/login', [UserController::class, 'login_Post']);
 Route::get('/account', [UserController::class, 'account_Get']);
 Route::post('/account', [UserController::class, 'account_Post']);
 
+//ログアウト機能
+Route::post('/logout', [UserController::class, 'logout']);
+
+//ゲストユーザー機能
+Route::post('/guest', [UserController::class, 'guestLogin']);
+
 // Route::get('/account', [AuthController::class, 'showRegister']);
 // Route::post('/account', [AuthController::class, 'register']);
 
@@ -50,6 +56,12 @@ Route::post('/cart/add', [CartController::class, 'addCart']);
 
 // カートから商品を削除
 Route::post('/cart/delete', [CartController::class, 'delete']);
+
+// 個数を減らす
+Route::post('/cart/decrease', [CartController::class, 'decreaseCart']);
+
+// 個数を増やす
+Route::post('/cart/increase', [CartController::class, 'increaseCart']);
 
 // 購入完了画面
 Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);

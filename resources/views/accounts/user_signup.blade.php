@@ -21,6 +21,7 @@
 
         <form action="/account" method="post" class="register-form">
 
+            @csrf
             <div class="form-group">
                 <label for="name">お名前</label>
                 <input type="text" id="name" name="name" placeholder="山田 太郎" required>
@@ -38,7 +39,7 @@
 
              <div class="form-group">
                 <label for="password">確認用パスワード</label>
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="パスワードを入力" required>
+                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="パスワードを入力" required>
             </div>
 
             <div class="form-group">
