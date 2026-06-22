@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Cart_item;
 use App\Models\Product;
 use App\Models\Product_image;
-
+use Exception;
 
 class OrderController extends Controller
 {
