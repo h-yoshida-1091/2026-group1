@@ -37,13 +37,24 @@ class CartController extends Controller
     // 指定した商品をカートに追加
     public function addCart(Request $request)
     {
-        $userId = 1; // テスト用に固定
+        $userId = 1;
+        $product = Product::find($request->input('product_id'));
+
+        // カートの現在の個数を取得
+        $cartItem = Cart_item::where('user_id', $userId)
+                            ->where('product_id', $product->id)
+                            ->first();
+        $currentQuantity = $cartItem ? $cartItem->quantity : 0;
+
+        // 在庫チェック
+        if ($currentQuantity >= $product->stock) {
+            return redirect('/cart')->with('error', $product->name . 'の在庫が足りません');
+        }
 
         Cart_item::updateOrCreate(
-            ['user_id' => $userId, 'product_id' => $request->input('product_id')],
-            ['quantity' => DB::raw("quantity + {$request->input('quantity', 1)}")]
+            ['user_id' => $userId, 'product_id' => $product->id],
+            ['quantity' => DB::raw("quantity + 1")]
         );
-
         return redirect('/cart');
     }
 
@@ -69,8 +80,8 @@ class CartController extends Controller
                             ->where('product_id', $request->input('product_id'))
                             ->firstOrFail();
 
-        // 1以下にならないように
-        if ($cartItem->quantity > 1) {
+        // 負の個数にならないように
+        if ($cartItem->quantity > 0) {
             $cartItem->quantity -= 1;
             $cartItem->save();
         }
@@ -81,11 +92,18 @@ class CartController extends Controller
     // 個数を増やす
     public function increaseCart(Request $request)
     {
-        $userId = 1; // テスト用に固定
+        $userId = 1;
+        $product = Product::find($request->input('product_id'));
 
+        // カートの現在の個数を取得
         $cartItem = Cart_item::where('user_id', $userId)
-                            ->where('product_id', $request->input('product_id'))
+                            ->where('product_id', $product->id)
                             ->firstOrFail();
+
+        // 在庫チェック
+        if ($cartItem->quantity >= $product->stock) {
+            return redirect('/cart')->with('error', $product->name . 'の在庫が足りません');
+        }
 
         $cartItem->quantity += 1;
         $cartItem->save();
