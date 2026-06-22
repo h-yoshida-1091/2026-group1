@@ -50,3 +50,9 @@ Route::post('/cart/add', [CartController::class, 'addCart']);
 // カートから商品を削除
 Route::post('/cart/delete', [CartController::class, 'deleteCart']);
 
+// 個数を減らす
+Route::post('/cart/decrease', [CartController::class, 'decreaseCart']);
+
+// 個数を増やす
+Route::post('/cart/increase', [CartController::class, 'increaseCart']);
+
