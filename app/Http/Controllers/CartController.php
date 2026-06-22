@@ -1,3 +1,6 @@
+CartController
+
+
 <?php
 
 namespace App\Http\Controllers;
@@ -50,11 +53,45 @@ class CartController extends Controller
     // 指定した商品をカートから削除
     public function deleteCart(Request $request)
     {
-        // HTMLのformがidを送っているので、$requestから受け取る
-        Cart_item::where('user_id', Auth::id())
-                 ->where('product_id', $request->input('id'))
-                 ->firstOrFail()
-                 ->delete();
+        $userId = 1; // テスト用に固定
+
+        Cart_item::where('user_id', $userId)
+                ->where('product_id', $request->input('id'))
+                ->firstOrFail()
+                ->delete();
+
+        return redirect('/cart');
+    }
+
+    // 個数を減らす
+    public function decreaseCart(Request $request)
+    {
+        $userId = 1; // テスト用に固定
+
+        $cartItem = Cart_item::where('user_id', $userId)
+                            ->where('product_id', $request->input('product_id'))
+                            ->firstOrFail();
+
+        // 1以下にならないように
+        if ($cartItem->quantity > 1) {
+            $cartItem->quantity -= 1;
+            $cartItem->save();
+        }
+
+        return redirect('/cart');
+    }
+
+    // 個数を増やす
+    public function increaseCart(Request $request)
+    {
+        $userId = 1; // テスト用に固定
+
+        $cartItem = Cart_item::where('user_id', $userId)
+                            ->where('product_id', $request->input('product_id'))
+                            ->firstOrFail();
+
+        $cartItem->quantity += 1;
+        $cartItem->save();
 
         return redirect('/cart');
     }
