@@ -14,6 +14,10 @@ use App\Http\Controllers\UserController;
 
 // 商品一覧
 Route::get('/products', [ProductController::class, 'index']);
+// お気に入り登録（非同期）
+Route::post('/products/favorite', [ProductController::class, 'favorite']);
+// お気に入り削除（非同期）
+Route::post('/products/unfavorite', [ProductController::class, 'unfavorite']);
 
 // 商品詳細
 Route::get('/products/detail', [ProductController::class, 'show']);
@@ -34,8 +38,8 @@ Route::post('/login', [UserController::class, 'login_Post']);
 Route::get('/account', [UserController::class, 'account_Get']);
 Route::post('/account', [UserController::class, 'account_Post']);
 
-Route::get('/account', [AuthController::class, 'showRegister']);
-Route::post('/account', [AuthController::class, 'register']);
+// Route::get('/account', [AuthController::class, 'showRegister']);
+// Route::post('/account', [AuthController::class, 'register']);
 
 // カート一覧
 Route::get('/cart', [CartController::class, 'index']);
