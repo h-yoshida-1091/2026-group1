@@ -60,6 +60,11 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|max:255|confirmed',
             'address' => 'required|string|max:255',
+        ],[
+            //エラー表示
+            'email.unique' => 'このメールアドレスは既に登録されています。',
+            'password.confirmed' => 'パスワードが一致していません。',
+            'password.min' => 'パスワードは８文字以上で入力してください。',
         ]);
 
         //データベースへ格納
@@ -71,7 +76,7 @@ class UserController extends Controller
         ]);
 
         //会員登録後、ログイン画面に移動しメッセージを表示
-        return redirect('/login')->with('error_message', '会員登録が完了しました。ログインしてください。');
+        return redirect('/login')->with('success_message', '会員登録が完了しました。ログインしてください。');
     }
 
 
@@ -90,7 +95,7 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         //ログアウト後はログイン画面にメッセージを表示
-        return redirect('/login')->with('error_message', 'ログアウトしました。');
+        return redirect('/login')->with('success_message', 'ログアウトしました。');
     }
 
 
@@ -101,7 +106,7 @@ class UserController extends Controller
     {
         //ゲストユーザーをデータベースから探す、または自動生成
         $guestUser = User::firstOrCreate(
-            ['email' => 'example@email.com'],
+            ['email' => 'guest-example@email.com'],
             [
                 'name' => 'ゲストユーザー',
                 'password' => Hash::make('guest-password'),
