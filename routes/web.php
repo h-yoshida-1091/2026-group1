@@ -12,6 +12,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\AdminProductController;
+use Symfony\Component\Finder\Iterator\VcsIgnoredFilterIterator;
 
 // 商品一覧
 Route::get('/products', [ProductController::class, 'index']);
@@ -68,3 +70,17 @@ Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);
 
 // 購入確認画面
 Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
+
+// 管理画面
+Route::get('/admin/products', [AdminProductController::class, 'index']);
+
+// 商品削除
+Route::post('/admin/products/delete', [AdminProductController::class, 'destroy']);
+
+// 商品編集画面と更新処理
+Route::get('/admin/products/edit/{id}', [AdminProductController::class, 'edit']);
+Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update']);
+
+// 商品追加画面と保存処理
+Route::get('/admin/products/create', [AdminProductController::class, 'create']);
+Route::post('/admin/products/create', [AdminProductController::class, 'store']);
