@@ -10,7 +10,7 @@
 
 <body>
     <div class="login-container">
-        <h1>ログインまたは新規作成</h1>
+        <h1>ログインまたはアカウント作成</h1>
 
         @if (session('success_message'))
             <div class="alert alert-danger" style="color: black; margin-bottom: 15px;">
