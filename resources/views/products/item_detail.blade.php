@@ -1,3 +1,7 @@
+<head>
+    <title>商品詳細</title>
+</head>
+
 @include('layouts.header')
 
 <link rel="stylesheet" href="{{ asset('css/detail.css') }}">

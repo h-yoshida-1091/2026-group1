@@ -26,61 +26,55 @@ Route::post('/products/unfavorite', [ProductController::class, 'unfavorite']);
 Route::get('/products/detail', [ProductController::class, 'show']);
 
 // 購入確認
-Route::get('/purchase', [OrderController::class, 'order']);
+Route::post('/purchase/confirm', [OrderController::class, 'confirm']);
 
 //　購入完了
-Route::get('/purchase/complete', [OrderController::class, 'complete']);
-
+Route::post('/purchase/complete', [OrderController::class, 'complete']);
 
 // ログイン画面
 Route::get('/login', [UserController::class, 'login_Get'])->name('login');
 Route::post('/login', [UserController::class, 'login_Post']);
 
 // 新規登録画面
-
 Route::get('/account', [UserController::class, 'account_Get']);
 Route::post('/account', [UserController::class, 'account_Post']);
 
 //ログアウト機能
 Route::post('/logout', [UserController::class, 'logout']);
 
-//ゲストユーザー機能
-Route::post('/guest', [UserController::class, 'guestLogin']);
-
-// Route::get('/account', [AuthController::class, 'showRegister']);
-// Route::post('/account', [AuthController::class, 'register']);
+//アカウント編集機能
+Route::middleware(['auth'])->group( function() {
+    Route::get('/account/edit', [UserController::class, 'edit_Get'])->name('accounts.account_edit');
+    Route::post('/account/edit', [UserController::class, 'edit_Post'])->name('accounts.account_edit_process');
+});
 
 // カート一覧
 Route::get('/cart', [CartController::class, 'index']);
-
 // カートに商品を追加
 Route::post('/cart/add', [CartController::class, 'addCart']);
-
 // カートから商品を削除
 Route::post('/cart/delete', [CartController::class, 'delete']);
-
 // 個数を減らす
 Route::post('/cart/decrease', [CartController::class, 'decreaseCart']);
-
 // 個数を増やす
 Route::post('/cart/increase', [CartController::class, 'increaseCart']);
 
 // 購入完了画面
-Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);
+// Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);
 
 // 購入確認画面
+
 Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
 
 // 管理画面
 Route::get('/admin/products', [AdminProductController::class, 'index']);
-
 // 商品削除
 Route::post('/admin/products/delete', [AdminProductController::class, 'destroy']);
-
 // 商品編集画面と更新処理
 Route::get('/admin/products/edit/{id}', [AdminProductController::class, 'edit']);
 Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update']);
-
 // 商品追加画面と保存処理
 Route::get('/admin/products/create', [AdminProductController::class, 'create']);
 Route::post('/admin/products/create', [AdminProductController::class, 'store']);
+
+// Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
