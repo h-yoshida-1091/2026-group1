@@ -34,9 +34,42 @@ class ProductController extends Controller
             $categoryId = $request->input('category_id');
             $query->where('category_id', $categoryId);
         }
-        $products = $query->get();
-        $userId = Auth::id() ?? 0;
 
+        $userId = Auth::id() ?? 0;
+        // 並び替え処理    
+        // ログイン状態によってデフォルトのソート順を切り替える
+        $defaultSort = $userId ? 'recommend' : 'bestseller';
+        $sort = $request->input('sort', $defaultSort);
+        switch ($sort) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc'); // 価格の安い順
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc'); // 価格の高い順
+                break;
+            case 'newest':
+                $query->orderBy('id', 'desc'); // 新着順（IDの逆順）
+                break;
+            case 'bestseller':
+                //  本来は注文明細とJOINしますが、購入機能が完成するまでは仮でID順などにしておきます
+                $query->orderBy('id', 'asc');
+                break;
+            case 'recommend':
+            default:
+                // ログイン中のユーザーのおすすめスコアテーブルを左結合（LEFT JOIN）する
+                $query->leftJoin('recommend_scores', function ($join) use ($userId) {
+                    $join->on('products.id', '=', 'recommend_scores.product_id')
+                        ->where('recommend_scores.user_id', '=', $userId);
+                })
+                    // スコアが高い順、スコアがなければ（未計算なら）商品ID順にする
+                    ->orderBy('recommend_scores.score', 'desc')
+                    ->orderBy('products.id', 'asc')
+                    // productsテーブルのカラムが衝突しないように明示
+                    ->select('products.*');
+                break;
+        }
+
+        $products = $query->get();
         foreach ($products as $product) {
             $image = Product_image::find($product->image_id);
             $product->image_url = $image ? $image->image_url : null;
@@ -46,9 +79,10 @@ class ProductController extends Controller
                 ->where('product_id', $product->id)
                 ->exists();
         }
+        $is_logged_in = Auth::check();
 
         // lineupに渡す
-        return view('products.lineup', compact('products', 'categories', 'keyword', 'categoryId'));
+        return view('products.lineup', compact('products', 'categories', 'keyword', 'categoryId', 'is_logged_in'));
     }
 
     // 商品詳細
@@ -82,6 +116,7 @@ class ProductController extends Controller
 
         $userId = Auth::id();
         if (!$userId) {
+            session()->flash('error_message', 'お気に入り機能を利用するにはログインが必要です。');
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         //商品IDを取得
@@ -106,6 +141,7 @@ class ProductController extends Controller
         $userId = Auth::id();
 
         if (!$userId) {
+            session()->flash('error_message', 'お気に入り機能を利用するにはログインが必要です。');
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         //商品IDを取得

@@ -11,6 +11,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PurchaseController;
 
 // 商品一覧
 Route::get('/products', [ProductController::class, 'index']);
@@ -30,13 +31,19 @@ Route::get('/purchase/complete', [OrderController::class, 'complete']);
 
 
 // ログイン画面
-Route::get('/login', [UserController::class, 'login_Get']);
+Route::get('/login', [UserController::class, 'login_Get'])->name('login');
 Route::post('/login', [UserController::class, 'login_Post']);
 
 // 新規登録画面
 
 Route::get('/account', [UserController::class, 'account_Get']);
 Route::post('/account', [UserController::class, 'account_Post']);
+
+//ログアウト機能
+Route::post('/logout', [UserController::class, 'logout']);
+
+//ゲストユーザー機能
+Route::post('/guest', [UserController::class, 'guestLogin']);
 
 // Route::get('/account', [AuthController::class, 'showRegister']);
 // Route::post('/account', [AuthController::class, 'register']);
@@ -48,7 +55,7 @@ Route::get('/cart', [CartController::class, 'index']);
 Route::post('/cart/add', [CartController::class, 'addCart']);
 
 // カートから商品を削除
-Route::post('/cart/delete', [CartController::class, 'deleteCart']);
+Route::post('/cart/delete', [CartController::class, 'delete']);
 
 // 個数を減らす
 Route::post('/cart/decrease', [CartController::class, 'decreaseCart']);
@@ -56,3 +63,8 @@ Route::post('/cart/decrease', [CartController::class, 'decreaseCart']);
 // 個数を増やす
 Route::post('/cart/increase', [CartController::class, 'increaseCart']);
 
+// 購入完了画面
+Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);
+
+// 購入確認画面
+Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
