@@ -1,8 +1,10 @@
 <head>
     <meta charset="UTF-8">
     <title>アカウント設定</title>
+    <link rel=stylesheet href="{{ asset('css/account_edit.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('css/account_edit.css') }}">
+
+    
 </head>
 
 <body>
@@ -47,10 +49,20 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="address" class="form-label">住所</label>
+                        <input type="text" id="address" name="address"
+                            class="form-control @error('address') is-invalid @enderror"
+                            value="{{ old('address', $user->address ?? '') }}" required>
+                        @error('address')
+                        <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
                         <label for="current_password" class="form-label">現在のパスワード</label>
                         <input type="password" id="current_password" name="current_password"
                             class="form-control @error('current_password', 'updatePassword') is-invalid @enderror"
-                            required autocomplete="current-password">
+                            autocomplete="current-password">
                         @error('current_password', 'updatePassword')
                         <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -78,7 +90,7 @@
                     </div>
                 </form>
             </div>
-            </< /main>
+        </main>
     </div>
 
     @include('footer')
