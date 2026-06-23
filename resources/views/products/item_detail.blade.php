@@ -63,7 +63,7 @@
             </form>
 
             <!-- 今すぐ購入 -->
-            <form action="/purchase/confirm" method="POST">
+            <form action="/purchase/now" method="POST">
                 @csrf
 
                 <input type="hidden"

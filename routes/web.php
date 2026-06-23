@@ -28,6 +28,9 @@ Route::get('/products/detail', [ProductController::class, 'show']);
 // 購入確認
 Route::post('/purchase/confirm', [OrderController::class, 'confirm']);
 
+// 今すぐ購入
+Route::post('/purchase/now', [OrderController::class, 'nowPurchase']);
+
 //　購入完了
 Route::post('/purchase/complete', [OrderController::class, 'complete']);
 

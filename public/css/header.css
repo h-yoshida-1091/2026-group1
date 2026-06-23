@@ -47,6 +47,7 @@ header.navbar {
     border-radius: 0 20px 20px 0; /* 右側を丸く */
     border-left: none;
     background-color: #f8f9fa;
+    border-color: #ced4da;
     color: #6c757d;
     transition: all 0.2s ease;
     padding-right: 1.25rem;
