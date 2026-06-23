@@ -159,4 +159,25 @@ class UserController extends Controller
         //リダイレクト
         return redirect()->back()->with('status', 'profile-updated');
     }
+
+
+    //===========================================
+    //      アカウント削除機能
+    //===========================================
+    public function destroy(Request $request)
+    {
+        //ログイン中のユーザーをデータベースから取得
+        $user = User::findOrFile(Auth::id());
+
+        //データベースからユーザーのレコードを削除
+        $user->delete();
+
+        //ログアウト処理
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        //削除完了メッセージとリダイレクト
+        return redirect('/login')->with('success_message', 'アカウントを削除しました。');
+    }
 }
