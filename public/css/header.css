@@ -143,3 +143,52 @@ header.navbar {
     width: 180px; /* 長いカテゴリー名も収まる幅まで自動で広げる */
     color: #212529;
 }
+/* アカウント設定・カートボタン共通の丸型スタイル */
+.header-icon-btn {
+    border: none;
+    background-color: #f8f9fa;
+    color: #333333;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.header-icon-btn:hover {
+    background-color: #e9ecef;
+    color: #0d6efd;
+    transform: scale(1.05);
+}
+
+/* カートの数字バッジの位置微調整 */
+.header-icon-btn .badge {
+    top: -5px;
+    right: -5px;
+}
+
+/* 📱 スマートフォンなどの縮小画面用の最適化 */
+@media (max-width: 991.98px) {
+    /* 検索バーを幅いっぱいに広げる */
+    .w-50 {
+        width: 100% !important;
+    }
+    
+    /* ログイン情報・カートなどを縦並びにしつつ左寄せに綺麗に整える */
+    .header-user-actions {
+        flex-direction: column;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        min-width: auto !important;
+        gap: 15px;
+        margin-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .header-user-actions .me-3 {
+        margin-right: 0 !important;
+    }
+}

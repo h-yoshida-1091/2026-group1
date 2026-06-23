@@ -1,19 +1,31 @@
-<div class="register-container">
-    <h1>新規会員登録</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録はこちら - ECサイト</title>
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+</head>
 
-    <form action="/account" method="post" class="register-form">
-        @csrf
-        <div class="form-group">
-            <label for="name">お名前</label>
-            <input type="text" id="name" name="name" placeholder="山田 太郎" required>
-        </div>
+<body>
+    <div class="register-container">
+        <h1>新規会員登録</h1>
 
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>新規登録はこちら - ECサイト</title>
-            <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-        </head>
+        @if ($errors->any())
+            <div class="alert alert-danger" style="color: red; margin-bottom: 15px;">
+                <ul style="margin: 0; padding-left: 20px;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="/account" method="post" class="register-form">
+
+            @csrf
+            <div class="form-group">
+                <label for="name">お名前</label>
+                <input type="text" id="name" name="name" placeholder="山田 太郎" required>
+            </div>
 
         <body>
             <div class="register-container">
@@ -21,10 +33,11 @@
 
                 <form action="/account" method="post" class="register-form">
 
-                    <div class="form-group">
-                        <label for="name">お名前</label>
-                        <input type="text" id="name" name="name" placeholder="山田 太郎" required>
-                    </div>
+
+             <div class="form-group">
+                <label for="password">確認用パスワード</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="パスワードを入力" required>
+            </div>
 
                     <div class="form-group">
                         <label for="email">メールアドレス</label>

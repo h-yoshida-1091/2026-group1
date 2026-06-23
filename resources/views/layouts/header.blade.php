@@ -16,4 +16,6 @@
     </form>
 
     <a href="/cart" style="margin-left: 20px;">🛒 カート</a>
+
+    <a href="/logout" style="margin-left: 20px;">ログアウト</a>
 </header>
