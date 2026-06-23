@@ -47,7 +47,6 @@ header.navbar {
     border-radius: 0 20px 20px 0; /* 右側を丸く */
     border-left: none;
     background-color: #f8f9fa;
-    border-color: #ced4da;
     color: #6c757d;
     transition: all 0.2s ease;
     padding-right: 1.25rem;
@@ -58,44 +57,6 @@ header.navbar {
     background-color: #0d6efd;
     border-color: #0d6efd;
     color: #ffffff;
-}
-
-/* 4. カートアイコンのスタイリング */
-.btn-outline-dark {
-    border: none; /* 枠線を消してスタイリッシュに */
-    background-color: #f8f9fa;
-    color: #333333;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50% !important; /* まん丸のボタンにする */
-    transition: all 0.2s ease;
-}
-
-/* カートアイコンにマウスを乗せた時 */
-.btn-outline-dark:hover {
-    background-color: #e9ecef;
-    color: #0d6efd;
-    transform: scale(1.05); /* 少し大きく */
-}
-
-/* カートの数量バッジ（リアルタイムカウント用） */
-.badge.bg-danger {
-    background-color: #ff3838 !important; /* 鮮やかな赤 */
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 0.35em 0.5em;
-    min-width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 2px !important;
-    right: 2px !important;
-    transform: translate(50%, -50%);
-    box-shadow: 0 0 0 2px #ffffff; /* バッジの周りに白いフチをつけて見やすく */
 }
 
 /* ユーザー名・ボタン周りの微調整 */
@@ -144,31 +105,11 @@ header.navbar {
     width: 180px; /* 長いカテゴリー名も収まる幅まで自動で広げる */
     color: #212529;
 }
-/* アカウント設定・カートボタン共通の丸型スタイル */
-.header-icon-btn {
-    border: none;
-    background-color: #f8f9fa;
-    color: #333333;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50% !important;
-    transition: all 0.2s ease;
-    text-decoration: none;
-}
 
 .header-icon-btn:hover {
     background-color: #e9ecef;
     color: #0d6efd;
     transform: scale(1.05);
-}
-
-/* カートの数字バッジの位置微調整 */
-.header-icon-btn .badge {
-    top: -5px;
-    right: -5px;
 }
 
 /* 📱 スマートフォンなどの縮小画面用の最適化 */
