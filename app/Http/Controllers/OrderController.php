@@ -31,8 +31,6 @@ class OrderController extends Controller
 
         $products = Product::whereIn('id', $cartItems->pluck('product_id'))->get();
 
-        $productImages = Product_image::whereIn('id', $products->pluck('image_id'))->get();
-
         // 3. 商品ごとに小計を計算
         $subtotals = [];
         foreach ($cartItems as $cartItem) {
@@ -53,10 +51,47 @@ class OrderController extends Controller
             'user' => $user,
             'cartItems' => $cartItems,
             'products' => $products,
-            'productImages' => $productImages,
             'subtotals' => $subtotals,
             'total' => $total,
         ]);
+    }
+
+    public function nowPurchase(Request $request)
+    {
+        // セッションからログイン中のユーザー情報を取得
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'ログインが必要です。');
+        }
+
+        $productId = $request->input('products.0.id');
+        $quantity = $request->input('products.0.quantity');
+
+        $product = Product::findOrFail($productId);
+
+        $cartItems = collect([
+            (object)[
+                'product_id' => $product->id,
+                'quantity' => $quantity,
+            ]
+        ]);
+
+        $products = collect([$product]);
+
+        $subtotals = [
+            $product->price * $quantity
+        ];
+
+        $total = $subtotals[0];
+
+        return view('purchase.confirm', compact(
+            'cartItems',
+            'products',
+            'subtotals',
+            'total',
+            'user'
+        ));
     }
 
     /**
