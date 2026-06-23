@@ -1,26 +1,25 @@
 @include('header')
-<!--この部分は削除して商品一覧用CSSに書き込んでください-->
-<style>
-    .favorite-btn {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #ccc;
-        /* 通常時はグレー */
-        outline: none;
-        transition: color 0.2s;
-    }
-    
-</style>
-
 <link rel="stylesheet" href="{{ asset('css/lineup.css') }}">
+<link rel="stylesheet" href="{{ asset('css/lineup_filter.css') }}">
 
+<div class="container mt-4">
+    <div class="sort-navigation-bar">
+        <div class="sort-group">
+            <label for="productSort" class="sort-label">並び替え:</label>
+            <select id="productSort" class="sort-select" onchange="changeSort(this.value)">
+                @if ($is_logged_in)
+                <option value="recommend" {{ request('sort', 'recommend') == 'recommend' ? 'selected' : '' }}>おすすめ順</option>
+                @endif
 
-<h1 class="page-title">商品一覧</h1>
+                <option value="bestseller" {{ request('sort', $is_logged_in ? '' : 'bestseller') == 'bestseller' ? 'selected' : '' }}>ベストセラー</option>
+                <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>価格：安い順</option>
+                <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>価格：高い順</option>
+                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>新着商品</option>
+            </select>
+        </div>
+    </div>
 
-<div class="page-header">
-    <a href="/cart" class="cart-link"> 🛒 カートを見る </a>
+    <h1 class="page-title">商品一覧</h1>
 </div>
 
 <div class="product-list">
@@ -122,7 +121,6 @@
                     .then(response => {
 
                         if (response.status === 401) {
-                            alert('ログインしてください');
                             location.href = '/login';
                             return;
                         }
@@ -154,6 +152,12 @@
         });
 
     });
+
+    function changeSort(sortValue) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort', sortValue);
+        window.location.href = url.toString(); // 選択された項目をURLにつけて再読込
+    }
 </script>
 
 @include('footer')

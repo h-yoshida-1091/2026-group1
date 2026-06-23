@@ -6,45 +6,22 @@ $user_name = $is_logged_in ? Auth::user()->name : '';
 // 2. カートの数をデータベース（cart_itemsテーブル）から取得
 $cart_count = 0;
 if ($is_logged_in) {
-// ログイン中のユーザーの、カート内商品の合計数量（quantityの合計値）を計算
-$cart_count = \DB::table('cart_items')
-->where('user_id', Auth::id())
-->sum('quantity');
+    // ログイン中のユーザーの、カート内商品の合計数量（quantityの合計値）を計算
+    $cart_count = \DB::table('cart_items')
+        ->where('user_id', Auth::id())
+        ->sum('quantity');
 }
 
-// 3. 検索フォーム用のカテゴリ一覧をデータベースから取得（追加）
-// ※テーブル名が 'categories' であると仮定しています
+// 3. 検索フォーム用のカテゴリ一覧をデータベースから取得
 $categories = \DB::table('categories')->get();
 @endphp
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
-
-    <style>
-        /* アカウント設定・カートボタン共通の丸型スタイル（以前の .btn-outline-dark を拡張・微調整） */
-        .header-icon-btn {
-            border: none;
-            background-color: #f8f9fa;
-            color: #333333;
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50% !important;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            /* リンクの下線を消す */
-        }
-
-        .header-icon-btn:hover {
-            background-color: #e9ecef;
-            color: #0d6efd;
-            transform: scale(1.05);
-        }
-    </style>
 </head>
 
 <header class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top">
@@ -72,11 +49,12 @@ $categories = \DB::table('categories')->get();
                     </select>
 
                     <button class="btn btn-outline-secondary" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i> </button>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
                 </div>
             </form>
 
-            <div class="d-flex align-items-center justify-content-end" style="min-width: 300px;">
+            <div class="d-flex align-items-center justify-content-end header-user-actions" style="min-width: 300px;">
 
                 <div class="d-flex align-items-center gap-2 me-3">
                     @if ($is_logged_in)
@@ -115,3 +93,5 @@ $categories = \DB::table('categories')->get();
         </div>
     </div>
 </header>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
