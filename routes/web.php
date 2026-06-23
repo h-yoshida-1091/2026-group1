@@ -24,10 +24,10 @@ Route::post('/products/unfavorite', [ProductController::class, 'unfavorite']);
 Route::get('/products/detail', [ProductController::class, 'show']);
 
 // 購入確認
-Route::get('/purchase', [OrderController::class, 'order']);
+Route::post('/purchase/confirm', [OrderController::class, 'confirm']);
 
 //　購入完了
-Route::get('/purchase/complete', [OrderController::class, 'complete']);
+Route::post('/purchase/complete', [OrderController::class, 'complete']);
 
 
 // ログイン画面
@@ -66,7 +66,7 @@ Route::post('/cart/decrease', [CartController::class, 'decreaseCart']);
 Route::post('/cart/increase', [CartController::class, 'increaseCart']);
 
 // 購入完了画面
-Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);
+// Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);
 
 // 購入確認画面
-Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
+// Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
