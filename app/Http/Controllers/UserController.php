@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -119,28 +119,43 @@ class UserController extends Controller
     }
 
 
-    //=======================================
-    //      ゲストログイン機能
-    //=======================================
-    public function guestLogin(Request $request)
+    //===========================================
+    //      アカウント編集機能
+    //===========================================
+    public function edit_Get()
     {
-        //ゲストユーザーをデータベースから探す、または自動生成
-        $guestUser = User::firstOrCreate(
-            ['email' => 'guest-example@email.com'],
-            [
-                'name' => 'ゲストユーザー',
-                'password' => Hash::make('guest-password'),
-                'address' => '東京都千代田区霞が関2丁目1-1'
-            ]
-        );
+        $user = Auth::user();
 
-        //ゲストユーザーでログイン
-        Auth::login($guestUser);
+        return view('accounts.account_edit', compact('user'));
+    }
 
-        //セッションの再生成
-        $request->session()->regenerate();
+    public function edit_Post(Request $request)
+    {
+        //ログイン中のユーザーを取得
+        $user = User::findOrFile(Auth::id());
 
-        //商品ページへ
-        return redirect('/products')->with('error_message', 'ゲストユーザーでログインしました。');
+        //バリデーション
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            //'password' => ['nullable', 'string', 'min:8', 'max:255', 'confirmed'],
+            'address' => ['required', 'string', 'max:255'],
+        ]);
+
+        //更新
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->address = $validated['address'];
+
+        //パスワードが入力されていた場合のみ更新
+        //if (!empty($validated['password'])) {
+        //    $user->password = bcrypt($validated['password']);
+        //}
+
+        //データベースに保存
+        $user->save();
+
+        //リダイレクト
+        return redirect()->back()->with('status', 'profile-updated');
     }
 }

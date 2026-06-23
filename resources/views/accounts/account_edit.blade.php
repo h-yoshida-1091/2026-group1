@@ -3,40 +3,63 @@
     <title>アカウント設定</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
 
-    @include('header') 
+    @include('header')
 
-    <div class="container my-5" style="max-width: 600px;">
-        <h2 class="mb-4">アカウント情報の編集</h2>
+    <div class="account-container">
+        <aside class="account-sidebar">
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item">注文履歴</a>
+                <a href="#" class="nav-item active">アカウント情報編集</a>
+                <a href="#" class="nav-item">パスワード変更</a>
+                <a href="#" class="nav-item">お届け先一覧</a>
+                <a href="#" class="nav-item">ログアウト</a>
+            </nav>
+        </aside>
 
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        <main class="account-main">
+            <div class="card">
+                <h2 class="card-title">アカウント情報の変更</h2>
 
-        <form action="/account/edit" method="POST">
-            @csrf
+                @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+                @endif
 
-            <div class="mb-3">
-                <label for="name" class="form-label">ユーザー名</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}" required>
-                @error('name') <div class="text-danger small">{{ $message }}</div> @enderror
+                <form action="#" method="POST" class="account-form">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="form-group">
+                        <label for="name" class="form-label">お名前</label>
+                        <input type="text" id="name" name="name"
+                            class="form-control @error('name') is-invalid @enderror"
+                            value="{{ old('name', $user->name ?? '') }}" required>
+                        @error('name')
+                        <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">メールアドレス</label>
+                        <input type="email" id="email" name="email"
+                            class="form-control @error('email') is-invalid @enderror"
+                            value="{{ old('email', $user->email ?? '') }}" required>
+                        @error('email')
+                        <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">変更内容を保存する</button>
+                        <a href="#" class="btn btn-secondary">キャンセル</a>
+                    </div>
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label for="email" class="form-label">メールアドレス</label>
-                <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}" required>
-                @error('email') <div class="text-danger small">{{ $message }}</div> @enderror
-            </div>
-
-            <div class="mb-4">
-                <label for="address" class="form-label">お届け先住所</label>
-                <textarea name="address" id="address" class="form-control" rows="3" placeholder="都道府県、市区町村、番地、建物名などを入力してください" required>{{ old('address', $user->address) }}</textarea>
-                @error('address') <div class="text-danger small">{{ $message }}</div> @enderror
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">変更を保存する</button>
-        </form>
+            </< /main>
     </div>
 
 </body>
