@@ -21,11 +21,6 @@
         @forelse ($cartItems as $index => $cartItem)
             @php 
                 $product = $products->firstWhere('id', $cartItem->product_id);
-
-                $image = null;
-                if($product){
-                    $image = $productImages->firstWhere('id', $product->image_id);
-                }
             @endphp
             <tr>
                 <td class="product-name">{{ $product->name }}</td>
