@@ -217,3 +217,36 @@
 .info-area form {
     grid-area: delete;
 }
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.delete-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+
+    background-color: #dc3545;
+    color: white;
+
+    cursor: pointer;
+}
+
+.buy-now-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+
+    background-color: #28a745;
+    color: white;
+
+    cursor: pointer;
+}
+
+.delete-btn:hover,
+.buy-now-btn:hover {
+    opacity: 0.85;
+}
