@@ -21,6 +21,12 @@
                 </ul>
             </div>
         @endif
+            <form action="/account" method="post" class="register-form">
+                @csrf
+                <div class="form-group">
+                    <label for="name">お名前</label>
+                    <input type="text" id="name" name="name" placeholder="山田 太郎" required>
+                </div>
 
         <form action="/account" method="post" class="register-form">
             @csrf
@@ -65,6 +71,7 @@
             <p class="mb-0">既にアカウントをお持ちですか？</p>
             <a href="/login">ログインはこちら</a>
         </div>
+
     </div>
 </body>
 
