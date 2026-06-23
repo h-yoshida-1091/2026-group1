@@ -1,0 +1,73 @@
+.footer {
+    background-color: #f8f9fa;
+    color: #333;
+    padding: 40px 20px 20px 20px;
+    border-top: 1px solid #dee2e6;
+    font-family: sans-serif;
+    /* 全体の基本文字サイズを小さめに設定 */
+    font-size: 14px; 
+}
+
+.footer-container {
+    max-width: 1200px; /* max-w から max-width に修正 */
+    margin: 0 auto;
+    width: 100%;
+}
+
+.footer-sections {
+    display: flex !important; /* 他のフレームワークの干渉を防ぐ */
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px; /* 250pxから少し縮めて横並びしやすく */
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.footer-column h3 {
+    font-size: 15px; /* 少し小さく */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* カテゴリ内のネストされたulの文字サイズをさらに小さく */
+.footer-column ul li ul {
+    font-size: 12px;
+    padding-left: 15px;
+    margin-top: 5px;
+}
+
+.footer-column ul li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.footer-column ul li a {
+    color: #555; /* 少しマイルドな色に */
+    text-decoration: none;
+}
+
+.footer-column ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-divider {
+    border: 0;
+    border-top: 1px solid #dee2e6;
+    margin: 20px 0;
+}
+
+.footer-copyright {
+    text-align: center;
+    font-size: 12px; /* 少し小さく */
+    color: #6c757d;
+}

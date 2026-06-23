@@ -41,100 +41,99 @@
 
         <div class="button-area">
 
-    <!-- カートに入れる -->
-    <form action="/cart/add" method="POST">
-        @csrf
+            <!-- カートに入れる -->
+            <form action="/cart/add" method="POST">
+                @csrf
 
-        <input type="hidden"
-            name="product_id"
-            value="{{ $product->id }}">
+                <input type="hidden"
+                    name="product_id"
+                    value="{{ $product->id }}">
 
-        <input type="hidden"
-            name="quantity"
-            value="1">
+                <input type="hidden"
+                    name="quantity"
+                    value="1">
 
-        <button type="submit" class="cart-btn">
-            カートに入れる
-        </button>
-    </form>
+                <button type="submit" class="cart-btn">
+                    カートに入れる
+                </button>
+            </form>
 
-    <!-- 今すぐ購入 -->
-    <form action="/purchase/confirm" method="POST">
-        @csrf
+            <!-- 今すぐ購入 -->
+            <form action="/purchase/confirm" method="POST">
+                @csrf
 
-        <input type="hidden"
-            name="products[0][id]"
-            value="{{ $product->id }}">
+                <input type="hidden"
+                    name="products[0][id]"
+                    value="{{ $product->id }}">
 
-        <input type="hidden"
-            name="products[0][quantity]"
-            value="1">
+                <input type="hidden"
+                    name="products[0][quantity]"
+                    value="1">
 
-        <button type="submit" class="buy-now-btn">
-            今すぐ購入
-        </button>
-    </form>
+                <button type="submit" class="buy-now-btn">
+                    今すぐ購入
+                </button>
+            </form>
 
-</div>
+        </div>
 
     </div>
 
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
 
-    const favoriteButton = document.querySelector('.favorite-btn');
+        const favoriteButton = document.querySelector('.favorite-btn');
 
-    if (!favoriteButton) return;
+        if (!favoriteButton) return;
 
-    favoriteButton.addEventListener('click', function () {
+        favoriteButton.addEventListener('click', function() {
 
-        const productId = this.dataset.productId;
-        const isFavorited = this.classList.contains('favorited');
+            const productId = this.dataset.productId;
+            const isFavorited = this.classList.contains('favorited');
 
-        const url = isFavorited
-            ? '/products/unfavorite'
-            : '/products/favorite';
+            const url = isFavorited ?
+                '/products/unfavorite' :
+                '/products/favorite';
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                product_id: productId
-            })
-        })
-        .then(response => {
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        product_id: productId
+                    })
+                })
+                .then(response => {
 
-            if (response.status === 401) {
-                alert('お気に入り機能を利用するにはログインしてください。');
-                location.href = '/login';
-                return;
-            }
+                    if (response.status === 401) {
+                        location.href = '/login';
+                        return;
+                    }
 
-            return response.json();
-        })
-        .then(data => {
+                    return response.json();
+                })
+                .then(data => {
 
-            if (!data || data.status !== 'success') return;
+                    if (!data || data.status !== 'success') return;
 
-            if (isFavorited) {
-                this.classList.remove('favorited');
-                this.textContent = '♡';
-            } else {
-                this.classList.add('favorited');
-                this.textContent = '♥';
-            }
+                    if (isFavorited) {
+                        this.classList.remove('favorited');
+                        this.textContent = '♡';
+                    } else {
+                        this.classList.add('favorited');
+                        this.textContent = '♥';
+                    }
 
-        })
-        .catch(error => {
-            console.error('Error:', error);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
         });
 
     });
-
-});
 </script>

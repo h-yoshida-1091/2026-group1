@@ -31,7 +31,7 @@ Route::post('/purchase/complete', [OrderController::class, 'complete']);
 
 
 // ログイン画面
-Route::get('/login', [UserController::class, 'login_Get']);
+Route::get('/login', [UserController::class, 'login_Get'])->name('login');
 Route::post('/login', [UserController::class, 'login_Post']);
 
 // 新規登録画面
