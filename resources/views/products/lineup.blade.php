@@ -1,4 +1,4 @@
-@include('layouts.header')
+@include('header')
 <!--この部分は削除して商品一覧用CSSに書き込んでください-->
 <style>
     .favorite-btn {
@@ -111,3 +111,5 @@
         });
     });
 </script>
+
+@include('footer')
