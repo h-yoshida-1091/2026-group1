@@ -35,15 +35,17 @@ Route::get('/login', [UserController::class, 'login_Get'])->name('login');
 Route::post('/login', [UserController::class, 'login_Post']);
 
 // 新規登録画面
-
 Route::get('/account', [UserController::class, 'account_Get']);
 Route::post('/account', [UserController::class, 'account_Post']);
 
 //ログアウト機能
 Route::post('/logout', [UserController::class, 'logout']);
 
-//ゲストユーザー機能
-Route::post('/guest', [UserController::class, 'guestLogin']);
+//アカウント編集機能
+Route::middleware(['auth'])->group( function() {
+    Route::get('/account/edit', [UserController::class, 'edit_Get'])->name('accounts.account_edit');
+    Route::post('/account/edit', [UserController::class, 'edit_Post'])->name('accounts.account_edit_process');
+});
 
 // Route::get('/account', [AuthController::class, 'showRegister']);
 // Route::post('/account', [AuthController::class, 'register']);
