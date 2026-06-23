@@ -10,7 +10,6 @@ use App\Models\Product;
 use App\Models\Product_image;
 use Exception;
 
-
 class OrderController extends Controller
 {
     public function confirm(Request $request)
@@ -76,11 +75,6 @@ class OrderController extends Controller
             ->select('cart_items.*')
             ->get();
 
-        // // カートが空なら処理を中断
-        // if ($cartItems->isEmpty()) {
-        //     return redirect()->route('purchase.confirm')->with('error', 'カートが空です。');
-        // }
-
         // 3. 商品ごとに小計を計算
         $products = Product::whereIn('id', $cartItems->pluck('product_id'))->get();
         $subtotals = [];
@@ -127,22 +121,12 @@ class OrderController extends Controller
             // すべての処理が成功したので、データベースに変更を確定反映（コミット）
             DB::commit();
 
-            if ($userId) {
-                dispatch(function () use ($userId) {
-                    $groqService = app(\App\Services\GroqRecommendationService::class);
-                    $groqService->calculateAndSaveScores($userId);
-                    })->afterResponse(); // 購入完了画面への遷移を邪魔せず、裏で爆速で実行
-            }
-
             // 8. 完了画面へリダイレクト（例: サンクスページなど）
             return view('purchase.complete');
 
         } catch (Exception $e) {
             // 途中でエラーが発生した場合、ここまでのDB操作をすべて無かったことにする（ロールバック）
             DB::rollBack();
-
-            // // エラー内容をログに出力、または画面に表示
-            // return back()->with('error', '注文処理中にエラーが発生しました。もう一度お試しください。' . $e->getMessage());
         }
     }
 }

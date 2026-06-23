@@ -11,10 +11,14 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-
     // カート一覧表示
     public function index()
     {
+        //未ログインならメッセージ付きでリダイレクト
+        if (!Auth::check()) {
+            return redirect('/login')->with('error_message', 'カートを見るにはログインが必要です。');
+        }
+
         // カートアイテムを取得して、商品情報をマージした$productsを作る
         $cartItems = Cart_item::where('user_id', Auth::id())->get();
 
@@ -33,12 +37,16 @@ class CartController extends Controller
     // 指定した商品をカートに追加
     public function addCart(Request $request)
     {
+        //未ログインならメッセージ付きでリダイレクト
+        if (!Auth::check()) {
+            return redirect('/login')->with('error_message', 'カートに商品を入れるにはログインが必要です。');
+        }
         $product = Product::find($request->input('product_id'));
 
         // カートの現在の個数を取得
         $cartItem = Cart_item::where('user_id', Auth::id())
-                            ->where('product_id', $product->id)
-                            ->first();
+            ->where('product_id', $product->id)
+            ->first();
         $currentQuantity = $cartItem ? $cartItem->quantity : 0;
 
         // 在庫チェック
@@ -57,9 +65,9 @@ class CartController extends Controller
     public function delete(Request $request)
     {
         Cart_item::where('user_id', Auth::id())
-                ->where('product_id', $request->input('id'))
-                ->firstOrFail()
-                ->delete();
+            ->where('product_id', $request->input('id'))
+            ->firstOrFail()
+            ->delete();
 
         return redirect('/cart');
     }
@@ -68,8 +76,8 @@ class CartController extends Controller
     public function decreaseCart(Request $request)
     {
         $cartItem = Cart_item::where('user_id', Auth::id())
-                            ->where('product_id', $request->input('product_id'))
-                            ->firstOrFail();
+            ->where('product_id', $request->input('product_id'))
+            ->firstOrFail();
 
         // 負の個数にならないように
         if ($cartItem->quantity > 0) {
@@ -87,8 +95,8 @@ class CartController extends Controller
 
         // カートの現在の個数を取得
         $cartItem = Cart_item::where('user_id', Auth::id())
-                            ->where('product_id', $product->id)
-                            ->firstOrFail();
+            ->where('product_id', $product->id)
+            ->firstOrFail();
 
         // 在庫チェック
         if ($cartItem->quantity >= $product->stock) {
@@ -97,10 +105,6 @@ class CartController extends Controller
 
         $cartItem->quantity += 1;
         $cartItem->save();
-        $id = $request->id;
-
-        // カートから削除
-        Cart_item::where('product_id', $id)->delete();
 
         return redirect('/cart');
     }
