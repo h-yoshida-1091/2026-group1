@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-
     // カート一覧表示
     public function index()
     {
-        $userId = 1; // テスト用に固定
-
-        $cartItems = Cart_item::where('user_id', $userId)->get();
+        //未ログインならメッセージ付きでリダイレクト
+        if (!Auth::check()) {
+            return redirect('/login')->with('error_message', 'カートを見るにはログインが必要です。');
+        }
 
         // カートアイテムを取得して、商品情報をマージした$productsを作る
-        //$cartItems = Cart_item::where('user_id', Auth::id())->get();
+        $cartItems = Cart_item::where('user_id', Auth::id())->get();
 
         $products = $cartItems->map(function ($item) {
             $product = Product::find($item->product_id);
@@ -37,25 +37,37 @@ class CartController extends Controller
     // 指定した商品をカートに追加
     public function addCart(Request $request)
     {
-        $userId = 1; // テスト用に固定
+        //未ログインならメッセージ付きでリダイレクト
+        if (!Auth::check()) {
+            return redirect('/login')->with('error_message', 'カートに商品を入れるにはログインが必要です。');
+        }
+        $product = Product::find($request->input('product_id'));
+
+        // カートの現在の個数を取得
+        $cartItem = Cart_item::where('user_id', Auth::id())
+            ->where('product_id', $product->id)
+            ->first();
+        $currentQuantity = $cartItem ? $cartItem->quantity : 0;
+
+        // 在庫チェック
+        if ($currentQuantity >= $product->stock) {
+            return redirect('/cart')->with('error', $product->name . 'の在庫が足りません');
+        }
 
         Cart_item::updateOrCreate(
-            ['user_id' => $userId, 'product_id' => $request->input('product_id')],
-            ['quantity' => DB::raw("quantity + {$request->input('quantity', 1)}")]
+            ['user_id' => Auth::id(), 'product_id' => $product->id],
+            ['quantity' => DB::raw("quantity + 1")]
         );
-
         return redirect('/cart');
     }
 
     // 指定した商品をカートから削除
-    public function deleteCart(Request $request)
+    public function delete(Request $request)
     {
-        $userId = 1; // テスト用に固定
-
-        Cart_item::where('user_id', $userId)
-                ->where('product_id', $request->input('id'))
-                ->firstOrFail()
-                ->delete();
+        Cart_item::where('user_id', Auth::id())
+            ->where('product_id', $request->input('id'))
+            ->firstOrFail()
+            ->delete();
 
         return redirect('/cart');
     }
@@ -63,14 +75,12 @@ class CartController extends Controller
     // 個数を減らす
     public function decreaseCart(Request $request)
     {
-        $userId = 1; // テスト用に固定
+        $cartItem = Cart_item::where('user_id', Auth::id())
+            ->where('product_id', $request->input('product_id'))
+            ->firstOrFail();
 
-        $cartItem = Cart_item::where('user_id', $userId)
-                            ->where('product_id', $request->input('product_id'))
-                            ->firstOrFail();
-
-        // 1以下にならないように
-        if ($cartItem->quantity > 1) {
+        // 負の個数にならないように
+        if ($cartItem->quantity > 0) {
             $cartItem->quantity -= 1;
             $cartItem->save();
         }
@@ -81,16 +91,21 @@ class CartController extends Controller
     // 個数を増やす
     public function increaseCart(Request $request)
     {
-        $userId = 1; // テスト用に固定
+        $product = Product::find($request->input('product_id'));
 
-        $cartItem = Cart_item::where('user_id', $userId)
-                            ->where('product_id', $request->input('product_id'))
-                            ->firstOrFail();
+        // カートの現在の個数を取得
+        $cartItem = Cart_item::where('user_id', Auth::id())
+            ->where('product_id', $product->id)
+            ->firstOrFail();
+
+        // 在庫チェック
+        if ($cartItem->quantity >= $product->stock) {
+            return redirect('/cart')->with('error', $product->name . 'の在庫が足りません');
+        }
 
         $cartItem->quantity += 1;
         $cartItem->save();
 
         return redirect('/cart');
     }
-
 }

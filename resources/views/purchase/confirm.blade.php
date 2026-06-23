@@ -1,13 +1,12 @@
 <h1 class="title">購入確認</h1>
 
+<link rel="stylesheet" href="{{ asset('css/confirm.css') }}">
+
 <div class="back-to-products">
     <a href="/products">
         <img src="/images/back-to-products.png" alt="商品一覧に戻る" class="btn-back-img">
     </a>
 </div>
-
-{{-- 合計金額の初期化 --}}
-@php $total = 0; @endphp
 
 <table class="confirm-table">
     <thead>
@@ -19,16 +18,20 @@
         </tr>
     </thead>
     <tbody>
-        @forelse ($products ?? [] as $product)
+        @forelse ($cartItems as $index => $cartItem)
             @php 
-                $subtotal = $product->price * $product->quantity;
-                $total += $subtotal; 
+                $product = $products->firstWhere('id', $cartItem->product_id);
+
+                $image = null;
+                if($product){
+                    $image = $productImages->firstWhere('id', $product->image_id);
+                }
             @endphp
             <tr>
                 <td class="product-name">{{ $product->name }}</td>
-                <td class="product-quantity">{{ $product->quantity }}</td>
-                <td class="product-price">{{ number_format($product->price) }}円</td>
-                <td class="product-subtotal">{{ number_format($subtotal) }}円</td>
+                <td class="product-quantity">{{ $cartItem->quantity }}</td>
+                <td class="product-price">¥{{ number_format($product->price ?? 0) }}円</td>
+                <td class="product-subtotal">¥{{ number_format($subtotals[$index] ?? 0) }}円</td>
             </tr>
         @empty
             <tr>
@@ -38,8 +41,6 @@
     </tbody>
 </table>
 
----
-
 <form action="/purchase/complete" method="post" class="purchase-form">
     @csrf
 
@@ -48,21 +49,19 @@
 
         <div class="form-group">
             <label for="email">メールアドレス</label>
-            <input type="email" id="email" name="email" required value="{{ old('email') }}">
+            <input type="email" id="email" name="email" required value="{{ $user->email }}">
         </div>
 
         <div class="form-group">
             <label for="name">お名前</label>
-            <input type="text" id="name" name="name" required value="{{ old('name') }}">
+            <input type="text" id="name" name="name" required value="{{ $user->name }}">
         </div>
 
         <div class="form-group">
             <label for="address">ご住所</label>
-            <input type="text" id="address" name="address" required value="{{ old('address') }}">
+            <input type="text" id="address" name="address" required value="{{ $user->address }}">
         </div>
     </div>
-
-    ---
 
     <div class="total-section">
         <h3>合計金額</h3>

@@ -12,10 +12,17 @@
     <div class="login-container">
         <h1>ログインまたは新規作成</h1>
 
+        @if (session('success_message'))
+            <div class="alert alert-danger" style="color: black; margin-bottom: 15px;">
+                {{ session('success_message') }}
+            </div>
+        @endif
+
         @if (session('error_message'))
-        <div class="alert alert-danger" style="color: red; margin-bottom: 15px;">
-            {{ session('error_message') }}
-        </div>
+
+            <div class="alert alert-danger" style="color: red; margin-bottom: 15px;">
+                {{ session('error_message') }}
+            </div>
         @endif
 
         <form action="/login" method="post" class="login-form">

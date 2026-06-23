@@ -1,0 +1,65 @@
+/* 全体 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+}
+
+/* 完了メッセージボックス */
+.complete-container {
+    background: #fff;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+
+    text-align: center;
+    width: 500px;
+    max-width: 90%;
+}
+
+/* タイトル */
+.complete-title {
+    color: #bf0000;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+/* メッセージ */
+.complete-message {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 40px;
+    line-height: 1.8;
+}
+
+/* ボタン */
+.continue-btn {
+    display: inline-block;
+
+    background-color: #bf0000;
+    color: #fff;
+
+    text-decoration: none;
+
+    padding: 14px 35px;
+
+    border-radius: 4px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.continue-btn:hover {
+    background-color: #990000;
+}
