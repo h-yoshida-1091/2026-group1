@@ -10,19 +10,19 @@
 
 <body>
     <div class="login-container">
-        <h1>ログイン</h1>
+        <h1>ログインまたは新規作成</h1>
 
         @if (session('error_message'))
         <div class="alert alert-danger" style="color: red; margin-bottom: 15px;">
             {{ session('error_message') }}
         </div>
-    @endif
+        @endif
 
-    <form action="/login" method="post" class="login-form">
-        @csrf <div class="form-group">
-            <label for="email">メールアドレス</label>
-            <input type="email" id="email" name="email" placeholder="example@email.com" required>
-        </div>
+        <form action="/login" method="post" class="login-form">
+            @csrf <div class="form-group">
+                <label for="email">メールアドレス</label>
+                <input type="email" id="email" name="email" placeholder="example@email.com" required>
+            </div>
 
             <div class="form-group">
                 <label for="password">パスワード</label>
@@ -32,10 +32,15 @@
             <button type="submit" class="btn-login">ログイン</button>
         </form>
 
-        <div class="login-footer">
-            <a href="/account">新規登録はこちら</a>
+        <div class="login-footer" style="text-align: center; margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+            <a href="/products" class="btn-guest" style="color: #555; text-decoration: underline;">
+                ゲストユーザーでログイン
+            </a>
+
+            <div class="login-footer">
+                <a href="/account">新規登録はこちら</a>
+            </div>
         </div>
-    </div>
 
 </body>
 
