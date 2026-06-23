@@ -7,9 +7,25 @@
 <link rel="stylesheet" href="{{ asset('css/lineup.css') }}">
 
 <div class="sort-navigation-bar">
-    @if($categoryName || request('keyword') || request('min_price') || request('max_price'))
+    <button type="button" class="mobile-sidebar-toggle" onclick="toggleMobileSidebar()" title="絞り込み条件を開く">
+        <i class="fa-solid fa-sliders"></i>
+    </button>
+    @if($categoryName || request('keyword') || request('min_price') || request('max_price')|| request('favorite'))
     <div class="filter-tags-group">
         <span class="filter-title">絞り込み条件:</span>
+
+        @if(request('favorite'))
+        @php
+            // お気に入り解除時のURL用（favoriteパラメータだけを除く）
+            $clear_favorite_params = request()->query();
+            unset($clear_favorite_params['favorite']);
+            $clear_favorite_url = '/products?' . http_build_query($clear_favorite_params);
+        @endphp
+        <span class="filter-tag border-danger text-danger fw-bold">
+            <i class="fa-solid fa-heart me-1"></i> お気に入り
+            <a href="{{ $clear_favorite_url }}" class="remove-tag-btn" style="color: #e74c3c; text-decoration: none;">×</a>
+        </span>
+        @endif
 
         {{-- キーワード検索のタグ --}}
         @if(request('keyword'))
@@ -31,7 +47,7 @@
         @if(request('min_price') || request('max_price'))
         <span class="filter-tag">
             価格: ¥{{ number_format(request('min_price', $floorMin)) }} 〜 @if(request('max_price') && request('max_price') < $ceilMax) ¥{{ number_format(request('max_price')) }} @else 上限なし @endif
-            <button type="button" class="remove-tag-btn" onclick="removeParam('min_price', 'max_price')">×</button>
+                <button type="button" class="remove-tag-btn" onclick="removeParam('min_price', 'max_price')">×</button>
         </span>
         @endif
 
@@ -56,13 +72,14 @@
 </div>
 
 <div class="main-layout-fluid">
-    
+
     <aside class="sidebar">
         <div class="sidebar-widget">
+            <button type="button" class="sidebar-close-btn" onclick="toggleMobileSidebar()">×</button>
             <h2 class="widget-title">価格</h2>
-            
+
             <div class="slider-text-range">
-                <span id="labelMinPrice">¥{{ number_format($minPriceParam ?? $floorMin) }}</span> 〜 
+                <span id="labelMinPrice">¥{{ number_format($minPriceParam ?? $floorMin) }}</span> 〜
                 <span id="labelMaxPrice">¥{{ number_format($maxPriceParam ?? $ceilMax) }}</span>
             </div>
 
@@ -71,20 +88,20 @@
                 <input type="range" id="inputMinPrice" min="{{ $floorMin }}" max="{{ $ceilMax }}" step="100" value="{{ $minPriceParam ?? $floorMin }}" oninput="updateSlider()">
                 <input type="range" id="inputMaxPrice" min="{{ $floorMin }}" max="{{ $ceilMax }}" step="100" value="{{ $maxPriceParam ?? $ceilMax }}" oninput="updateSlider()">
             </div>
-            
+
             <div class="slider-action-row">
                 <button type="button" class="price-apply-btn" onclick="applyPriceFilter()">価格を適用</button>
             </div>
 
             <ul class="price-range-list">
                 @foreach($priceRanges as $range)
-                    <li>
-                        <a href="javascript:void(0)" 
-                           onclick="clickPriceRange({{ $range['min'] }}, {{ $range['max'] }})"
-                           class="price-range-link {{ (request('min_price') == $range['min'] && request('max_price') == $range['max']) ? 'active' : '' }}">
-                            {{ $range['label'] }}
-                        </a>
-                    </li>
+                <li>
+                    <a href="javascript:void(0)"
+                        onclick="clickPriceRange({{ $range['min'] }}, {{ $range['max'] }})"
+                        class="price-range-link {{ (request('min_price') == $range['min'] && request('max_price') == $range['max']) ? 'active' : '' }}">
+                        {{ $range['label'] }}
+                    </a>
+                </li>
                 @endforeach
             </ul>
         </div>
@@ -92,7 +109,7 @@
 
     <div class="content-products">
         <h1 class="page-title-left">商品一覧</h1>
-        
+
         <div class="product-list">
             @foreach ($products as $product)
             <div class="product-card">

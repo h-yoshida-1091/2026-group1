@@ -33,6 +33,15 @@ class ProductController extends Controller
         if (!empty($categoryId)) {
             $query->where('category_id', $categoryId);
         }
+        // お気に入り絞り込み
+        if ($request->has('favorite') && Auth::check()) {
+            // ログインユーザーのお気に入りテーブル（favorites）に存在する商品IDだけに絞り込む
+            $productIds = DB::table('favorites')
+                ->where('user_id', Auth::id())
+                ->pluck('product_id'); // [1, 5, 12] のような配列を取得
+
+            $query->whereIn('products.id', $productIds);
+        }
         $dbMinPrice = Product::min('price') ?? 0;
         $dbMaxPrice = Product::max('price') ?? 0;
         $floorMin = floor($dbMinPrice / 100) * 100;
@@ -42,7 +51,7 @@ class ProductController extends Controller
         if ($ceilMax > $floorMin) {
             // 全体の価格幅を4分割するステップサイズを計算
             $step = ceil((($ceilMax - $floorMin) / 4) / 100) * 100;
-            
+
             for ($i = 0; $i < 4; $i++) {
                 $rangeMin = $floorMin + ($step * $i);
                 $rangeMax = ($i === 3) ? $ceilMax : ($rangeMin + $step); // 最後だけ上限を最大値に固定
@@ -53,7 +62,6 @@ class ProductController extends Controller
                 ];
             }
         }
-
         if (!empty($minPriceParam)) {
             $query->where('price', '>=', $minPriceParam);
         }
@@ -87,8 +95,8 @@ class ProductController extends Controller
                     ->groupBy('product_id');
 
                 $query->leftJoinSub($subQuery, 'sales', function ($join) {
-                        $join->on('products.id', '=', 'sales.product_id');
-                    })
+                    $join->on('products.id', '=', 'sales.product_id');
+                })
                     ->select('products.*')
                     ->selectRaw('COALESCE(sales.total_sales, 0) as total_sales')
                     ->orderBy('total_sales', 'desc')
@@ -135,8 +143,17 @@ class ProductController extends Controller
 
         // lineupに渡す
         return view('products.lineup', compact(
-            'products', 'categories', 'keyword', 'categoryId', 'categoryName', 'is_logged_in',
-            'priceRanges', 'floorMin', 'ceilMax', 'minPriceParam', 'maxPriceParam'
+            'products',
+            'categories',
+            'keyword',
+            'categoryId',
+            'categoryName',
+            'is_logged_in',
+            'priceRanges',
+            'floorMin',
+            'ceilMax',
+            'minPriceParam',
+            'maxPriceParam'
         ));
     }
 

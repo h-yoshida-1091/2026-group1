@@ -43,6 +43,11 @@
     box-sizing: border-box;
 }
 
+/* ★ここに引っ越し：PC表示（通常時）は「×」ボタンを隠しておく */
+.sidebar-close-btn {
+    display: none;
+}
+
 /* 右側商品コンテンツエリア：少しだけ内側に余白を持たせる */
 .content-products {
     flex-grow: 1;
@@ -110,6 +115,12 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
+}
+/* お気に入りタグの特別スタイル */
+.filter-tag.border-danger {
+    border-color: #ffc107 !important; 
+    border-color: #f5c2c2 !important;
+    background-color: #fff5f5;
 }
 
 .remove-tag-btn {
@@ -303,3 +314,103 @@
     color: #ccc;
 }
 .favorite-btn.favorited { color: #e60012; }
+
+/* PC用のトグルボタンは通常非表示 */
+.mobile-sidebar-toggle {
+    display: none;
+    width: 36px;
+    height: 34px;
+    border-radius: 8px; 
+    background-color: #ffffff;
+    color: #111111;
+    border: 1px solid #d5d9d9; 
+    justify-content: center;
+    align-items: center;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.1s;
+}
+
+/* タップした時・ホバーした時に少しだけグレーにする */
+.mobile-sidebar-toggle:hover,
+.mobile-sidebar-toggle:active {
+    background-color: #f7fafa;
+    border-color: #d5d9d9;
+}
+
+/* ==========================================
+   6. スマートフォン・タブレット向け（768px以下）
+   ========================================== */
+@media (max-width: 768px) {
+    /* トグルボタンを表示する */
+    .mobile-sidebar-toggle {
+        display: flex;
+    }
+
+    /* ナビゲーションバーの並びを調整 */
+    .sort-navigation-bar {
+        padding: 8px 12px;
+        gap: 10px;
+        align-items: center; 
+    }
+
+    /* サイドバーを「ドロワー（引き出し）」化して画面外（左側）に隠す */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -260px; /* 通常時は画面の左外に隠す */
+        width: 260px;
+        height: 100vh;
+        z-index: 9999; /* ヘッダー等よりも前面に出す */
+        transition: left 0.3s ease; /* スッと出てくるアニメーション */
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* JavaScriptで .active クラスがついたら左端に現れる */
+    .sidebar.active {
+        left: 0;
+    }
+
+    /* スマホ版サイドバーの中身：縦いっぱいに白背景を広げる */
+    .sidebar-widget {
+        height: 100%;
+        overflow-y: auto;
+        border-right: none;
+        padding: 40px 20px 20px 20px;
+        position: relative; /* ×ボタンの配置基準にする */
+    }
+
+    /* スマホ表示の時は商品リストを2列、または1列に敷き詰める */
+    .product-list {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 10px;
+    }
+    
+    .content-products {
+        padding: 10px;
+    }
+    
+    /* スマホ表示の際に、サイドバーを閉じるための「×」ボタン用スタイル */
+    .sidebar-close-btn {
+        display: flex; /* 中央揃え */
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 30px;
+        height: 30px;
+        background: none;
+        border: none;
+        font-size: 1.6rem; 
+        color: #666; 
+        cursor: pointer;
+        line-height: 1;
+    }
+    
+    /* タップした時にちょっと薄くするエフェクト */
+    .sidebar-close-btn:active {
+        opacity: 0.5;
+    }
+}

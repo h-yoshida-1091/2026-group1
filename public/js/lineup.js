@@ -119,3 +119,11 @@ function clickPriceRange(min, max) {
     updateSlider();
     applyPriceFilter();
 }
+
+// スマホ用サイドバー（ドロワー）の開閉を切り替える関数
+function toggleMobileSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('active');
+    }
+}
