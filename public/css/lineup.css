@@ -1,160 +1,305 @@
-/* ページ全体 */
-.page-title {
-    text-align: center;
-    margin: 30px 0;
-}
+/* ==========================================
+   1. 画面端に密着させるフル幅レイアウト
+   ========================================== */
 
-/* 商品一覧 */
-.product-list {
-    width: 90%;
-    margin: 0 auto;
-
+/* 上部ナビ：ヘッダーに密着、左右の余白をゼロに */
+.sort-navigation-bar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 10px 20px;
+    margin: 0; /* 周囲の無駄な余白を完全カット */
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ddd;
 }
 
-/* 商品カード */
-.product-card {
-    width: 240px;
+/* メイン領域：上部ナビと左端に完全にくっつける */
+.main-layout-fluid {
+    display: flex;
+    width: 100%;
+    margin: 0;   /* 上下の隙間をゼロにしてナビに密着 */
+    padding: 0;  /* 左右の余白をゼロにして画面端に密着 */
+    align-items: flex-start;
+    box-sizing: border-box;
+}
 
+/* サイドバー：左端に固定し、枠線を消してスッキリ密着 */
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* サイドバーの中身のカード：無駄な丸みや外側の余白を排除して左端に寄せる */
+.sidebar-widget {
+    background: #fff;
+    border-right: 1px solid #e0e0e0; /* 右側だけ区切り線を残す */
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 15px;
+    min-height: calc(100vh - 60px); /* 画面下部まで綺麗に背景を伸ばす */
+    box-sizing: border-box;
+}
+
+/* 右側商品コンテンツエリア：少しだけ内側に余白を持たせる */
+.content-products {
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 「商品一覧」のタイトルを左寄せに変更 */
+.page-title-left {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+    text-align: left;
+}
+
+/* ==========================================
+   2. 商品一覧（グリッド・カードレイアウト）
+   ========================================== */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* 限界まで横に敷き詰める */
+    gap: 20px;
+    width: 100%;
+}
+
+.product-card {
+    width: 100% !important;
+    margin: 0 !important;
     background: #fff;
     border: 1px solid #ddd;
-    border-radius: 12px;
-
+    border-radius: 8px;
     padding: 15px;
-
     position: relative;
-
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s;
+    box-sizing: border-box;
 }
 
 .product-card:hover {
     transform: translateY(-3px);
 }
 
-/* 画像エリア */
-.product-image {
+/* ==========================================
+   3. 絞り込みタグ・ソート
+   ========================================== */
+.filter-tags-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-title {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.filter-tag {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.remove-tag-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 2px;
+    font-size: 1rem;
+    line-height: 1;
+}
+.remove-tag-btn:hover { color: #e74c3c; }
+
+.clear-all-btn {
+    background: none;
+    border: none;
+    color: #0066cc;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    padding: 4px 8px;
+}
+
+.sort-group {
+    margin-left: auto;
+}
+
+/* ==========================================
+   4. ダブルスライダー・価格リンク
+   ========================================== */
+.widget-title {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 5px;
+}
+
+.slider-text-range {
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.double-slider-container {
+    position: relative;
     width: 100%;
-    height: 180px;
+    height: 30px;
     margin-bottom: 15px;
 }
 
-/* 商品画像 */
+.slider-track {
+    position: absolute;
+    width: 100%;
+    height: 6px;
+    background: #ddd;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 3px;
+    z-index: 1;
+}
+
+.double-slider-container input[type="range"] {
+    position: absolute;
+    width: 100%;
+    height: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    z-index: 2;
+}
+
+.double-slider-container input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #0066cc;
+    border: 2px solid #fff;
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.price-apply-btn {
+    width: 100%;
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+.slider-action-row { margin-bottom: 20px; }
+
+.price-range-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.price-range-list li { margin-bottom: 8px; }
+.price-range-link {
+    font-size: 0.9rem;
+    color: #0066cc;
+    text-decoration: none;
+}
+.price-range-link:hover { text-decoration: underline; }
+.price-range-link.active {
+    font-weight: bold;
+    color: #333;
+}
+
+/* ==========================================
+   5. 商品カード内パーツ
+   ========================================== */
+.product-image {
+    width: 100%;
+    height: 160px;
+    margin-bottom: 15px;
+}
+
 .product-image img {
     width: 100%;
     height: 100%;
-
     object-fit: contain;
-
     background: #f8f8f8;
     border-radius: 8px;
 }
 
-/* 商品名 */
 .product-info h3 {
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 10px;
-    height: 50px;
+    height: 45px;
+    overflow: hidden;
 }
 
-/* 価格 */
 .price {
     color: #e60012;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     margin: 10px 0;
 }
 
-/* ボタンエリア */
 .product-actions {
     margin-top: 15px;
-
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
-/* カートボタン */
 .cart-btn {
     width: 100%;
-
-    padding: 10px;
-
+    padding: 8px;
     border: none;
     border-radius: 6px;
-
     background: #007bff;
     color: white;
-
     cursor: pointer;
+    font-size: 0.9rem;
 }
 
-/* 詳細ボタン */
 .detail-link {
     display: block;
-
     text-align: center;
-
-    padding: 10px;
-
+    padding: 8px;
     border-radius: 6px;
-
     background: #333;
     color: white;
-
     text-decoration: none;
+    font-size: 0.9rem;
 }
 
-/* お気に入り */
 .favorite-area {
     position: absolute;
     top: 10px;
     right: 10px;
+    z-index: 3;
 }
 
 .favorite-btn {
     border: none;
     background: none;
-
-    font-size: 28px;
+    font-size: 24px;
     cursor: pointer;
-
     color: #ccc;
 }
-
-.favorite-btn.favorited {
-    color: #e60012;
-}
-
-.page-header {
-    width: 90%;
-    margin: 30px auto;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* カートボタン */
-.cart-link {
-    display: inline-block;
-
-    padding: 10px 20px;
-
-    background-color: #28a745;
-    color: white;
-
-    text-decoration: none;
-    border-radius: 8px;
-
-    font-weight: bold;
-}
-
-.cart-link:hover {
-    opacity: 0.85;
-}
+.favorite-btn.favorited { color: #e60012; }
