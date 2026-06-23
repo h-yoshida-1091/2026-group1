@@ -156,6 +156,12 @@ class OrderController extends Controller
             // すべての処理が成功したので、データベースに変更を確定反映（コミット）
             DB::commit();
 
+            $userId = $user->id;
+            dispatch(function () use ($userId) {
+                $groqService = app(\App\Services\GroqRecommendationService::class);
+                $groqService->calculateAndSaveScores($userId);
+            })->afterResponse();
+
             // 8. 完了画面へリダイレクト（例: サンクスページなど）
             return view('purchase.complete');
 

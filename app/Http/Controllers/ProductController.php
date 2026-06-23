@@ -36,36 +36,53 @@ class ProductController extends Controller
         }
 
         $userId = Auth::id() ?? 0;
-        // 並び替え処理    
+
         // ログイン状態によってデフォルトのソート順を切り替える
         $defaultSort = $userId ? 'recommend' : 'bestseller';
         $sort = $request->input('sort', $defaultSort);
+
         switch ($sort) {
             case 'price_asc':
-                $query->orderBy('price', 'asc'); // 価格の安い順
+                $query->orderBy('products.price', 'asc'); // 価格の安い順
                 break;
+
             case 'price_desc':
-                $query->orderBy('price', 'desc'); // 価格の高い順
+                $query->orderBy('products.price', 'desc'); // 価格の高い順
                 break;
+
             case 'newest':
-                $query->orderBy('id', 'desc'); // 新着順（IDの逆順）
+                $query->orderBy('products.id', 'desc'); // 新着順（IDの逆順）
                 break;
+
             case 'bestseller':
-                //  本来は注文明細とJOINしますが、購入機能が完成するまでは仮でID順などにしておきます
-                $query->orderBy('id', 'asc');
+                //order_itemsから商品の合計購入数を計算して多い順に並べる
+                $subQuery = DB::table('order_items')
+                    ->select('product_id', DB::raw('SUM(quantity) as total_sales'))
+                    ->groupBy('product_id');
+
+                $query->leftJoinSub($subQuery, 'sales', function ($join) {
+                        $join->on('products.id', '=', 'sales.product_id');
+                    })
+                    ->select('products.*')
+                    ->selectRaw('COALESCE(sales.total_sales, 0) as total_sales')
+                    ->orderBy('total_sales', 'desc')
+                    ->orderBy('products.id', 'asc');
                 break;
+
             case 'recommend':
             default:
-                // ログイン中のユーザーのおすすめスコアテーブルを左結合（LEFT JOIN）する
-                $query->leftJoin('recommend_scores', function ($join) use ($userId) {
-                    $join->on('products.id', '=', 'recommend_scores.product_id')
-                        ->where('recommend_scores.user_id', '=', $userId);
-                })
-                    // スコアが高い順、スコアがなければ（未計算なら）商品ID順にする
-                    ->orderBy('recommend_scores.score', 'desc')
-                    ->orderBy('products.id', 'asc')
-                    // productsテーブルのカラムが衝突しないように明示
-                    ->select('products.*');
+                //ログインしている時のみ、Groqのスコアテーブルを結合する（安全対策）
+                if ($userId > 0) {
+                    $query->leftJoin('recommend_scores', function ($join) use ($userId) {
+                        $join->on('products.id', '=', 'recommend_scores.product_id')
+                            ->where('recommend_scores.user_id', '=', $userId);
+                    })
+                        // スコアが高い順 ➔ スコアが同じ（または未計算）なら商品ID順
+                        ->orderBy('recommend_scores.score', 'desc');
+                }
+
+                // 未ログイン時のdefault、またはログイン時の第2ソートとしてID順を適用
+                $query->orderBy('products.id', 'asc');
                 break;
         }
 

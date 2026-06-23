@@ -59,7 +59,7 @@ class GroqRecommendationService
                 'Authorization' => 'Bearer ' . $apiKey,
                 'Content-Type' => 'application/json',
             ])->post('https://api.groq.com/openai/v1/chat/completions', [
-                'model' => 'llama3-8b-8192', // 高速かつ無料枠で動くモデル
+                'model' => 'llama-3.1-8b-instant', // 高速かつ無料枠で動くモデル
                 'messages' => [
                     ['role' => 'system', 'content' => $systemPrompt],
                     ['role' => 'user', 'content' => $userPrompt]

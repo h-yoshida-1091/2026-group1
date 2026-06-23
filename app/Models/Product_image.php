@@ -9,4 +9,6 @@ class Product_image extends Model
     protected $fillable = [ 
         'image_url',
     ];
+
+    public $timestamps = false;
 }

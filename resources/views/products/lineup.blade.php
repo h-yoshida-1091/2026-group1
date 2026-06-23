@@ -1,3 +1,7 @@
+<head>
+    <title>商品一覧</title>
+</head>
+
 @include('header')
 <link rel="stylesheet" href="{{ asset('css/lineup.css') }}">
 <link rel="stylesheet" href="{{ asset('css/lineup_filter.css') }}">
