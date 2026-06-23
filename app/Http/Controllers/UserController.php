@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -32,6 +33,25 @@ class UserController extends Controller
         if(Auth::attempt($credentials)){
             //セッションの再生成（セキュリティ対策）
             $request->session()->regenerate();
+
+            //「追加」スコアの未計算チェック ＆ バックグラウンド実行
+            $userId = Auth::id();
+            $allProductIds = \App\Models\Product::pluck('id')->toArray();
+            $scoredProductIds = DB::table('recommend_scores')
+                ->where('user_id', $userId)
+                ->pluck('product_id')
+                ->toArray();
+
+            // スコアテーブルに存在しない商品ID（新商品など）があるか比較
+            $missingIds = array_diff($allProductIds, $scoredProductIds);
+
+            // 未計算の商品があれば、先に画面を返した後の裏の隙間時間で命名を叩く
+            if (!empty($missingIds)) {
+                dispatch(function () use ($userId) {
+                    $groqService = app(\App\Services\GroqRecommendationService::class);
+                    $groqService->calculateAndSaveScores($userId);
+                })->afterResponse(); // 魔法の非同期命令
+            }
             //本来行こうとしていたページへリダイレクト
             return redirect()->intended('/products');
         }
