@@ -32,6 +32,7 @@ body {
 /* タイトルを中央寄せ（新規登録の余白に合わせる） */
 .login-container h1,
 .register-container h1 {
+    font-size: 20px;
     text-align: center;
     margin-bottom: 30px;
     color: #333333;
