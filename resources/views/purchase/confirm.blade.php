@@ -14,34 +14,38 @@
         </tr>
     </thead>
     <tbody>
-
-        @forelse ($products ?? [] as $product)
-        @php
-        $subtotal = $product->price * $product->quantity;
-        $total += $subtotal;
-        @endphp
-        <tr>
-            <td class="product-name">{{ $product->name }}</td>
-            <td class="product-quantity">{{ $product->quantity }}</td>
-            <td class="product-price">{{ number_format($product->price) }}円</td>
-            <td class="product-subtotal">{{ number_format($subtotal) }}円</td>
-        </tr>
-
         @forelse ($cartItems as $index => $cartItem)
-            @php 
-                $product = $products->firstWhere('id', $cartItem->product_id);
-            @endphp
-            <tr>
-                <td class="product-name">{{ $product->name }}</td>
-                <td class="product-quantity">{{ $cartItem->quantity }}</td>
-                <td class="product-price">¥{{ number_format($product->price ?? 0) }}円</td>
-                <td class="product-subtotal">¥{{ number_format($subtotals[$index] ?? 0) }}円</td>
-            </tr>
+
+        @php
+        $product = $products->firstWhere('id', $cartItem->product_id);
+        @endphp
+
+        <tr>
+            <td class="product-name">
+                {{ $product->name }}
+            </td>
+
+            <td class="product-quantity">
+                {{ $cartItem->quantity }}
+            </td>
+
+            <td class="product-price">
+                ¥{{ number_format($product->price) }}
+            </td>
+
+            <td class="product-subtotal">
+                ¥{{ number_format($subtotals[$index]) }}
+            </td>
+        </tr>
 
         @empty
+
         <tr>
-            <td colspan="4" class="empty-message">購入対象の商品がありません。</td>
+            <td colspan="4" class="empty-message">
+                購入対象の商品がありません。
+            </td>
         </tr>
+
         @endforelse
     </tbody>
 </table>
@@ -52,76 +56,58 @@
     <input type="hidden" name="purchase_type" value="{{ $purchaseType }}">
 
     @if($purchaseType === 'now')
-        <input type="hidden" name="product_id" value="{{ $products[0]->id }}">
+    <input type="hidden" name="product_id" value="{{ $products[0]->id }}">
 
-        <input type="hidden" name="quantity" value="{{ $cartItems[0]->quantity }}">
+    <input type="hidden" name="quantity" value="{{ $cartItems[0]->quantity }}">
     @endif
-    
+
     <div class="user-info-section">
 
-    <h3>お届け先・お客様情報</h3>
+            <h3>お届け先・お客様情報</h3>
 
-    <div class="form-group">
-        <label for="email">メールアドレス</label>
-        <input type="email" id="email" name="email"
-            required value="{{ old('email') }}">
+            <div class="form-group">
+                <label for="email">メールアドレス</label>
+                <input type="email" id="email" name="email" required value="{{ $user->email }}">
+            </div>
 
-        <h3>お届け先・お客様情報</h3>
+            <div class="form-group">
+                <label for="name">お名前</label>
+                <input type="text" id="name" name="name" required value="{{ $user->name }}">
+            </div>
 
-        <div class="form-group">
-            <label for="email">メールアドレス</label>
-            <input type="email" id="email" name="email" required value="{{ $user->email }}">
-        </div>
+            <div class="form-group">
+                <label for="address">ご住所</label>
+                <input type="text" id="address" name="address" required value="{{ $user->address }}">
+            </div>
 
-        <div class="form-group">
-            <label for="name">お名前</label>
-            <input type="text" id="name" name="name" required value="{{ $user->name }}">
-        </div>
-
-        <div class="form-group">
-            <label for="address">ご住所</label>
-            <input type="text" id="address" name="address" required value="{{ $user->address }}">
         </div>
 
     </div>
 
-    <div class="form-group">
-        <label for="name">お名前</label>
-        <input type="text" id="name" name="name"
-            required value="{{ old('name') }}">
-    </div>
+    <!-- ここから追加 -->
+    <div class="right-area">
 
-    <div class="form-group">
-        <label for="address">ご住所</label>
-        <input type="text" id="address" name="address"
-            required value="{{ old('address') }}">
-    </div>
-</div>
+        <div class="total-section">
+            <h3>合計金額</h3>
 
-<!-- ここから追加 -->
-<div class="right-area">
+            <p class="total-price">
+                ¥{{ number_format($total) }}
+            </p>
+        </div>
 
-    <div class="total-section">
-        <h3>合計金額</h3>
+        <div class="submit-section">
 
-        <p class="total-price">
-            ¥{{ number_format($total) }}
-        </p>
-    </div>
+            <a href="/cart" class="btn-back-cart">
+                カートに戻る
+            </a>
 
-    <div class="submit-section">
+            <button type="submit" class="btn-complete" @if(empty($products) || count($products)===0) disabled @endif>
+                購入確定
+            </button>
 
-        <a href="/cart" class="btn-back-cart">
-            カートに戻る
-        </a>
-
-        <button type="submit" class="btn-complete" @if(empty($products) || count($products) === 0) disabled @endif>
-            購入確定
-        </button>
+        </div>
 
     </div>
-
-</div>
 </form>
 
 @include('layouts.footer')

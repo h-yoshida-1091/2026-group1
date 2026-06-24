@@ -24,7 +24,7 @@ class ProductSeeder extends Seeder
             [
                 'category_id' => 1,
                 'image_id' => 1,
-                'name' => 'Javaの基本',
+                'name' => '真言宗　常用経典',
                 'description' => 'Javaの入門書です',
                 'price' => 2500,
                 'stock' => 10
