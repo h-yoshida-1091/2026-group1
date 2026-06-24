@@ -1,5 +1,3 @@
-@include('layouts.header')
-
 <title>カート</title>
 
 <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
@@ -146,4 +144,4 @@
 
 </body>
 
-@include('layouts.footer')
+@include('footer')
