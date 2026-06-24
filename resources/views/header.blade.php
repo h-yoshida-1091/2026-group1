@@ -9,15 +9,15 @@ $cart_count = 0;
 $favorite_count = 0;
 
 if ($is_logged_in) {
-    // ログイン中のユーザーの、カート内商品の合計数量（quantityの合計値）を計算
-    $cart_count = \DB::table('cart_items')
-        ->where('user_id', Auth::id())
-        ->sum('quantity');
+// ログイン中のユーザーの、カート内商品の合計数量（quantityの合計値）を計算
+$cart_count = \DB::table('cart_items')
+->where('user_id', Auth::id())
+->sum('quantity');
 
-    // ログイン中のユーザーのお気に入り登録総数をカウント
-    $favorite_count = \DB::table('favorites')
-        ->where('user_id', Auth::id())
-        ->count();
+// ログイン中のユーザーのお気に入り登録総数をカウント
+$favorite_count = \DB::table('favorites')
+->where('user_id', Auth::id())
+->count();
 }
 
 // 3. 検索フォーム用のカテゴリ一覧をデータベースから取得
@@ -95,13 +95,11 @@ $favorite_url = '/products?' . http_build_query($favorite_params);
                     </a>
                     @endif
 
-                    <a href="{{ $favorite_url }}" class="header-icon-btn position-relative {{ request('favorite') ? 'active-filter' : '' }}" title="お気に入りで絞り込み">
+                    <a href="{{ $favorite_url }}" id="header-favorite-btn" data-current-count="{{ $favorite_count }}" class="header-icon-btn position-relative {{ request('favorite') ? 'active-filter' : '' }}" title="お気に入りで絞り込み">
                         <i class="fa-solid fa-heart fs-5 text-danger"></i>
-                        @if ($favorite_count > 0)
-                        <span class="position-absolute badge rounded-pill bg-danger">
+                        <span id="header-favorite-badge" class="position-absolute badge rounded-pill bg-danger {{ $favorite_count == 0 ? 'd-none' : '' }}">
                             {{ $favorite_count }}
                         </span>
-                        @endif
                     </a>
 
                     <a href="/cart" class="header-icon-btn position-relative" title="カートを見る">
