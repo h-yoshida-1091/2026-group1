@@ -1,81 +1,118 @@
-/* ページタイトル */
+@charset "UTF-8";
+
+/* ===== ページタイトル（厳かで深い墨色） ===== */
 .page-title {
     text-align: center;
     margin: 30px 0;
+    color: #2c2a29; /* 深い墨色 */
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 2px; /* 厳かな印象のために広めに */
 }
 
-/* 全体レイアウト */
+/* ===== 全体レイアウト（新たな書物を紡ぐ空間） ===== */
 .product-detail {
     width: 80%;
-    margin: 0 auto;
+    margin: 0 auto 50px;
     display: flex;
     gap: 40px;
     align-items: flex-start;
+    font-family: 'Noto Serif JP', serif;
 }
 
-/* 画像プレビューエリア */
+/* ===== 画像プレビューエリア（聖なる装丁を際立たせる白） ===== */
 .product-image {
     width: 300px;
     min-height: 300px;
     flex-shrink: 0;
 
-    background: #f8f8f8;
-    border: 1px solid #ddd;
-    border-radius: 12px;
+    background: #ffffff; /* 純白の背景 */
+    border: 1px solid #e5e0da; /* 温かみのある薄いグレー */
+    border-radius: 4px; /* 直線的でフォーマルな印象へ */
+    box-shadow: 0 4px 15px rgba(44, 42, 41, 0.03); /* 淡い墨色の影 */
 
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .product-image img {
     width: 100%;
-    border-radius: 12px;
+    border-radius: 2px;
     object-fit: contain;
 }
 
-/* フォームエリア */
+/* ===== フォームエリア ===== */
 .product-info {
     flex: 1;
 }
 
-/* ラベル */
+/* ラベル（知的で気品ある茶鼠色） */
 label {
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 600;
+    color: #595450; /* 茶鼠色 */
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
 }
 
-/* 入力フォーム */
+/* 入力フォーム共通（明朝体の美しさを継承） */
 input[type="text"],
 input[type="number"],
 textarea,
 select {
     width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 10px 14px;
+    border: 1px solid #e5e0da;
+    border-radius: 2px; /* 丸みを抑える */
+    background-color: #ffffff;
+    color: #2c2a29;
+    font-family: inherit; /* 明朝体を継承 */
     font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
+/* 入力欄にカーソルが当たった時（ゴールドに静かに光る） */
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #c5a880; /* 真鍮ゴールド */
+    outline: none;
+    background-color: #fcfbfa; /* ほんのり羊皮紙色へ */
+}
+
+/* 説明文入力欄 */
 textarea {
-    height: 100px;
+    height: 120px;
+    line-height: 1.7;
     resize: vertical;
 }
 
-/* 追加ボタン */
+/* ===== 追加ボタン（深い墨色で厳かに新記する） ===== */
 .cart-btn {
     width: 100%;
-    padding: 12px;
-    background: #28a745;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 14px;
+    background: #2c2a29; /* 緑から、重厚な墨色へ */
+    color: #fcfbfa;
+    border: 1px solid #2c2a29;
+    border-radius: 2px; /* 丸みを抑える */
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
     cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    margin-top: 10px;
 }
 
 .cart-btn:hover {
-    opacity: 0.85;
+    background: #c5a880; /* ホバー時は神聖な真鍮ゴールドへ昇華 */
+    border-color: #c5a880;
+    color: #ffffff;
 }

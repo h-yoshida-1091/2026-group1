@@ -1,36 +1,44 @@
+@charset "UTF-8";
+
+/* ==========================================
+   ECサイト共通フッター カスタムスタイル（教典・神聖テーマ）
+========================================== */
+
 .footer {
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: #fcfbfa; /* ほんのり羊皮紙を思わせる高貴な白 */
+    color: #2c2a29; /* 深い墨色 */
     padding: 40px 20px 20px 20px;
-    border-top: 1px solid #dee2e6;
-    font-family: sans-serif;
-    /* 全体の基本文字サイズを小さめに設定 */
+    border-top: 1px solid #e5e0da; /* ヘッダーや背景と調和するうっすらとした境界線 */
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', 'Sawarabi Mincho', 'Hiragino Mincho ProN', 'MS Mincho', serif; /* 美しい明朝系・セリフ体 */
     font-size: 14px; 
+    letter-spacing: 0.5px; /* 厳かな印象を与えるために少し文字間を広げる */
 }
 
 .footer-container {
-    max-width: 1200px; /* max-w から max-width に修正 */
+    max-width: 1200px;
     margin: 0 auto;
     width: 100%;
 }
 
 .footer-sections {
-    display: flex !important; /* 他のフレームワークの干渉を防ぐ */
+    display: flex !important;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
 .footer-column {
     flex: 1;
-    min-width: 200px; /* 250pxから少し縮めて横並びしやすく */
+    min-width: 200px;
     margin-bottom: 20px;
     box-sizing: border-box;
 }
 
 .footer-column h3 {
-    font-size: 15px; /* 少し小さく */
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 600; /* 太すぎず上品な太さに */
     margin-bottom: 15px;
+    color: #2c2a29;
+    letter-spacing: 1px; /* 見出しは少し広めに */
 }
 
 .footer-column ul {
@@ -39,7 +47,7 @@
     margin: 0;
 }
 
-/* カテゴリ内のネストされたulの文字サイズをさらに小さく */
+/* カテゴリ内のネストされたulの文字サイズ */
 .footer-column ul li ul {
     font-size: 12px;
     padding-left: 15px;
@@ -48,26 +56,30 @@
 
 .footer-column ul li {
     margin-bottom: 8px;
-    line-height: 1.5;
+    line-height: 1.6; /* 経典のように少しゆったりとした行間に */
 }
 
 .footer-column ul li a {
-    color: #555; /* 少しマイルドな色に */
+    color: #595450; /* 少しマイルドにした茶鼠色 */
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
+/* リンクにマウスを乗せた時（ゴールドに変化し、上品な下線を表示） */
 .footer-column ul li a:hover {
+    color: #c5a880; /* 金箔・真鍮をイメージしたゴールド */
     text-decoration: underline;
 }
 
 .footer-divider {
     border: 0;
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid #e5e0da;
     margin: 20px 0;
 }
 
 .footer-copyright {
     text-align: center;
-    font-size: 12px; /* 少し小さく */
-    color: #6c757d;
+    font-size: 11px; /* 少し小ぶりに */
+    color: #8c847c; /* 落ち着いたトーンのグレー */
+    letter-spacing: 1px;
 }
