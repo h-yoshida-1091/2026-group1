@@ -12,6 +12,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\AdminProductController;
+use Symfony\Component\Finder\Iterator\VcsIgnoredFilterIterator;
 
 // 商品一覧
 Route::get('/products', [ProductController::class, 'index']);
@@ -26,9 +28,11 @@ Route::get('/products/detail', [ProductController::class, 'show']);
 // 購入確認
 Route::post('/purchase/confirm', [OrderController::class, 'confirm']);
 
+// 今すぐ購入
+Route::post('/purchase/now', [OrderController::class, 'nowPurchase']);
+
 //　購入完了
 Route::post('/purchase/complete', [OrderController::class, 'complete']);
-
 
 // ログイン画面
 Route::get('/login', [UserController::class, 'login_Get'])->name('login');
@@ -47,21 +51,14 @@ Route::middleware(['auth'])->group( function() {
     Route::post('/account/edit', [UserController::class, 'edit_Post'])->name('accounts.account_edit_process');
 });
 
-// Route::get('/account', [AuthController::class, 'showRegister']);
-// Route::post('/account', [AuthController::class, 'register']);
-
 // カート一覧
 Route::get('/cart', [CartController::class, 'index']);
-
 // カートに商品を追加
 Route::post('/cart/add', [CartController::class, 'addCart']);
-
 // カートから商品を削除
 Route::post('/cart/delete', [CartController::class, 'delete']);
-
 // 個数を減らす
 Route::post('/cart/decrease', [CartController::class, 'decreaseCart']);
-
 // 個数を増やす
 Route::post('/cart/increase', [CartController::class, 'increaseCart']);
 
@@ -69,4 +66,18 @@ Route::post('/cart/increase', [CartController::class, 'increaseCart']);
 // Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);
 
 // 購入確認画面
+
+Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
+
+// 管理画面
+Route::get('/admin/products', [AdminProductController::class, 'index']);
+// 商品削除
+Route::post('/admin/products/delete', [AdminProductController::class, 'destroy']);
+// 商品編集画面と更新処理
+Route::get('/admin/products/edit/{id}', [AdminProductController::class, 'edit']);
+Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update']);
+// 商品追加画面と保存処理
+Route::get('/admin/products/create', [AdminProductController::class, 'create']);
+Route::post('/admin/products/create', [AdminProductController::class, 'store']);
+
 // Route::post('/purchase/complete', [PurchaseController::class, 'complete']);

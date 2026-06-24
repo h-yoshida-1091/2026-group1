@@ -16,23 +16,57 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        // productsテーブルから全取得
-        $products = Product::all();
         //ヘッダー用にカテゴリーを全件取得
         $categories = Category::all();
+        //リクエストパラメータの取得
         $query = Product::query();
         $keyword = $request->input('keyword');
         $categoryId = $request->input('category_id');
+        $minPriceParam = $request->input('min_price');
+        $maxPriceParam = $request->input('max_price');
 
         //商品名検索処理
-        if ($request->filled('keyword')) {
-            $keyword = $request->input('keyword');
+        if (!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%");
         }
         //カテゴリ検索処理
-        if ($request->filled('category_id')) {
-            $categoryId = $request->input('category_id');
+        if (!empty($categoryId)) {
             $query->where('category_id', $categoryId);
+        }
+        // お気に入り絞り込み
+        if ($request->has('favorite') && Auth::check()) {
+            // ログインユーザーのお気に入りテーブル（favorites）に存在する商品IDだけに絞り込む
+            $productIds = DB::table('favorites')
+                ->where('user_id', Auth::id())
+                ->pluck('product_id'); // [1, 5, 12] のような配列を取得
+
+            $query->whereIn('products.id', $productIds);
+        }
+        $dbMinPrice = Product::min('price') ?? 0;
+        $dbMaxPrice = Product::max('price') ?? 0;
+        $floorMin = floor($dbMinPrice / 100) * 100;
+        $ceilMax = ceil($dbMaxPrice / 100) * 100;
+
+        $priceRanges = [];
+        if ($ceilMax > $floorMin) {
+            // 全体の価格幅を4分割するステップサイズを計算
+            $step = ceil((($ceilMax - $floorMin) / 4) / 100) * 100;
+
+            for ($i = 0; $i < 4; $i++) {
+                $rangeMin = $floorMin + ($step * $i);
+                $rangeMax = ($i === 3) ? $ceilMax : ($rangeMin + $step); // 最後だけ上限を最大値に固定
+                $priceRanges[] = [
+                    'min' => $rangeMin,
+                    'max' => $rangeMax,
+                    'label' => '¥' . number_format($rangeMin) . ' 〜 ' . ($i === 3 ? '¥' . number_format($rangeMax) . '+' : '¥' . number_format($rangeMax))
+                ];
+            }
+        }
+        if (!empty($minPriceParam)) {
+            $query->where('price', '>=', $minPriceParam);
+        }
+        if (!empty($maxPriceParam)) {
+            $query->where('price', '<=', $maxPriceParam);
         }
 
         $userId = Auth::id() ?? 0;
@@ -61,8 +95,8 @@ class ProductController extends Controller
                     ->groupBy('product_id');
 
                 $query->leftJoinSub($subQuery, 'sales', function ($join) {
-                        $join->on('products.id', '=', 'sales.product_id');
-                    })
+                    $join->on('products.id', '=', 'sales.product_id');
+                })
                     ->select('products.*')
                     ->selectRaw('COALESCE(sales.total_sales, 0) as total_sales')
                     ->orderBy('total_sales', 'desc')
@@ -98,8 +132,29 @@ class ProductController extends Controller
         }
         $is_logged_in = Auth::check();
 
+        $categoryName = null;
+        if ($categoryId) {
+            // 全カテゴリの中から、現在選択されているIDのカテゴリを1件探す
+            $currentCategory = $categories->firstWhere('id', $categoryId);
+            if ($currentCategory) {
+                $categoryName = $currentCategory->name;
+            }
+        }
+
         // lineupに渡す
-        return view('products.lineup', compact('products', 'categories', 'keyword', 'categoryId', 'is_logged_in'));
+        return view('products.lineup', compact(
+            'products',
+            'categories',
+            'keyword',
+            'categoryId',
+            'categoryName',
+            'is_logged_in',
+            'priceRanges',
+            'floorMin',
+            'ceilMax',
+            'minPriceParam',
+            'maxPriceParam'
+        ));
     }
 
     // 商品詳細
