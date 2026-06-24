@@ -39,6 +39,14 @@
 <form action="/purchase/complete" method="post" class="purchase-form">
     @csrf
 
+    <input type="hidden" name="purchase_type" value="{{ $purchaseType }}">
+
+    @if($purchaseType === 'now')
+        <input type="hidden" name="product_id" value="{{ $products[0]->id }}">
+
+        <input type="hidden" name="quantity" value="{{ $cartItems[0]->quantity }}">
+    @endif
+    
     <div class="user-info-section">
         <h3>お届け先・お客様情報</h3>
 

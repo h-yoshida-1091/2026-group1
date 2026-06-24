@@ -48,6 +48,7 @@ class OrderController extends Controller
 
         // 5. ビューにデータを渡す
         return view('purchase.confirm', [
+            'purchaseType' => 'cart',
             'user' => $user,
             'cartItems' => $cartItems,
             'products' => $products,
@@ -85,13 +86,14 @@ class OrderController extends Controller
 
         $total = $subtotals[0];
 
-        return view('purchase.confirm', compact(
-            'cartItems',
-            'products',
-            'subtotals',
-            'total',
-            'user'
-        ));
+        return view('purchase.confirm', [
+            'purchaseType' => 'now',
+            'user' => $user,
+            'cartItems' => $cartItems,
+            'products' => $products,
+            'subtotals' => $subtotals,
+            'total' => $total,
+        ]);
     }
 
     /**
@@ -105,25 +107,33 @@ class OrderController extends Controller
             return redirect()->route('login')->with('error', 'ログインが必要です。');
         }
 
-        // 2. 現在のカートの中身を、商品情報と合わせて取得
-        $cartItems = Cart_item::where('user_id', $user->id)
-            ->select('cart_items.*')
-            ->get();
+        if ($request->purchase_type === 'now') {
 
-        // 3. 商品ごとに小計を計算
-        $products = Product::whereIn('id', $cartItems->pluck('product_id'))->get();
-        $subtotals = [];
-        foreach ($cartItems as $cartItem) {
-            $product = $products->firstWhere('id', $cartItem->product_id);
-            if ($product) {
-                $subtotals[] = $product->price * $cartItem->quantity;
-            }
+            $cartItems = collect([
+                (object)[
+                    'product_id' => $request->product_id,
+                    'quantity' => $request->quantity,
+                ]
+            ]);
+
+        } else {
+
+            $cartItems = Cart_item::where('user_id', $user->id)->get();
+
         }
 
-        // 4. 合計金額を計算
+        $products = Product::whereIn('id', $cartItems->pluck('product_id'))
+        ->get();
+
         $total = 0;
-        foreach ($subtotals as $subtotal) {
-            $total += $subtotal;
+
+        foreach ($cartItems as $item) {
+
+            $product = $products->firstWhere('id', $item->product_id);
+
+            if ($product) {
+                $total += $product->price * $item->quantity;
+            }
         }
 
         // 4. 【重要】データベースのトランザクションを開始
@@ -150,8 +160,10 @@ class OrderController extends Controller
                 DB::table('products')->where('id', $item->product_id)->decrement('stock', $item->quantity);
             }
 
-            // 7. 購入が完了したので、このユーザーのカートを空にする
-            DB::table('cart_items')->where('user_id', $user->id)->delete();
+            if ($request->purchase_type === 'cart') {
+                // 7. 購入が完了したので、このユーザーのカートを空にする
+                DB::table('cart_items')->where('user_id', $user->id)->delete();
+            }
 
             // すべての処理が成功したので、データベースに変更を確定反映（コミット）
             DB::commit();
