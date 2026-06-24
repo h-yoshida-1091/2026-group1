@@ -131,7 +131,9 @@
                     </div>
                     @endif
 
-                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="{{ $product->stock === 0 ? 'img-soldout' : '' }}">
+                    <a href="/products/detail?id={{ $product->id }}" >
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="{{ $product->stock === 0 ? 'img-soldout' : '' }}">
+                    </a>
                 </div>
 
                 <div class="product-info">

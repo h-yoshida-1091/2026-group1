@@ -34,6 +34,11 @@ Route::post('/purchase/now', [OrderController::class, 'nowPurchase']);
 //　購入完了
 Route::post('/purchase/complete', [OrderController::class, 'complete']);
 
+//注文履歴
+Route::middleware(['auth'])->group(function () {
+    Route::get('/purchase/history', [UserController::class, 'showOrderHistory'])->name('purchase.history');
+});
+
 // ログイン画面
 Route::get('/login', [UserController::class, 'login_Get'])->name('login');
 Route::post('/login', [UserController::class, 'login_Post']);
@@ -78,3 +83,5 @@ Route::post('/admin/products/create', [AdminProductController::class, 'store']);
 Route::get('/contact', [ContactController::class, 'index']);
 // お問い合わせデータの保存処理
 Route::post('/contact', [ContactController::class, 'store']);
+// 管理者用お問い合わせ一覧画面
+Route::get('/admin/contact', [ContactController::class, 'adminIndex']);
