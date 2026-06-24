@@ -4,14 +4,14 @@
 
 <aside class="account-sidebar">
     <nav class="sidebar-nav">
-        <a href="#" 
-           class="nav-item {{ request()->routeIs('orders.*') ? 'active' : '' }}">
-           注文履歴
-        </a>
-
-        <a href="/account/edit" 
+         <a href="/account/edit" 
            class="nav-item {{ request()->routeIs('account.edit') ? 'active' : '' }}">
            アカウント情報編集
+        </a>
+
+        <a href="/purchase/history" 
+           class="nav-item {{ request()->routeIs('purchase.history') ? 'active' : '' }}">
+           注文履歴
         </a>
 
         <a href="#" 
