@@ -40,7 +40,7 @@ $favorite_url = '/products?' . http_build_query($favorite_params);
 <header class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold fs-3 text-primary" href="/products">
-            <i class="fa-solid fa-shop me-2"></i>MyShop
+            <i class="fa-solid fa-shop me-2"></i>真理文庫
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle navigation">
