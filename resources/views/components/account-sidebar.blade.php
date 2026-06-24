@@ -1,5 +1,5 @@
 <head>
-   <link href="{{ asset('css/account_edit.css') }}"
+   <link href="{{ asset('css/account_edit.css') }}">
 </head>
 
 <aside class="account-sidebar">
