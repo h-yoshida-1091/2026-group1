@@ -5,15 +5,28 @@ $user_name = $is_logged_in ? Auth::user()->name : '';
 
 // 2. カートの数をデータベース（cart_itemsテーブル）から取得
 $cart_count = 0;
+// お気に入りの数をデータベース（favoritesテーブル）から取得
+$favorite_count = 0;
+
 if ($is_logged_in) {
-    // ログイン中のユーザーの、カート内商品の合計数量（quantityの合計値）を計算
-    $cart_count = \DB::table('cart_items')
-        ->where('user_id', Auth::id())
-        ->sum('quantity');
+// ログイン中のユーザーの、カート内商品の合計数量（quantityの合計値）を計算
+$cart_count = \DB::table('cart_items')
+->where('user_id', Auth::id())
+->sum('quantity');
+
+// ログイン中のユーザーのお気に入り登録総数をカウント
+$favorite_count = \DB::table('favorites')
+->where('user_id', Auth::id())
+->count();
 }
 
 // 3. 検索フォーム用のカテゴリ一覧をデータベースから取得
 $categories = \DB::table('categories')->get();
+
+// 4. お気に入りアイコン用のリンクURLを動的に組み立て（現在の検索条件を引き継ぐ）
+$favorite_params = request()->query();
+$favorite_params['favorite'] = 1; // お気に入りフラグをONにする
+$favorite_url = '/products?' . http_build_query($favorite_params);
 @endphp
 
 <head>
@@ -36,10 +49,29 @@ $categories = \DB::table('categories')->get();
 
         <div class="collapse navbar-collapse" id="headerNavbar">
             <form class="d-flex mx-auto my-2 my-lg-0 w-50" action="/products" method="GET">
+                @if(request('keyword'))
+                <input type="hidden" name="keyword" value="{{ request('keyword') }}">
+                @endif
+                @if(request('category_id'))
+                <input type="hidden" name="category_id" value="{{ request('category_id') }}">
+                @endif
+                @if(request('min_price'))
+                <input type="hidden" name="min_price" value="{{ request('min_price') }}">
+                @endif
+                @if(request('max_price'))
+                <input type="hidden" name="max_price" value="{{ request('max_price') }}">
+                @endif
+                @if(request('sort'))
+                <input type="hidden" name="sort" value="{{ request('sort') }}">
+                @endif
+                @if(request('favorite'))
+                <input type="hidden" name="favorite" value="{{ request('favorite') }}">
+                @endif
+
                 <div class="input-group">
                     <input type="search" name="keyword" class="form-control" placeholder="商品名を入力..." aria-label="Search" value="{{ request('keyword') }}">
 
-                    <select name="category_id" class="form-select header-category-select">
+                    <select name="category_id" class="form-select header-category-select" onchange="this.form.submit()">
                         <option value="">すべての教え</option>
                         @foreach($categories as $category)
                         <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
@@ -54,7 +86,7 @@ $categories = \DB::table('categories')->get();
                 </div>
             </form>
 
-            <div class="d-flex align-items-center justify-content-end header-user-actions" style="min-width: 300px;">
+            <div class="d-flex align-items-center justify-content-end header-user-actions" style="min-width: 320px;">
 
                 <div class="d-flex align-items-center gap-2 me-3">
                     @if ($is_logged_in)
@@ -62,6 +94,13 @@ $categories = \DB::table('categories')->get();
                         <i class="fa-solid fa-user-gear fs-5"></i>
                     </a>
                     @endif
+
+                    <a href="{{ $favorite_url }}" id="header-favorite-btn" data-current-count="{{ $favorite_count }}" class="header-icon-btn position-relative {{ request('favorite') ? 'active-filter' : '' }}" title="お気に入りで絞り込み">
+                        <i class="fa-solid fa-heart fs-5 text-danger"></i>
+                        <span id="header-favorite-badge" class="position-absolute badge rounded-pill bg-danger {{ $favorite_count == 0 ? 'd-none' : '' }}">
+                            {{ $favorite_count }}
+                        </span>
+                    </a>
 
                     <a href="/cart" class="header-icon-btn position-relative" title="カートを見る">
                         <i class="fa-solid fa-cart-shopping fs-5"></i>

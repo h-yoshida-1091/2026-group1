@@ -10,14 +10,13 @@
 </head>
  
 <body>
+    @include('header')
  
     <h1 class="title">カート</h1>
  
     @if (session('error'))
         <p style="color:red;">{{ session('error') }}</p>
     @endif
- 
-    <a href="/products" class="product-link">商品一覧</a>
  
     @php
         $total = 0;
@@ -32,16 +31,15 @@
         <div class="cart-item">
  
         <!-- 商品画像 -->
-<div class="image-area">
-<img src="{{ $product->image }}" alt="商品画像">
-</div>
+        <div class="image-area">
+            <img src="{{ $product->image }}" alt="商品画像">
+        </div>
  
         <!-- 商品情報 -->
-<div class="info-area">
- 
+        <div class="info-area">
             <div class="product-name">
                 {{ $product->name }}
-</div>
+            </div>
  
             <div class="quantity-area">
                 個数
@@ -61,7 +59,7 @@
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <button type="submit">＋</button>
                 </form>
-</div>
+        </div>
  
             <div class="price-area">
                 {{ $product->price }}円
