@@ -33,6 +33,7 @@
                 <ul>
                     <li><a href="#">・ご利用ガイド</a></li>
                     <li><a href="#">・よくあるご質問</a></li>
+                    <li><a href="/contact">・お問い合わせはこちら</a></li>
                 </ul>
             </div>
 
@@ -41,6 +42,7 @@
                 <ul>
                     <li><a href="#">・運営会社（2026-TBC-group1）</a></li>
                     <li><a href="#">— プライバシーポリシー</a></li>
+                    
                 </ul>
             </div>
         </div>

@@ -1,8 +1,4 @@
-<head>
-    <title>商品詳細</title>
-</head>
-
-@include('layouts.header')
+@include('header')
 
 <link rel="stylesheet" href="{{ asset('css/detail.css') }}">
 
@@ -48,9 +44,8 @@
             <!-- カートに入れる -->
             <form action="/cart/add" method="POST">
                 @csrf
-
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                <input type="hidden" name="quantity" value="1">
+                <input type="hidden" name="quantity" value="{{ $product->quantity }}">
 
                 <button type="submit" class="cart-btn">
                     カートに入れる
@@ -60,7 +55,7 @@
             <div class="sub-buttons">
 
                 <!-- 今すぐ購入 -->
-                <form action="/purchase/confirm" method="POST">
+                <form action="/purchase/now" method="POST">
                     @csrf
 
                     <input type="hidden"
@@ -69,7 +64,7 @@
 
                     <input type="hidden"
                         name="products[0][quantity]"
-                        value="1">
+                        value="{{ $product->quantity }}">
 
                     <button type="submit" class="buy-now-btn">
                         今すぐ購入
@@ -82,36 +77,6 @@
                 </a>
 
             </div>
-
-                <input type="hidden"
-                    name="product_id"
-                    value="{{ $product->id }}">
-
-                <input type="hidden"
-                    name="quantity"
-                    value="1">
-
-                <button type="submit" class="cart-btn">
-                    カートに入れる
-                </button>
-            </form>
-
-            <!-- 今すぐ購入 -->
-            <form action="/purchase/now" method="POST">
-                @csrf
-
-                <input type="hidden"
-                    name="products[0][id]"
-                    value="{{ $product->id }}">
-
-                <input type="hidden"
-                    name="products[0][quantity]"
-                    value="1">
-
-                <button type="submit" class="buy-now-btn">
-                    今すぐ購入
-                </button>
-            </form>
 
         </div>
 
@@ -148,9 +113,7 @@
                 .then(response => {
 
                     if (response.status === 401) {
-
                         alert('お気に入り機能を利用するにはログインしてください。');
-
                         location.href = '/login';
                         return;
                     }
@@ -166,10 +129,7 @@
                         this.textContent = '♡';
                     } else {
                         this.classList.add('favorited');
-
                         this.innerHTML = '❤';
-                        this.textContent = '♥';
-
                     }
 
                 })
@@ -180,9 +140,6 @@
         });
 
     });
-
 </script>
 
-@include('layouts.footer')
-
-</script>
+@include('footer')
