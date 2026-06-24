@@ -80,3 +80,8 @@ Route::get('/contact', [ContactController::class, 'index']);
 Route::post('/contact', [ContactController::class, 'store']);
 // 管理者用お問い合わせ一覧画面
 Route::get('/admin/contact', [ContactController::class, 'adminIndex']);
+// 管理者用返信画面の表示
+Route::get('/admin/contact/{id}/reply', [ContactController::class, 'adminReply']);
+// 管理者用返信処理（ステータス更新）
+Route::post('/admin/contact/{id}/reply', [ContactController::class, 'adminSendReply']);
+
