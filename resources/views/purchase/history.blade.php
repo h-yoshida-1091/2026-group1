@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>購入履歴 - ECサイト</title>
+    <title>注文履歴 - ECサイト</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f8f9fa; }
@@ -20,7 +20,7 @@
     @include('header')
 
     <div class="history-container">
-        <h2 class="mb-4 text-dark fw-bold">購入履歴</h2>
+        <h2 class="mb-4 text-dark fw-bold">注文履歴</h2>
 
         {{-- ⭕️ 注文が1件も無い場合の処理 --}}
         @if($orders->isEmpty())
@@ -37,14 +37,14 @@
                         <div class="row align-items-center text-secondary small">
                             <div class="col-6 col-md-3">
                                 <div class="text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">注文日</div>
-                                <div class="text-dark font-weight-bold">{{ \Carbon\Carbon::parse($detail['order']->order_date)->format('Y年m月d日 H:i') }}</div>
+                                <div class="text-dark font-weight-bold">{{ \Carbon\Carbon::parse($detail['order']->order_date)->format('Y年m月d日') }}</div>
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">合計金額</div>
-                                <div class="text-dark font-weight-bold">¥{{number_format($detail['order']->total_price ?? 0) }}</div>
+                                <div class="text-dark font-weight-bold">¥{{number_format($detail['order']->sumprice ?? 0) }}</div>
                             </div>
                             <div class="col-12 col-md-6 text-md-end mt-2 mt-md-0">
-                                <span class="badge bg-secondary">注文番号: #{{ $detail['order']->id }}</span>
+                                <span class="badge bg-secondary">注文番号： {{ $detail['order']->id }}</span>
                             </div>
                         </div>
                     </div>
