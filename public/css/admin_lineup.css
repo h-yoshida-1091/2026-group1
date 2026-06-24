@@ -157,3 +157,25 @@
 .cart-link:hover {
     opacity: 0.85;
 }
+
+.sidebar-open-btn {
+    top: 20px !important;
+    left: 20px !important;
+}
+
+/* ===================================================
+   管理画面 全体の横並びレイアウト（サイドバーを回り込ませない設定）
+   =================================================== */
+.admin-main-layout {
+    display: flex;       /* これで左サイドバー、右コンテンツを横並びにします */
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* 右側の商品一覧コンテンツエリア */
+.admin-container {
+    flex: 1;            /* 横幅の残りのスペースをすべて使い切る設定 */
+    padding: 20px;
+    box-sizing: border-box;
+}
