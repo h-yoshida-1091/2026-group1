@@ -65,7 +65,7 @@
 
                     <input type="hidden"
                         name="products[0][quantity]"
-                        value="{{ $product->quantity }}">
+                        value="1">
 
                     <button type="submit" class="buy-now-btn">
                         今すぐ購入
