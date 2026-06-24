@@ -1,4 +1,4 @@
-@include('layouts.header')
+@include('header')
 
 <link rel="stylesheet" href="{{ asset('css/confirm.css') }}">
 
@@ -110,4 +110,4 @@
     </div>
 </form>
 
-@include('layouts.footer')
+@include('footer')
