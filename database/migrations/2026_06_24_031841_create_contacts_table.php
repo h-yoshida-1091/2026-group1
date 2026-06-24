@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('message');   // 本文
             $table->string('status')->default('未対応');
             $table->string('previous_status')->nullable();
+            $table->integer('priority')->default(2);
             $table->timestamps();
         });
     }
