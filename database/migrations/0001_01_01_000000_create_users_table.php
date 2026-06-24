@@ -24,6 +24,9 @@ return new class extends Migration
             //パスワード
             $table->string('password', 255);
 
+            //郵便番号
+            $table->string('postal_code', 8)->nullable();
+
             //住所
             $table->string('address', 255);
         });
