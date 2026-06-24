@@ -4,7 +4,7 @@
     align-items: flex-start;
     background: #fff;
     border: 1px solid #ddd;
-    border-left: 5px solid #bf0000;
+    border-left: 5px solid #2c3e50;
     border-radius: 6px;
     padding: 25px;
     margin-bottom: 20px;
@@ -46,7 +46,7 @@
 .product-name {
     font-size: 24px;
     font-weight: bold;
-    color: #bf0000;
+    color: #2c3e50;
     line-height: 1.7;
     margin-bottom: 15px;
 }
@@ -59,19 +59,23 @@
 }
 
 /* 個数エリア */
-.quantity-area {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+.quantity-area button {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #2c3e50;
+    background: #fff;
+    color: #2c3e50;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .quantity-area button {
     width: 35px;
     height: 35px;
     border: 1px solid #bf0000;
-    background: #fff;
-    color: #bf0000;
+    background: #2c3e50;
+    color: #fff;
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
@@ -85,7 +89,7 @@
 .price-area {
     font-size: 28px;
     font-weight: bold;
-    color: #bf0000;
+    color: #2c3e50;
     margin-bottom: 10px;
 
     text-align: right;
@@ -94,7 +98,7 @@
 .subtotal-area {
     font-size: 18px;
     font-weight: bold;
-    color: #bf0000;
+    color: #2c3e50;
     margin-bottom: 20px;
 
     text-align: right;
@@ -105,7 +109,7 @@
     width: fit-content;
     border: none;
     background: none;
-    color: #bf0000;
+    color: #7f8c8d;
     text-decoration: underline;
     cursor: pointer;
     font-size: 14px;
@@ -115,32 +119,67 @@
 .total {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 3px solid #bf0000;
+    border-top: 3px solid #2c3e50;
     text-align: right;
     font-size: 32px;
     font-weight: bold;
-    color: #bf0000;
+    color: #2c3e50;
 }
 
-/* 購入ボタン */
+/* ===== 下部ボタンエリア ===== */
 .purchase {
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
     margin-top: 20px;
 }
 
-.purchase button {
-    background: #bf0000;
-    color: #fff;
-    border: none;
-    padding: 14px 40px;
-    border-radius: 4px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+.purchase form {
+    margin: 0;
 }
 
-.purchase button:hover {
-    background: #990000;
+/* 商品一覧へ戻る */
+.back-products-btn {
+    display: inline-block;
+    padding: 14px 30px;
+
+    border: 2px solid #2c3e50;
+    border-radius: 6px;
+
+    background: #fff;
+    color: #2c3e50;
+
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.back-products-btn:hover {
+    background-color: #ecf0f1;
+}
+
+/* 購入確認 */
+.purchase-btn {
+    padding: 14px 30px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #2c3e50;
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.purchase-btn:hover {
+    background: #1f2d3a;
 }
 
 /* Chrome, Edge, Safari */
@@ -193,6 +232,21 @@
 
 .quantity-area {
     grid-area: quantity;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-area form {
+    margin: 0;
+}
+
+.quantity-area span {
+    min-width: 25px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .price-area {
@@ -214,7 +268,7 @@
     align-self: end;
 }
 
-.info-area form {
+.delete-form {
     grid-area: delete;
 }
 
@@ -249,4 +303,12 @@
 .delete-btn:hover,
 .buy-now-btn:hover {
     opacity: 0.85;
+}
+
+.title {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 20px 0 30px;
 }
