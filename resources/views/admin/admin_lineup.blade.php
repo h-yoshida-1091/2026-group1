@@ -1,6 +1,5 @@
 @include('admin.admin_header')
 <link rel="stylesheet" href="{{ asset('css/admin_lineup.css') }}">
-<link rel="stylesheet" href="{{ asset('css/lineup_filter.css') }}">
 
 <h1>管理画面 - 商品一覧</h1>
 

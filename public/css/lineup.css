@@ -9,7 +9,8 @@
     align-items: center;
     background-color: #f5f5f5;
     padding: 10px 20px;
-    margin: 0; /* 周囲の無駄な余白を完全カット */
+    margin: 0;
+    /* 周囲の無駄な余白を完全カット */
     width: 100%;
     box-sizing: border-box;
     border-bottom: 1px solid #ddd;
@@ -19,8 +20,10 @@
 .main-layout-fluid {
     display: flex;
     width: 100%;
-    margin: 0;   /* 上下の隙間をゼロにしてナビに密着 */
-    padding: 0;  /* 左右の余白をゼロにして画面端に密着 */
+    margin: 0;
+    /* 上下の隙間をゼロにしてナビに密着 */
+    padding: 0;
+    /* 左右の余白をゼロにして画面端に密着 */
     align-items: flex-start;
     box-sizing: border-box;
 }
@@ -36,10 +39,12 @@
 /* サイドバーの中身のカード：無駄な丸みや外側の余白を排除して左端に寄せる */
 .sidebar-widget {
     background: #fff;
-    border-right: 1px solid #e0e0e0; /* 右側だけ区切り線を残す */
+    border-right: 1px solid #e0e0e0;
+    /* 右側だけ区切り線を残す */
     border-bottom: 1px solid #e0e0e0;
     padding: 20px 15px;
-    min-height: calc(100vh - 60px); /* 画面下部まで綺麗に背景を伸ばす */
+    min-height: calc(100vh - 60px);
+    /* 画面下部まで綺麗に背景を伸ばす */
     box-sizing: border-box;
 }
 
@@ -68,7 +73,8 @@
    ========================================== */
 .product-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* 限界まで横に敷き詰める */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    /* 限界まで横に敷き詰める */
     gap: 20px;
     width: 100%;
 }
@@ -116,9 +122,10 @@
     align-items: center;
     gap: 6px;
 }
+
 /* お気に入りタグの特別スタイル */
 .filter-tag.border-danger {
-    border-color: #ffc107 !important; 
+    border-color: #ffc107 !important;
     border-color: #f5c2c2 !important;
     background-color: #fff5f5;
 }
@@ -133,7 +140,10 @@
     font-size: 1rem;
     line-height: 1;
 }
-.remove-tag-btn:hover { color: #e74c3c; }
+
+.remove-tag-btn:hover {
+    color: #e74c3c;
+}
 
 .clear-all-btn {
     background: none;
@@ -207,7 +217,7 @@
     border: 2px solid #fff;
     cursor: pointer;
     pointer-events: auto;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .price-apply-btn {
@@ -220,20 +230,31 @@
     font-size: 0.85rem;
     cursor: pointer;
 }
-.slider-action-row { margin-bottom: 20px; }
+
+.slider-action-row {
+    margin-bottom: 20px;
+}
 
 .price-range-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-.price-range-list li { margin-bottom: 8px; }
+
+.price-range-list li {
+    margin-bottom: 8px;
+}
+
 .price-range-link {
     font-size: 0.9rem;
     color: #0066cc;
     text-decoration: none;
 }
-.price-range-link:hover { text-decoration: underline; }
+
+.price-range-link:hover {
+    text-decoration: underline;
+}
+
 .price-range-link.active {
     font-weight: bold;
     color: #333;
@@ -313,17 +334,20 @@
     cursor: pointer;
     color: #ccc;
 }
-.favorite-btn.favorited { color: #e60012; }
+
+.favorite-btn.favorited {
+    color: #e60012;
+}
 
 /* PC用のトグルボタンは通常非表示 */
 .mobile-sidebar-toggle {
     display: none;
     width: 36px;
     height: 34px;
-    border-radius: 8px; 
+    border-radius: 8px;
     background-color: #ffffff;
     color: #111111;
-    border: 1px solid #d5d9d9; 
+    border: 1px solid #d5d9d9;
     justify-content: center;
     align-items: center;
     font-size: 0.95rem;
@@ -343,6 +367,7 @@
    6. スマートフォン・タブレット向け（768px以下）
    ========================================== */
 @media (max-width: 768px) {
+
     /* トグルボタンを表示する */
     .mobile-sidebar-toggle {
         display: flex;
@@ -352,21 +377,24 @@
     .sort-navigation-bar {
         padding: 8px 12px;
         gap: 10px;
-        align-items: center; 
+        align-items: center;
     }
 
     /* サイドバーを「ドロワー（引き出し）」化して画面外（左側）に隠す */
     .sidebar {
         position: fixed;
         top: 0;
-        left: -260px; /* 通常時は画面の左外に隠す */
+        left: -260px;
+        /* 通常時は画面の左外に隠す */
         width: 260px;
         height: 100vh;
-        z-index: 9999; /* ヘッダー等よりも前面に出す */
-        transition: left 0.3s ease; /* スッと出てくるアニメーション */
+        z-index: 9999;
+        /* ヘッダー等よりも前面に出す */
+        transition: left 0.3s ease;
+        /* スッと出てくるアニメーション */
         box-shadow: 5px 0 15px rgba(0, 0, 0, 0.15);
     }
-    
+
     /* JavaScriptで .active クラスがついたら左端に現れる */
     .sidebar.active {
         left: 0;
@@ -378,7 +406,8 @@
         overflow-y: auto;
         border-right: none;
         padding: 40px 20px 20px 20px;
-        position: relative; /* ×ボタンの配置基準にする */
+        position: relative;
+        /* ×ボタンの配置基準にする */
     }
 
     /* スマホ表示の時は商品リストを2列、または1列に敷き詰める */
@@ -386,14 +415,15 @@
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         gap: 10px;
     }
-    
+
     .content-products {
         padding: 10px;
     }
-    
+
     /* スマホ表示の際に、サイドバーを閉じるための「×」ボタン用スタイル */
     .sidebar-close-btn {
-        display: flex; /* 中央揃え */
+        display: flex;
+        /* 中央揃え */
         align-items: center;
         justify-content: center;
         position: absolute;
@@ -403,14 +433,87 @@
         height: 30px;
         background: none;
         border: none;
-        font-size: 1.6rem; 
-        color: #666; 
+        font-size: 1.6rem;
+        color: #666;
         cursor: pointer;
         line-height: 1;
     }
-    
+
     /* タップした時にちょっと薄くするエフェクト */
     .sidebar-close-btn:active {
         opacity: 0.5;
+    }
+
+    /* 商品画像のコンテナを重ね合わせの基準点にする */
+    .position-relative-box {
+        position: relative;
+        overflow: hidden;
+        /* はみ出したリボンなどをカットする場合 */
+    }
+
+    /* シールの共通設定 */
+    .stock-badge {
+        position: absolute;
+        z-index: 2;
+        font-weight: bold;
+        text-align: center;
+        user-select: none;
+    }
+
+    /* ==========================================
+   ① 在庫数 1：残りわずか（目立たない場所に小さく）
+   ========================================== */
+    .badge-few {
+        top: 8px;
+        left: 8px;
+        background-color: #ff3838;
+        /* 警告色の赤 */
+        color: #ffffff;
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        letter-spacing: 0.5px;
+    }
+
+    /* ==========================================
+   ② 在庫数 0：売り切れ（大きく全面に被せる）
+   ========================================== */
+    .badge-soldout {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.45);
+        /* 画像を暗くマスクする半透明ブラック */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+    }
+
+    /* 「SOLD OUT」の文字が入る円形またはラベルデザイン */
+    .badge-soldout span {
+        background-color: #333333;
+        color: #ffffff;
+        font-size: 14px;
+        letter-spacing: 1px;
+        padding: 8px 16px;
+        border-radius: 2px;
+        border: 2px solid #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 売り切れ商品の画像自体を少し白黒（セピア）っぽくしてさらに分かりやすくする場合 */
+    .img-soldout {
+        filter: grayscale(40%) opacity(80%);
+    }
+
+    /* 在庫切れ時のカートボタンのグレースタイル */
+    .cart-btn:disabled {
+        background-color: #bdc3c7 !important;
+        border-color: #bdc3c7 !important;
+        color: #ffffff !important;
+        cursor: not-allowed;
     }
 }
