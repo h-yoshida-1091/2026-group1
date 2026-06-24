@@ -16,27 +16,111 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        // productsテーブルから全取得
-        $products = Product::all();
         //ヘッダー用にカテゴリーを全件取得
         $categories = Category::all();
+        //リクエストパラメータの取得
         $query = Product::query();
         $keyword = $request->input('keyword');
         $categoryId = $request->input('category_id');
+        $minPriceParam = $request->input('min_price');
+        $maxPriceParam = $request->input('max_price');
 
         //商品名検索処理
-        if ($request->filled('keyword')) {
-            $keyword = $request->input('keyword');
+        if (!empty($keyword)) {
             $query->where('name', 'LIKE', "%{$keyword}%");
         }
         //カテゴリ検索処理
-        if ($request->filled('category_id')) {
-            $categoryId = $request->input('category_id');
+        if (!empty($categoryId)) {
             $query->where('category_id', $categoryId);
         }
-        $products = $query->get();
+        // お気に入り絞り込み
+        if ($request->has('favorite') && Auth::check()) {
+            // ログインユーザーのお気に入りテーブル（favorites）に存在する商品IDだけに絞り込む
+            $productIds = DB::table('favorites')
+                ->where('user_id', Auth::id())
+                ->pluck('product_id'); // [1, 5, 12] のような配列を取得
+
+            $query->whereIn('products.id', $productIds);
+        }
+        $dbMinPrice = Product::min('price') ?? 0;
+        $dbMaxPrice = Product::max('price') ?? 0;
+        $floorMin = floor($dbMinPrice / 100) * 100;
+        $ceilMax = ceil($dbMaxPrice / 100) * 100;
+
+        $priceRanges = [];
+        if ($ceilMax > $floorMin) {
+            // 全体の価格幅を4分割するステップサイズを計算
+            $step = ceil((($ceilMax - $floorMin) / 4) / 100) * 100;
+
+            for ($i = 0; $i < 4; $i++) {
+                $rangeMin = $floorMin + ($step * $i);
+                $rangeMax = ($i === 3) ? $ceilMax : ($rangeMin + $step); // 最後だけ上限を最大値に固定
+                $priceRanges[] = [
+                    'min' => $rangeMin,
+                    'max' => $rangeMax,
+                    'label' => '¥' . number_format($rangeMin) . ' 〜 ' . ($i === 3 ? '¥' . number_format($rangeMax) . '+' : '¥' . number_format($rangeMax))
+                ];
+            }
+        }
+        if (!empty($minPriceParam)) {
+            $query->where('price', '>=', $minPriceParam);
+        }
+        if (!empty($maxPriceParam)) {
+            $query->where('price', '<=', $maxPriceParam);
+        }
+
         $userId = Auth::id() ?? 0;
 
+        // ログイン状態によってデフォルトのソート順を切り替える
+        $defaultSort = $userId ? 'recommend' : 'bestseller';
+        $sort = $request->input('sort', $defaultSort);
+
+        switch ($sort) {
+            case 'price_asc':
+                $query->orderBy('products.price', 'asc'); // 価格の安い順
+                break;
+
+            case 'price_desc':
+                $query->orderBy('products.price', 'desc'); // 価格の高い順
+                break;
+
+            case 'newest':
+                $query->orderBy('products.id', 'desc'); // 新着順（IDの逆順）
+                break;
+
+            case 'bestseller':
+                //order_itemsから商品の合計購入数を計算して多い順に並べる
+                $subQuery = DB::table('order_items')
+                    ->select('product_id', DB::raw('SUM(quantity) as total_sales'))
+                    ->groupBy('product_id');
+
+                $query->leftJoinSub($subQuery, 'sales', function ($join) {
+                    $join->on('products.id', '=', 'sales.product_id');
+                })
+                    ->select('products.*')
+                    ->selectRaw('COALESCE(sales.total_sales, 0) as total_sales')
+                    ->orderBy('total_sales', 'desc')
+                    ->orderBy('products.id', 'asc');
+                break;
+
+            case 'recommend':
+            default:
+                //ログインしている時のみ、Groqのスコアテーブルを結合する（安全対策）
+                if ($userId > 0) {
+                    $query->leftJoin('recommend_scores', function ($join) use ($userId) {
+                        $join->on('products.id', '=', 'recommend_scores.product_id')
+                            ->where('recommend_scores.user_id', '=', $userId);
+                    })
+                        // スコアが高い順 ➔ スコアが同じ（または未計算）なら商品ID順
+                        ->orderBy('recommend_scores.score', 'desc');
+                }
+
+                // 未ログイン時のdefault、またはログイン時の第2ソートとしてID順を適用
+                $query->orderBy('products.id', 'asc');
+                break;
+        }
+
+        $products = $query->get();
         foreach ($products as $product) {
             $image = Product_image::find($product->image_id);
             $product->image_url = $image ? $image->image_url : null;
@@ -46,9 +130,31 @@ class ProductController extends Controller
                 ->where('product_id', $product->id)
                 ->exists();
         }
+        $is_logged_in = Auth::check();
+
+        $categoryName = null;
+        if ($categoryId) {
+            // 全カテゴリの中から、現在選択されているIDのカテゴリを1件探す
+            $currentCategory = $categories->firstWhere('id', $categoryId);
+            if ($currentCategory) {
+                $categoryName = $currentCategory->name;
+            }
+        }
 
         // lineupに渡す
-        return view('products.lineup', compact('products', 'categories', 'keyword', 'categoryId'));
+        return view('products.lineup', compact(
+            'products',
+            'categories',
+            'keyword',
+            'categoryId',
+            'categoryName',
+            'is_logged_in',
+            'priceRanges',
+            'floorMin',
+            'ceilMax',
+            'minPriceParam',
+            'maxPriceParam'
+        ));
     }
 
     // 商品詳細
@@ -82,6 +188,7 @@ class ProductController extends Controller
 
         $userId = Auth::id();
         if (!$userId) {
+            session()->flash('error_message', 'お気に入り機能を利用するにはログインが必要です。');
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         //商品IDを取得
@@ -106,6 +213,7 @@ class ProductController extends Controller
         $userId = Auth::id();
 
         if (!$userId) {
+            session()->flash('error_message', 'お気に入り機能を利用するにはログインが必要です。');
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         //商品IDを取得

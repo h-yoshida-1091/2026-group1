@@ -6,6 +6,8 @@
 
 <body>
 
+    @include('header')
+
     <h1 class="title">カート</h1>
 
     @if (session('error'))
@@ -36,6 +38,13 @@
                 {{ $product->name }}
             </div>
 
+ 
+        <!-- 商品情報 -->
+        <div class="info-area">
+            <div class="product-name">
+                {{ $product->name }}
+            </div>
+
             <div class="quantity-area">
                 個数
 
@@ -59,7 +68,10 @@
                         ＋
                     </button>
                 </form>
+
             </div>
+
+        </div>
 
             <div class="price-area">
                 {{ number_format($product->price) }}円
