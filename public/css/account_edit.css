@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /* ==========================================================================
-   全体レイアウト
+   全体レイアウト（書斎の静寂を纏うマイページ空間）
    ========================================================================== */
 .account-container {
     display: flex;
@@ -9,6 +9,7 @@
     margin: 40px auto;
     padding: 0 20px;
     gap: 30px;
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', serif;
 }
 
 /* レスポンシブ対応：画面が狭い時は縦並びに */
@@ -21,7 +22,7 @@
 }
 
 /* ==========================================================================
-   サイドバー (x-account-sidebar)
+   サイドバー (聖典の目録を繰るようなナビゲーション)
    ========================================================================== */
 .account-sidebar {
     width: 260px;
@@ -37,10 +38,11 @@
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
+    background-color: #fcfbfa; /* ほんのり羊皮紙を思わせる高貴な白 */
+    border: 1px solid #e5e0da; /* 静かな境界線 */
+    border-radius: 2px; /* 直線的でフォーマルな印象へ */
     overflow: hidden;
+    box-shadow: 0 4px 15px rgba(44, 42, 41, 0.02);
 }
 
 @media (max-width: 768px) {
@@ -54,11 +56,14 @@
 .nav-item {
     display: block;
     padding: 15px 20px;
-    color: #495057;
+    color: #595450; /* 茶鼠色 */
     text-decoration: none;
-    font-weight: 500;
-    border-bottom: 1px solid #dee2e6;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    font-weight: 600;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e5e0da;
+    transition: all 0.2s ease;
 }
 
 .nav-item:last-child {
@@ -71,7 +76,7 @@
         text-align: center;
         padding: 12px 10px;
         border-bottom: none;
-        border-right: 1px solid #dee2e6;
+        border-right: 1px solid #e5e0da;
     }
     .nav-item:last-child {
         border-right: none;
@@ -80,14 +85,15 @@
 
 /* ホバー＆アクティブ（現在地）状態 */
 .nav-item:hover {
-    background-color: #f8f9fa;
-    color: #0d6efd;
+    background-color: #ffffff;
+    color: #c5a880; /* ホバー時は真鍮ゴールド */
 }
 
 .nav-item.active {
-    background-color: #0d6efd;
-    color: #ffffff;
-    pointer-events: none; /* 現在のページなのでクリック無効化 */
+    background-color: #2c2a29; /* 現在地は重厚な墨色 */
+    color: #fcfbfa;            /* 高貴な白文字 */
+    border-color: #2c2a29;
+    pointer-events: none;       /* 現在のページなのでクリック無効化 */
 }
 
 /* ==========================================================================
@@ -100,10 +106,10 @@
 /* カードのカスタム */
 .account-main .card {
     padding: 30px;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: #fcfbfa;
+    border: 1px solid #e5e0da;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(44, 42, 41, 0.03);
 }
 
 @media (max-width: 576px) {
@@ -112,13 +118,16 @@
     }
 }
 
+/* カードタイトル */
 .card-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #212529;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c2a29; /* 深い墨色 */
     margin-bottom: 25px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f8f9fa;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #c5a880; /* 真鍮ゴールドの繊細な下線 */
+    letter-spacing: 1px;
 }
 
 /* フォームグループの間隔調整 */
@@ -127,17 +136,23 @@
 }
 
 .form-label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
     font-weight: 600;
-    color: #495057;
+    color: #595450; /* 茶鼠色 */
     margin-bottom: 8px;
+    display: block;
+    letter-spacing: 0.5px;
 }
 
-/* Laravel特有のエラーメッセージ */
+/* Laravel特有のエラーメッセージ（深みのあるボルドー） */
 .error-message {
     display: block;
-    color: #dc3545;
-    font-size: 0.875rem;
-    margin-top: 5px;
+    color: #8a1c1c; /* 格式を崩さない深紅 */
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 6px;
+    font-family: 'Noto Serif JP', serif;
 }
 
 /* ボタン配置エリア */
@@ -145,9 +160,9 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-top: 30px;
+    margin-top: 35px;
     padding-top: 20px;
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid #e5e0da;
 }
 
 @media (max-width: 576px) {
