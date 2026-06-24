@@ -9,7 +9,7 @@ Route::get('/', function () {
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AdminProductController;
@@ -73,3 +73,8 @@ Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update
 // 商品追加画面と保存処理
 Route::get('/admin/products/create', [AdminProductController::class, 'create']);
 Route::post('/admin/products/create', [AdminProductController::class, 'store']);
+
+// お問い合わせ画面の表示
+Route::get('/contact', [ContactController::class, 'index']);
+// お問い合わせデータの保存処理
+Route::post('/contact', [ContactController::class, 'store']);
