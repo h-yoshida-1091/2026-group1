@@ -24,7 +24,7 @@
                 </div>
                 @endif
 
-                <form action="#" method="POST" class="account-form">
+                <form action="{{ route('account.update') }}" method="POST" class="account-form">
                     @csrf
                     @method('PUT')
 
@@ -33,7 +33,7 @@
                         <input type="text" id="name" name="name"
                             class="form-control @error('name') is-invalid @enderror"
                             value="{{ old('name', $user->name ?? '') }}" required>
-                        @error('name')
+                        @error('name', 'updatePassword')
                         <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
@@ -43,7 +43,7 @@
                         <input type="email" id="email" name="email"
                             class="form-control @error('email') is-invalid @enderror"
                             value="{{ old('email', $user->email ?? '') }}" required>
-                        @error('email')
+                        @error('email', 'updatePassword')
                         <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
@@ -53,7 +53,7 @@
                         <input type="text" id="address" name="address"
                             class="form-control @error('address') is-invalid @enderror"
                             value="{{ old('address', $user->address ?? '') }}" required>
-                        @error('address')
+                        @error('address', 'updatePassword')
                         <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
@@ -62,7 +62,7 @@
                         <label for="current_password" class="form-label">現在のパスワード</label>
                         <input type="password" id="current_password" name="current_password"
                             class="form-control @error('current_password', 'updatePassword') is-invalid @enderror"
-                            autocomplete="current-password">
+                            autocomplete="current-password" required>
                         @error('current_password', 'updatePassword')
                         <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -72,7 +72,7 @@
                         <label for="password" class="form-label">新しいパスワード</label>
                         <input type="password" id="password" name="password"
                             class="form-control @error('password', 'updatePassword') is-invalid @enderror"
-                            required autocomplete="new-password" placeholder="新しいパスワードを入力">
+                            autocomplete="new-password" placeholder="新しいパスワードを入力">
                         @error('password', 'updatePassword')
                         <span class="error-message">{{ $message }}</span>
                         @enderror
@@ -81,12 +81,12 @@
                     <div class="form-group">
                         <label for="password_confirmation" class="form-label">新しいパスワード（確認用）</label>
                         <input type="password" id="password_confirmation" name="password_confirmation"
-                            class="form-control" required autocomplete="new-password">
+                            class="form-control" autocomplete="new-password">
                     </div>
 
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">変更内容を保存する</button>
-                        <a href="#" class="btn btn-secondary">キャンセル</a>
+                        <a href="{{ route('account.edit') }}" class="btn btn-secondary">キャンセル</a>
                     </div>
                 </form>
             </div>

@@ -48,7 +48,7 @@
 
             <div class="form-group">
                 <label for="confirm_password">確認用パスワード</label>
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="パスワードを入力" required>
+                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="パスワードを入力" required>
             </div>
 
             <div class="form-group">
