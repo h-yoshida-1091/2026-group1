@@ -62,13 +62,6 @@ Route::post('/cart/decrease', [CartController::class, 'decreaseCart']);
 // 個数を増やす
 Route::post('/cart/increase', [CartController::class, 'increaseCart']);
 
-// 購入完了画面
-// Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);
-
-// 購入確認画面
-
-Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
-
 // 管理画面
 Route::get('/admin/products', [AdminProductController::class, 'index']);
 // 商品削除
@@ -79,5 +72,3 @@ Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update
 // 商品追加画面と保存処理
 Route::get('/admin/products/create', [AdminProductController::class, 'create']);
 Route::post('/admin/products/create', [AdminProductController::class, 'store']);
-
-// Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
