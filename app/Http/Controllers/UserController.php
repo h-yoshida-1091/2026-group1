@@ -80,6 +80,7 @@ class UserController extends Controller
             'name' => 'required|string|max:100',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|max:255|confirmed',
+            'postal_code' => 'nullable|string|max:8',
             'address' => 'required|string|max:255',
         ],[
             //エラー表示
@@ -93,6 +94,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password), //暗号化
+            'postal_code' => $request->postal_code,
             'address' => $request->address
         ]);
 
@@ -142,6 +144,7 @@ class UserController extends Controller
             'current_password' => ['required', 'current_password'],
             'password' => ['nullable', 'string', 'min:8', 'max:255', 'confirmed'],
             'address' => ['required', 'string', 'max:255'],
+            'postal_code' => ['required', 'string', 'max:8'],
         ], [
             'name.required' => 'お名前は必須項目です',
             'email.required' => 'メールアドレスは必須項目です',
@@ -157,6 +160,7 @@ class UserController extends Controller
         //更新
         $user->name = $validated['name'];
         $user->email = $validated['email'];
+        $user->postal_code = $validated['postal_code'];
         $user->address = $validated['address'];
 
         //パスワードが入力されていた場合のみ更新
@@ -198,5 +202,44 @@ class UserController extends Controller
 
         //削除完了メッセージとリダイレクト
         return redirect('/login')->with('success_message', 'アカウントを削除しました。');
+    }
+
+
+    //==============================================
+    //      注文履歴機能
+    //==============================================
+    public function showOrderHistory()
+    {
+        $user = Auth::user();
+ 
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'ログインが必要です。');
+        }
+ 
+        // ユーザーの注文履歴を取得
+        $orders = DB::table('orders')
+            ->where('user_id', $user->id)
+            ->orderBy('order_date', 'desc')
+            ->get();
+ 
+        // 各注文に関連する商品情報を取得
+        $orderDetails = [];
+        foreach ($orders as $order) {
+            $items = DB::table('order_items')
+                ->join('products', 'order_items.product_id', '=', 'products.id')
+                ->where('order_items.order_id', $order->id)
+                ->select('products.name', 'products.price', 'order_items.quantity')
+                ->get();
+ 
+            $orderDetails[] = [
+                'order' => $order,
+                'items' => $items,
+            ];
+        }
+ 
+        return view('purchase.history', [
+            'orders' => $orders,
+            'orderDetails' => $orderDetails,
+        ]);
     }
 }
