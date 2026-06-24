@@ -75,10 +75,10 @@ class ContactController extends Controller
     // 管理者用お問い合わせ一覧画面の表示
     public function adminIndex()
     {
-        // データベースからすべてのお問い合わせを最新順に取得
-        $contacts = Contact::latest()->get();
+        // ステータスが「ゴミ箱」以外のものを最新順に取得
+        $contacts = Contact::where('status', '!=', 'ゴミ箱')->latest()->get();
 
-        // 管理者用の一覧画面（admin/contact/index.blade.php）にデータを渡して表示
+        // 管理者用の一覧画面にデータを渡して表示
         return view('admin.admin_contact', compact('contacts'));
     }
 
@@ -115,5 +115,57 @@ class ContactController extends Controller
 
         // 一覧画面にリダイレクト
         return redirect('/admin/contact')->with('success_message', "お問い合わせ #{$id} の返信メールを送信し、「対応済」に更新しました。");
+    }
+
+    // お問い合わせをゴミ箱に移動する処理
+    public function adminTrash($id)
+    {
+        $contact = Contact::findOrFail($id);
+        
+        //ゴミ箱に移動する前のステータスを退避させておく
+        $contact->previous_status = $contact->status;
+        $contact->status = 'ゴミ箱';
+        $contact->save();
+
+        return redirect('/admin/contact')->with('success_message', "お問い合わせをゴミ箱に移動しました。");
+    }
+
+    // ゴミ箱に入ったお問い合わせ一覧の表示
+    public function adminTrashIndex()
+    {
+        // ステータスが「ゴミ箱」のものだけを最新順に取得
+        $contacts = Contact::where('status', 'ゴミ箱')->latest()->get();
+
+        // ゴミ箱専用のビューを開く
+        return view('admin.admin_trash_contact', compact('contacts'));
+    }
+
+    // ゴミ箱から元の状態に復元する
+    public function adminRestore($id)
+    {
+        $contact = Contact::findOrFail($id);
+        
+        // 退避しておいた元のステータスに戻す（万が一なければ未対応にする）
+        $contact->status = $contact->previous_status ?? '未対応';
+        $contact->previous_status = null; // 復元したのでクリア
+        $contact->save();
+
+        return redirect('/admin/trash')->with('success_message', "お問い合わせを一覧に復元しました。");
+    }
+
+    // 選択データの一括完全削除
+    public function adminBulkDelete(Request $request)
+    {
+        // 画面のチェックボックスから送信されたIDの配列を取得
+        $contactIds = $request->input('contact_ids');
+
+        if (empty($contactIds)) {
+            return redirect('/admin/trash')->with('error_message', "削除するデータが選択されていません。");
+        }
+
+        // 選択されたIDのデータを一括で物理削除
+        Contact::whereIn('id', $contactIds)->where('status', 'ゴミ箱')->delete();
+
+        return redirect('/admin/trash')->with('success_message', "選択されたお問い合わせを一括で完全に削除しました。");
     }
 }
