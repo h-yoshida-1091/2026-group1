@@ -46,10 +46,11 @@ Route::post('/account', [UserController::class, 'account_Post']);
 Route::post('/logout', [UserController::class, 'logout']);
 
 //アカウント編集機能
-Route::middleware(['auth'])->group( function() {
-    Route::get('/account/edit', [UserController::class, 'edit_Get'])->name('accounts.account_edit');
-    Route::post('/account/edit', [UserController::class, 'edit_Post'])->name('accounts.account_edit_process');
-});
+Route::get('/account/edit', [UserController::class, 'edit_Get'])->name('account.edit');
+Route::put('/account/update', [UserController::class, 'edit_Post'])->name('account.update');
+
+//アカウント削除機能
+Route::delete('/account/destroy', [UserController::class, 'destroy'])->name('account.destroy');
 
 // カート一覧
 Route::get('/cart', [CartController::class, 'index']);

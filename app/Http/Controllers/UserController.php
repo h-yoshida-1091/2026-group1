@@ -133,14 +133,25 @@ class UserController extends Controller
     public function edit_Post(Request $request)
     {
         //ログイン中のユーザーを取得
-        $user = User::findOrFile(Auth::id());
+        $user = User::findOrFail(Auth::id());
 
-        //バリデーション
-        $validated = $request->validate([
+        //バリデーションチェック
+        $validated = $request->validateWithBag('updatePassword', [
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            //'password' => ['nullable', 'string', 'min:8', 'max:255', 'confirmed'],
+            'current_password' => ['required', 'current_password'],
+            'password' => ['nullable', 'string', 'min:8', 'max:255', 'confirmed'],
             'address' => ['required', 'string', 'max:255'],
+        ], [
+            'name.required' => 'お名前は必須項目です',
+            'email.required' => 'メールアドレスは必須項目です',
+            'email.email' => '正しいメールアドレスの形式で入力してください',
+            'email.unique' => 'このメールアドレスは既に登録されています',
+            'address.required' => '住所は必須項目です',
+            'password.min' => '新しいパスワードは８文字以上で入力してください',
+            'password.confirmed' => '新しいパスワード（確認用）と一致していません',
+            'current_password.required' => 'アカウント情報を変更する場合は、現在のパスワードを入力してください',
+            'current_password.current_password' => '現在のパスワードが正しくありません',
         ]);
 
         //更新
@@ -149,15 +160,15 @@ class UserController extends Controller
         $user->address = $validated['address'];
 
         //パスワードが入力されていた場合のみ更新
-        //if (!empty($validated['password'])) {
-        //    $user->password = bcrypt($validated['password']);
-        //}
+        if (!empty($validated['password'])) {
+            $user->password = bcrypt($validated['password']);
+        }
 
         //データベースに保存
         $user->save();
 
         //リダイレクト
-        return redirect()->back()->with('status', 'profile-updated');
+        return redirect()->back()->with('status', 'アカウント情報を更新しました。');
     }
 
 
@@ -166,8 +177,16 @@ class UserController extends Controller
     //===========================================
     public function destroy(Request $request)
     {
+        //パスワードのバリデーション（現在のパスワードと一致するか）
+        $request->validateWithBag('userDeletion', [
+            'delete_password' => ['required', 'current_password'],
+        ], [
+            'delete_password.required' => 'パスワードの入力は必須です',
+            'delete_password.current_password' => 'パスワードが正しくありません',
+        ]);
+
         //ログイン中のユーザーをデータベースから取得
-        $user = User::findOrFile(Auth::id());
+        $user = User::findOrFail(Auth::id());
 
         //データベースからユーザーのレコードを削除
         $user->delete();
