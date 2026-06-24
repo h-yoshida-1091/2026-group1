@@ -1,9 +1,13 @@
-/* 全体 */
+@charset "UTF-8";
+
+/* ===== 全体（神聖な静寂を感じる背景） ===== */
 body {
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
-    font-family: Arial, sans-serif;
+    background-color: #f5f2ed; /* 静寂を感じさせる薄いベージュ */
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', 'Sawarabi Mincho', 'Hiragino Mincho ProN', 'MS Mincho', serif;
+    color: #2c2a29; /* 深い墨色 */
+    letter-spacing: 0.5px;
 
     display: flex;
     flex-direction: column;
@@ -13,53 +17,59 @@ body {
     min-height: 100vh;
 }
 
-/* 完了メッセージボックス */
+/* 完了メッセージボックス（書物をイメージした高貴な白） */
 .complete-container {
-    background: #fff;
+    background: #fcfbfa; /* ほんのり羊皮紙を思わせる高貴な白 */
     padding: 50px;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border: 1px solid #e5e0da;
+    border-radius: 4px; /* 直線的でフォーマルな印象へ */
+    box-shadow: 0 4px 20px rgba(44, 42, 41, 0.04); /* 墨色ベースの淡い影 */
 
     text-align: center;
     width: 500px;
     max-width: 90%;
+    box-sizing: border-box;
 }
 
-/* タイトル */
+/* タイトル（厳かで深い墨色） */
 .complete-title {
-    color: #bf0000;
-    font-size: 32px;
-    font-weight: bold;
+    color: #2c2a29;
+    font-size: 26px; /* 少し小ぶりに、上品に */
+    font-weight: 600;
+    letter-spacing: 2px; /* 格調高さを出すために広めに */
     margin-bottom: 25px;
 }
 
 /* メッセージ */
 .complete-message {
-    font-size: 18px;
-    color: #555;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 16px;
+    color: #595450; /* 茶鼠色 */
     margin-bottom: 40px;
-    line-height: 1.8;
+    line-height: 1.9; /* ゆったりとした行間で安心感を */
 }
 
-/* ボタン */
+/* ボタン（買い物を続ける：真鍮ゴールドで上品に） */
 .continue-btn {
     display: inline-block;
 
-    background-color: #bf0000;
-    color: #fff;
+    background-color: #c5a880; /* 真鍮ゴールド */
+    color: #ffffff;
+    border: 1px solid #c5a880;
+    border-radius: 2px; /* 丸みを抑える */
 
     text-decoration: none;
 
-    padding: 14px 35px;
+    padding: 14px 40px;
 
-    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
 
-    font-size: 18px;
-    font-weight: bold;
-
-    transition: 0.2s;
+    transition: all 0.2s ease;
 }
 
 .continue-btn:hover {
-    background-color: #990000;
+    background-color: #bfaea2; /* 落ち着いたアンティークゴールドへ */
+    border-color: #bfaea2;
 }
