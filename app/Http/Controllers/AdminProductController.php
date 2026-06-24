@@ -43,7 +43,51 @@ class AdminProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        // 画像の処理
+        // 1. 基本バリデーション（URL形式とファイル形式のチェック）
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'price'       => 'required|integer|min:0',
+            'stock'       => 'required|integer|min:0',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            // nullableにしておくことで、未入力時はエラーにせずスルーさせます
+            'image_url'   => 'nullable|url',
+            'image_file'  => 'nullable|image',
+        ], [
+            'image_url.url'    => '有効なURLの形式（http:// または https://）で入力してください',
+            'image_file.image' => '有効な画像ファイルを選択してください',
+        ]);
+
+        // 2. 【実在・存在チェック】URLが入力されている場合のみ検証
+        if ($request->input('image_type') === 'url' && $request->input('image_url')) {
+            $url = $request->input('image_url');
+
+            // 外部サーバーへ接続してヘッダー情報を取得
+            $headers = @get_headers($url, 1);
+
+            if (!$headers) {
+                // ドメインが存在しない、または接続できない場合
+                return back()->withInput()->withErrors(['image_url' => '指定された画像URLにアクセスできませんでした。']);
+            }
+
+            // HTTPステータスコードの確認 (200 OK かどうか)
+            $status = $headers[0] ?? '';
+            if (strpos($status, '200') === false) {
+                return back()->withInput()->withErrors(['image_url' => '指定された画像URL（Webページ）が存在しません。']);
+            }
+
+            // Content-Type が画像（image/jpeg, image/png など）であるかチェック
+            $contentType = $headers['Content-Type'] ?? $headers['content-type'] ?? '';
+            if (is_array($contentType)) {
+                $contentType = end($contentType);
+            }
+
+            if (strpos($contentType, 'image/') === false) {
+                return back()->withInput()->withErrors(['image_url' => '指定されたURLは画像ファイルではありません。']);
+            }
+        }
+
+        // 3. 画像の処理（チェックを通過した場合のみ実行）
         if ($request->input('image_type') === 'file' && $request->hasFile('image_file')) {
             // ファイルの場合：public/images に保存してURLを生成
             $path = $request->file('image_file')->store('images', 'public');
@@ -52,13 +96,13 @@ class AdminProductController extends Controller
             // product_imagesテーブルに保存
             $image = Product_image::create(['image_url' => $imageUrl]);
             $product->image_id = $image->id;
-
         } elseif ($request->input('image_type') === 'url' && $request->input('image_url')) {
             // URLの場合：そのままproduct_imagesテーブルに保存
             $image = Product_image::create(['image_url' => $request->input('image_url')]);
             $product->image_id = $image->id;
         }
 
+        // 4. その他の商品情報を更新（画像以外の処理はそのまま）
         $product->update([
             'category_id' => $request->input('category_id') ?? $product->category_id,
             'name'        => $request->input('name'),
@@ -80,6 +124,52 @@ class AdminProductController extends Controller
     // 商品追加処理
     public function store(Request $request)
     {
+        // 他の必須フィールドのバリデーションも元のまま残して統合
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'price'       => 'required|integer|min:0',
+            'stock'       => 'required|integer|min:0',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            // 画像のカスタムバリデーション
+            'image_url'   => 'required_if:image_type,url',
+            'image_file'  => 'required_if:image_type,file|image',
+        ], [
+            'image_url.required_if'  => '画像URLを入力してください',
+            'image_url.url'          => '有効なURLの形式（http:// または https://）で入力してください',
+            'image_file.required_if' => '画像ファイルを選択してください',
+            'image_file.image'       => '有効な画像ファイルを選択してください',
+        ]);
+
+        // 【追加機能】URLの画像実在・存在チェック
+        if ($request->input('image_type') === 'url' && $request->input('image_url')) {
+            $url = $request->input('image_url');
+
+            // 外部サーバーへリクエストを送り、ヘッダー情報を取得
+            $headers = @get_headers($url, 1);
+
+            if (!$headers) {
+                // そもそもドメインが存在しない、または接続できない場合
+                return back()->withInput()->withErrors(['image_url' => '指定された画像URLにアクセスできませんでした。']);
+            }
+
+            // HTTPステータスコードの確認 (200 OK かどうか)
+            $status = $headers[0] ?? '';
+            if (strpos($status, '200') === false) {
+                return back()->withInput()->withErrors(['image_url' => '指定された画像URL（Webページ）が存在しません。']);
+            }
+
+            // Content-Type が画像(image/jpeg, image/png など)であるかチェック
+            $contentType = $headers['Content-Type'] ?? $headers['content-type'] ?? '';
+            if (is_array($contentType)) {
+                $contentType = end($contentType);
+            }
+
+            if (strpos($contentType, 'image/') === false) {
+                return back()->withInput()->withErrors(['image_url' => '指定されたURLは画像ファイルではありません。']);
+            }
+        }
+
         // 画像の処理
         if ($request->input('image_type') === 'file' && $request->hasFile('image_file')) {
             $path = $request->file('image_file')->store('images', 'public');

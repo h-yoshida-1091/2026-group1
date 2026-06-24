@@ -1,5 +1,3 @@
-@include('layouts.header')
-
 <title>カート</title>
 
 <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
@@ -31,41 +29,59 @@
             <img src="{{ $product->image }}" alt="商品画像">
         </div>
 
-        <!-- 商品情報 -->
+        <!-- 中央エリア -->
         <div class="info-area">
 
-            <div class="product-name">
-                {{ $product->name }}
-            </div>
-
- 
-        <!-- 商品情報 -->
-        <div class="info-area">
             <div class="product-name">
                 {{ $product->name }}
             </div>
 
             <div class="quantity-area">
-                個数
 
-                <!-- 減らす -->
+                <span>個数</span>
+
                 <form action="/cart/decrease" method="post">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    <button type="submit"
-                        {{ $product->quantity <= 0 ? 'disabled' : '' }}>
-                        −
-                    </button>
+                    <button type="submit">−</button>
                 </form>
 
-                <span>{{ $product->quantity }}</span>
+                <span class="quantity-number">
+                    {{ $product->quantity }}
+                </span>
 
-                <!-- 増やす -->
                 <form action="/cart/increase" method="post">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    <button type="submit">
-                        ＋
+                    <button type="submit">＋</button>
+                </form>
+
+            </div>
+
+            <div class="action-buttons">
+
+                <form action="/purchase/now" method="POST">
+                    @csrf
+
+                    <input type="hidden"
+                        name="products[0][id]"
+                        value="{{ $product->id }}">
+
+                    <input type="hidden"
+                        name="products[0][quantity]"
+                        value="{{ $product->quantity }}">
+
+                    <button type="submit" class="buy-now-btn">
+                        今すぐ購入
+                    </button>
+                </form>
+
+                <form action="/cart/delete" method="post" class="delete-form">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $product->id }}">
+
+                    <button type="submit" class="delete-btn">
+                        削除
                     </button>
                 </form>
 
@@ -73,26 +89,21 @@
 
         </div>
 
+        <!-- 右エリア -->
+        <div class="price-info">
+
             <div class="price-area">
-                {{ number_format($product->price) }}円
+                ¥{{ number_format($product->price) }}
             </div>
 
             <div class="subtotal-area">
-                小計 {{ number_format($product->price * $product->quantity) }}円
+                小計 ¥{{ number_format($product->price * $product->quantity) }}
             </div>
-
-            <!-- 削除 -->
-            <form action="/cart/delete" method="post" class="delete-form">
-                @csrf
-                <input type="hidden" name="id" value="{{ $product->id }}">
-                <button type="submit">
-                    削除
-                </button>
-            </form>
 
         </div>
 
     </div>
+
 
     @endforeach
 
@@ -133,4 +144,4 @@
 
 </body>
 
-@include('layouts.footer')
+@include('footer')

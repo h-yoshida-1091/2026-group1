@@ -25,6 +25,7 @@
         @endif
             
         <form action="/account" method="post" class="register-form h-adr">
+
             @csrf
 
             <span class="p-country-name" style="display:none;">Japan</span>
