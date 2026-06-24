@@ -78,3 +78,5 @@ Route::post('/admin/products/create', [AdminProductController::class, 'store']);
 Route::get('/contact', [ContactController::class, 'index']);
 // お問い合わせデータの保存処理
 Route::post('/contact', [ContactController::class, 'store']);
+// 管理者用お問い合わせ一覧画面
+Route::get('/admin/contact', [ContactController::class, 'adminIndex']);

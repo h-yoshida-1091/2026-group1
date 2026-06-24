@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email');   // メールアドレス
             $table->string('subject'); // 件名
             $table->text('message');   // 本文
+            $table->string('status')->default('未対応');
             $table->timestamps();
         });
     }

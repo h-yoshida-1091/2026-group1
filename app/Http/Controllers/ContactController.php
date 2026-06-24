@@ -69,4 +69,14 @@ class ContactController extends Controller
         //  完了メッセージに注記を追加してリダイレクト
         return redirect('/contact')->with('success_message', "お問い合わせを受け付けました。ありがとうございました。\nお問い合わせに対する回答は、後日ご登録のメールアドレスに送信いたします。");
     }
+
+    // 管理者用お問い合わせ一覧画面の表示
+    public function adminIndex()
+    {
+        // データベースからすべてのお問い合わせを最新順に取得
+        $contacts = Contact::latest()->get();
+
+        // 管理者用の一覧画面（admin/contact/index.blade.php）にデータを渡して表示
+        return view('admin.admin_contact', compact('contacts'));
+    }
 }
