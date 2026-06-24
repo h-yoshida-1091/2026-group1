@@ -5,7 +5,7 @@
 
         <select name="category_id">
             <option value="">すべてのカテゴリ</option>
-            @foreach($categories as $category)
+            @foreach($categories ?? [] as $category)
                 <option value="{{ $category->id }}" {{ (isset($categoryId) && $categoryId == $category->id) ? 'selected' : '' }}>
                     {{ $category->name }}
                 </option>

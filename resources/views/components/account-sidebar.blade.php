@@ -19,13 +19,24 @@
            お届け先一覧
         </a>
 
-        <form method="POST" action="/logout" style="display: none;" id="logout-form">
+         <form method="POST" action="{{ route('account.destroy') }}" style="display: none;" id="delete-form">
             @csrf
-        </form>
-        <a href="/logout" 
-           class="nav-item" 
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-           ログアウト
-        </a>
+            @method('DELETE')
+            <input type="hidden" name="delete_password" id="hidden-delete-password">
+         </form>
+
+         <a href="#" 
+            class="btn btn-danger" 
+            onclick="event.preventDefault(); 
+            // ① 画面に文字入力付きのポップアップを出す
+            let password = prompt('本人確認のため、現在のパスワードを入力してください：'); 
+            // ② キャンセルされず、かつ何かしら入力されていた場合
+            if (password !== null && password.trim() !== '') { 
+                // ③ 隠し入力欄にパスワードをセットして送信
+                document.getElementById('hidden-delete-password').value = password;
+                document.getElementById('delete-form').submit(); 
+               }">
+            アカウントを削除する
+         </a>
     </nav>
 </aside>

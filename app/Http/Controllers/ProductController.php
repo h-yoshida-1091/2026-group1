@@ -77,19 +77,22 @@ class ProductController extends Controller
 
         switch ($sort) {
             case 'price_asc':
-                $query->orderBy('products.price', 'asc'); // 価格の安い順
+                $query->orderByRaw('CASE WHEN products.stock = 0 THEN 1 ELSE 0 END ASC') // ★売り切れを下に
+                      ->orderBy('products.price', 'asc'); // 価格の安い順
                 break;
 
             case 'price_desc':
-                $query->orderBy('products.price', 'desc'); // 価格の高い順
+                $query->orderByRaw('CASE WHEN products.stock = 0 THEN 1 ELSE 0 END ASC') // ★売り切れを下に
+                      ->orderBy('products.price', 'desc'); // 価格の高い順
                 break;
 
             case 'newest':
-                $query->orderBy('products.id', 'desc'); // 新着順（IDの逆順）
+                $query->orderByRaw('CASE WHEN products.stock = 0 THEN 1 ELSE 0 END ASC') // ★売り切れを下に
+                      ->orderBy('products.id', 'desc'); // 新着順（IDの逆順）
                 break;
 
             case 'bestseller':
-                //order_itemsから商品の合計購入数を計算して多い順に並べる
+                // order_itemsから商品の合計購入数を計算して多い順に並べる
                 $subQuery = DB::table('order_items')
                     ->select('product_id', DB::raw('SUM(quantity) as total_sales'))
                     ->groupBy('product_id');
@@ -99,20 +102,27 @@ class ProductController extends Controller
                 })
                     ->select('products.*')
                     ->selectRaw('COALESCE(sales.total_sales, 0) as total_sales')
+                    /* ★ここを変更：売り切れを下に */
+                    ->orderByRaw('CASE WHEN products.stock = 0 THEN 1 ELSE 0 END ASC')
                     ->orderBy('total_sales', 'desc')
                     ->orderBy('products.id', 'asc');
                 break;
 
             case 'recommend':
             default:
-                //ログインしている時のみ、Groqのスコアテーブルを結合する（安全対策）
+                // ログインしている時のみ、Groqのスコアテーブルを結合する（安全対策）
                 if ($userId > 0) {
                     $query->leftJoin('recommend_scores', function ($join) use ($userId) {
                         $join->on('products.id', '=', 'recommend_scores.product_id')
                             ->where('recommend_scores.user_id', '=', $userId);
-                    })
-                        // スコアが高い順 ➔ スコアが同じ（または未計算）なら商品ID順
-                        ->orderBy('recommend_scores.score', 'desc');
+                    });
+                    
+                    /* 売り切れを下に（ログイン時） */
+                    $query->orderByRaw('CASE WHEN products.stock = 0 THEN 1 ELSE 0 END ASC')
+                          ->orderBy('recommend_scores.score', 'desc');
+                } else {
+                    /*売り切れを下に（未ログイン時） */
+                    $query->orderByRaw('CASE WHEN products.stock = 0 THEN 1 ELSE 0 END ASC');
                 }
 
                 // 未ログイン時のdefault、またはログイン時の第2ソートとしてID順を適用

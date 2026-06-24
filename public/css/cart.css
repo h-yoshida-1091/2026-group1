@@ -1,252 +1,262 @@
-/* 商品カード */
+/*タイトル*/
+
+.title {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 20px 0 30px;
+}
+
+
+/*カート商品カード*/
+
 .cart-item {
-    display: flex;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 180px 1fr 220px;
+
+    gap: 30px;
+    align-items: start;
+
     background: #fff;
     border: 1px solid #ddd;
     border-left: 5px solid #bf0000;
-    border-radius: 6px;
+    border-radius: 8px;
+
     padding: 25px;
     margin-bottom: 20px;
 }
 
-/* 商品画像 */
+
+/*商品画像*/
+
 .image-area {
     width: 180px;
     height: 180px;
-    min-width: 180px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    border: 1px solid #ddd;
-    border-radius: 4px;
     background: #fff;
-
-    padding: 10px;
-    margin-right: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
 }
 
 .image-area img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    display: block;
 }
 
-/* 商品情報 */
+
+/*商品情報エリア*/
+
 .info-area {
-    flex: 1;
     display: flex;
     flex-direction: column;
+    gap: 20px;
 }
 
+
 /* 商品名 */
+
 .product-name {
     font-size: 24px;
     font-weight: bold;
     color: #bf0000;
     line-height: 1.7;
-    margin-bottom: 15px;
 }
 
-/* 在庫数 */
+
+/* 在庫 */
+
 .stock-area {
     font-size: 15px;
     color: #666;
-    margin-bottom: 15px;
 }
 
-/* 個数エリア */
+
+/*個数エリア*/
+
 .quantity-area {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 20px;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.quantity-area form {
+    margin: 0;
+}
+
+.quantity-area span {
+    min-width: 30px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .quantity-area button {
-    width: 35px;
-    height: 35px;
-    border: 1px solid #bf0000;
-    background: #fff;
-    color: #bf0000;
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #2c3e50;
+    color: white;
+
     cursor: pointer;
     font-size: 18px;
-    font-weight: bold;
 }
 
 .quantity-area button:hover {
     background: #bf0000;
-    color: #fff;
 }
 
-.price-area {
-    font-size: 28px;
-    font-weight: bold;
-    color: #bf0000;
-    margin-bottom: 10px;
 
-    text-align: right;
-}
-
-.subtotal-area {
-    font-size: 18px;
-    font-weight: bold;
-    color: #bf0000;
-    margin-bottom: 20px;
-
-    text-align: right;
-}
-
-/* 削除ボタン */
-.info-area form button[type="submit"] {
-    width: fit-content;
-    border: none;
-    background: none;
-    color: #bf0000;
-    text-decoration: underline;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-/* 合計 */
-.total {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 3px solid #bf0000;
-    text-align: right;
-    font-size: 32px;
-    font-weight: bold;
-    color: #bf0000;
-}
-
-/* 購入ボタン */
-.purchase {
-    text-align: right;
-    margin-top: 20px;
-}
-
-.purchase button {
-    background: #bf0000;
-    color: #fff;
-    border: none;
-    padding: 14px 40px;
-    border-radius: 4px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.purchase button:hover {
-    background: #990000;
-}
-
-/* Chrome, Edge, Safari */
-.quantity-input::-webkit-outer-spin-button,
-.quantity-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Firefox */
-.quantity-input {
-    -moz-appearance: textfield;
-    appearance: textfield;
-
-    width: 50px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 4px;
-}
-
-/* 商品情報全体 */
-.info-area {
-    flex: 1;
-    display: grid;
-
-    grid-template-columns: 1fr 220px;
-    grid-template-areas:
-        "name price"
-        "stock price"
-        "quantity subtotal"
-        "delete subtotal";
-
-    gap: 12px 20px;
-}
-
-/* 各要素の配置 */
-.product-name {
-    grid-area: name;
-
-    font-size: 24px;
-    font-weight: bold;
-    color: #bf0000;
-    line-height: 1.7;
-}
-
-.stock-area {
-    grid-area: stock;
-}
-
-.quantity-area {
-    grid-area: quantity;
-}
-
-.price-area {
-    grid-area: price;
-
-    text-align: right;
-    font-size: 28px;
-    font-weight: bold;
-    color: #bf0000;
-}
-
-.subtotal-area {
-    grid-area: subtotal;
-
-    text-align: right;
-    font-size: 20px;
-    font-weight: bold;
-    color: #bf0000;
-    align-self: end;
-}
-
-.info-area form {
-    grid-area: delete;
-}
+/*ボタンエリア*/
 
 .action-buttons {
     display: flex;
-    gap: 10px;
-    margin-top: 15px;
+    align-items: center;
+    gap: 12px;
 }
 
-.delete-btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
 
-    background-color: #dc3545;
-    color: white;
-
-    cursor: pointer;
-}
+/* 今すぐ購入 */
 
 .buy-now-btn {
-    padding: 8px 16px;
+    padding: 10px 18px;
+
+    background: #28a745;
+    color: white;
+
     border: none;
     border-radius: 6px;
 
-    background-color: #28a745;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* 削除 */
+
+.delete-form button {
+    padding: 10px 18px;
+
+    background: #dc3545;
     color: white;
+
+    border: none;
+    border-radius: 6px;
+
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+.buy-now-btn:hover,
+.delete-form button:hover {
+    opacity: 0.85;
+}
+
+
+/*右側価格エリア*/
+
+.price-area {
+    text-align: right;
+    font-size: 28px;
+    font-weight: bold;
+    color: #bf0000;
+}
+
+.subtotal-area {
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+    color: #2c3e50;
+
+    margin-top: 20px;
+}
+
+
+/*合計金額*/
+
+.total {
+    margin-top: 30px;
+    padding-top: 20px;
+
+    border-top: 3px solid #2c3e50;
+
+    text-align: right;
+
+    font-size: 32px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+
+/*部ボタン*/
+
+.purchase {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.purchase form {
+    margin: 0;
+}
+
+
+/* 商品一覧へ戻る */
+
+.back-products-btn {
+    display: inline-block;
+
+    padding: 14px 30px;
+
+    border: 2px solid #2c3e50;
+    border-radius: 6px;
+
+    background: #fff;
+    color: #2c3e50;
+
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.back-products-btn:hover {
+    background: #ecf0f1;
+}
+
+
+/* 購入確認 */
+
+.purchase-btn {
+    padding: 14px 30px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #2c3e50;
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: bold;
 
     cursor: pointer;
 }
 
-.delete-btn:hover,
-.buy-now-btn:hover {
-    opacity: 0.85;
+.purchase-btn:hover {
+    background: #1f2d3a;
 }

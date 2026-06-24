@@ -26,6 +26,32 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (!data || data.status !== 'success') return;
 
+                const favoriteBtn = document.getElementById('header-favorite-btn');
+                const favoriteBadge = document.getElementById('header-favorite-badge');
+
+                if (favoriteBtn && favoriteBadge) {
+                    // 現在の登録数をHTMLのカスタムデータ属性から取得して計算
+                    let currentCount = parseInt(favoriteBtn.dataset.currentCount) || 0;
+                    
+                    if (isFavorited) {
+                        currentCount = Math.max(0, currentCount - 1); // 0未満にならないように制限
+                    } else {
+                        currentCount = currentCount + 1;
+                    }
+                    
+                    // 数値の状態を要素に記憶させる
+                    favoriteBtn.dataset.currentCount = currentCount;
+                    // バッジのテキスト（数字）を書き換え
+                    favoriteBadge.textContent = currentCount;
+
+                    // カウントが0になったらバッジ自体を非表示にし、1以上なら表示する
+                    if (currentCount === 0) {
+                        favoriteBadge.classList.add('d-none');
+                    } else {
+                        favoriteBadge.classList.remove('d-none');
+                    }
+                }
+                // ハートボタンの見た目を切り替え
                 if (isFavorited) {
                     this.classList.remove('favorited');
                     this.textContent = '♡';

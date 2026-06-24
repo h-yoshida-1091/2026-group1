@@ -9,7 +9,7 @@ Route::get('/', function () {
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AdminProductController;
@@ -46,10 +46,11 @@ Route::post('/account', [UserController::class, 'account_Post']);
 Route::post('/logout', [UserController::class, 'logout']);
 
 //アカウント編集機能
-Route::middleware(['auth'])->group( function() {
-    Route::get('/account/edit', [UserController::class, 'edit_Get'])->name('accounts.account_edit');
-    Route::post('/account/edit', [UserController::class, 'edit_Post'])->name('accounts.account_edit_process');
-});
+Route::get('/account/edit', [UserController::class, 'edit_Get'])->name('account.edit');
+Route::put('/account/update', [UserController::class, 'edit_Post'])->name('account.update');
+
+//アカウント削除機能
+Route::delete('/account/destroy', [UserController::class, 'destroy'])->name('account.destroy');
 
 // カート一覧
 Route::get('/cart', [CartController::class, 'index']);
@@ -62,13 +63,6 @@ Route::post('/cart/decrease', [CartController::class, 'decreaseCart']);
 // 個数を増やす
 Route::post('/cart/increase', [CartController::class, 'increaseCart']);
 
-// 購入完了画面
-// Route::post('/purchase/confirm', [PurchaseController::class, 'confirm']);
-
-// 購入確認画面
-
-Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
-
 // 管理画面
 Route::get('/admin/products', [AdminProductController::class, 'index']);
 // 商品削除
@@ -80,4 +74,7 @@ Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update
 Route::get('/admin/products/create', [AdminProductController::class, 'create']);
 Route::post('/admin/products/create', [AdminProductController::class, 'store']);
 
-// Route::post('/purchase/complete', [PurchaseController::class, 'complete']);
+// お問い合わせ画面の表示
+Route::get('/contact', [ContactController::class, 'index']);
+// お問い合わせデータの保存処理
+Route::post('/contact', [ContactController::class, 'store']);
