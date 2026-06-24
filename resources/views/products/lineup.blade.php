@@ -16,10 +16,10 @@
 
         @if(request('favorite'))
         @php
-            // お気に入り解除時のURL用（favoriteパラメータだけを除く）
-            $clear_favorite_params = request()->query();
-            unset($clear_favorite_params['favorite']);
-            $clear_favorite_url = '/products?' . http_build_query($clear_favorite_params);
+        // お気に入り解除時のURL用（favoriteパラメータだけを除く）
+        $clear_favorite_params = request()->query();
+        unset($clear_favorite_params['favorite']);
+        $clear_favorite_url = '/products?' . http_build_query($clear_favorite_params);
         @endphp
         <span class="filter-tag border-danger text-danger fw-bold">
             <i class="fa-solid fa-heart me-1"></i> お気に入り
@@ -119,13 +119,23 @@
                     </button>
                 </div>
 
-                <div class="product-image">
-                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
+                <div class="product-image position-relative-box">
+
+                    @if($product->stock === 0)
+                    <div class="stock-badge badge-soldout">
+                        <span>SOLD OUT</span>
+                    </div>
+                    @elseif($product->stock === 1)
+                    <div class="stock-badge badge-few">
+                        残り1点!!
+                    </div>
+                    @endif
+
+                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="{{ $product->stock === 0 ? 'img-soldout' : '' }}">
                 </div>
 
                 <div class="product-info">
                     <h3>{{ $product->name }}</h3>
-                    <p>在庫数：{{ $product->stock }}</p>
                     <p class="price">¥{{ number_format($product->price) }}</p>
 
                     <div class="product-actions">
@@ -133,7 +143,9 @@
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="cart-btn">カートに入れる</button>
+                            <button type="submit" class="cart-btn" {{ $product->stock === 0 ? 'disabled' : '' }}>
+                                {{ $product->stock === 0 ? '売り切れ' : 'カートに入れる' }}
+                            </button>
                         </form>
                         <a href="/products/detail?id={{ $product->id }}" class="detail-link">詳細を見る</a>
                     </div>
