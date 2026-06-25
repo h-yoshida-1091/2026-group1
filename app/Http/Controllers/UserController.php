@@ -80,13 +80,14 @@ class UserController extends Controller
             'name' => 'required|string|max:100',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|max:255|confirmed',
-            'postal_code' => 'nullable|string|max:8',
+            'postal_code' => 'required|string|max:7',
             'address' => 'required|string|max:255',
         ],[
             //エラー表示
-            'email.unique' => 'このメールアドレスは既に登録されています。',
-            'password.confirmed' => 'パスワードが一致していません。',
-            'password.min' => 'パスワードは８文字以上で入力してください。',
+            'email.unique' => 'このメールアドレスは既に登録されています',
+            'password.confirmed' => 'パスワードが一致していません',
+            'password.min' => 'パスワードは８文字以上で入力してください',
+            'postal_code.max' => '郵便番号は７文字以内で入力してください',
         ]);
 
         //データベースへ格納
@@ -144,12 +145,13 @@ class UserController extends Controller
             'current_password' => ['required', 'current_password'],
             'password' => ['nullable', 'string', 'min:8', 'max:255', 'confirmed'],
             'address' => ['required', 'string', 'max:255'],
-            'postal_code' => ['required', 'string', 'max:8'],
+            'postal_code' => ['required', 'string', 'max:7'],
         ], [
             'name.required' => 'お名前は必須項目です',
             'email.required' => 'メールアドレスは必須項目です',
             'email.email' => '正しいメールアドレスの形式で入力してください',
             'email.unique' => 'このメールアドレスは既に登録されています',
+            'postal_code' => '郵便番号は７文字以内で入力してください',
             'address.required' => '住所は必須項目です',
             'password.min' => '新しいパスワードは８文字以上で入力してください',
             'password.confirmed' => '新しいパスワード（確認用）と一致していません',
