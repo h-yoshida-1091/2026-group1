@@ -9,7 +9,17 @@
     <h1 class="title">カート</h1>
 
     @if (session('error'))
-    <p style="color:red;">{{ session('error') }}</p>
+    <p style="color:red; font-weight: bold;">{{ session('error') }}</p>
+    @endif
+
+    @if (session('errors_array'))
+        <div class="alert alert-danger" style="color: red; background-color: #fff5f5; border: 1px solid #ffcccc; padding: 12px; margin-bottom: 20px; border-radius: 4px;">
+            <ul style="margin: 0; padding-left: 20px;">
+                @foreach (session('errors_array') as $errorMessage)
+                    <li style="font-weight: bold; margin-bottom: 4px;">{{ $errorMessage }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     @php
