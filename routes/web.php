@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminCategoryController;
 use Symfony\Component\Finder\Iterator\VcsIgnoredFilterIterator;
 
 // 商品一覧
@@ -78,6 +79,15 @@ Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update
 // 商品追加画面と保存処理
 Route::get('/admin/products/create', [AdminProductController::class, 'create']);
 Route::post('/admin/products/create', [AdminProductController::class, 'store']);
+
+// カテゴリー管理画面（一覧）
+Route::get('/admin/categories', [AdminCategoryController::class, 'index']);
+// カテゴリー追加
+Route::post('/admin/categories', [AdminCategoryController::class, 'store']);
+// カテゴリー変更
+Route::post('/admin/categories/edit/{id}', [AdminCategoryController::class, 'update']);
+// カテゴリー削除
+Route::post('/admin/categories/delete', [AdminCategoryController::class, 'destroy']);
 
 // お問い合わせ画面の表示
 Route::get('/contact', [ContactController::class, 'index']);
