@@ -92,7 +92,10 @@ Route::post('/admin/categories/delete', [AdminCategoryController::class, 'destro
 
 // ユーザー管理
 Route::get('/admin/users', [AdminUserController::class, 'index']);
+// ユーザー追加
 Route::post('/admin/users/create', [AdminUserController::class, 'store']);
+// ユーザー削除
+Route::post('/admin/users/delete', [AdminUserController::class, 'destroy']);
 
 // お問い合わせ画面の表示
 Route::get('/contact', [ContactController::class, 'index']);
