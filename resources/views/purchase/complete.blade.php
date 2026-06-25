@@ -2,8 +2,8 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
     <title>購入完了</title>
+    <meta charset="UTF-8">
 
     <link rel="stylesheet" href="{{ asset('css/complete.css') }}">
 </head>
