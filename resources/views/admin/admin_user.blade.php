@@ -40,7 +40,7 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->postal_code ?? 'なし' }}</td>
                         <td>{{ $user->address }}</td>
-                        <td>{{ $user->role === 'admin' ? '管理者' : '一般ユーザー' }}</td>
+                        <td>{{ $user->role ? '管理者' : '一般ユーザー' }}</td>
                         <td>
                             <form action="/admin/users/delete" method="post">
                                 @csrf
