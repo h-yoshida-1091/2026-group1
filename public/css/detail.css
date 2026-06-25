@@ -251,3 +251,231 @@
         width: 100%; /* ボタン群をスマホでは幅いっぱいに広げて押しやすく */
     }
 }
+
+/* ==========================================================================
+   ★ レビューセクション（真理文庫の世界観に合わせた静寂と調和）
+   ========================================================================== */
+
+/* メッセージエリア */
+.alert-success, .alert-danger {
+    max-width: 1100px;
+    width: 90%;
+    margin: 15px auto;
+    padding: 12px 20px;
+    border-radius: 2px;
+    font-size: 14px;
+    font-family: 'Noto Serif JP', serif;
+}
+.alert-success {
+    color: #4a5d4e;
+    background-color: #f4f7f5;
+    border: 1px solid #d2ded5;
+}
+.alert-danger {
+    color: #8a1c1c;
+    background-color: #fdf6f6;
+    border: 1px solid #f5e3e3;
+}
+
+/* タイトル下の平均評価エリア */
+.average-rating-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: -10px 0 20px 0;
+}
+.rating-number {
+    font-family: 'Garamond', 'Georgia', serif;
+    font-weight: bold;
+    color: #2c2a29;
+    font-size: 16px;
+}
+
+/* 星評価の共通ベース（重ね合わせによるパーセンテージ色付け） */
+.star-rating {
+    position: relative;
+    display: inline-block;
+    font-size: 18px;
+    color: #e5e0da; /* 墨色ベースの淡いグレー */
+    font-family: sans-serif;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+.star-rating .star-filled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    color: #c5a880; /* 特製の真鍮ゴールド */
+}
+
+/* レビュー全体のセクション */
+.reviews-section {
+    max-width: 1100px;
+    width: 90%;
+    margin: 60px auto 50px;
+    font-family: 'Noto Serif JP', serif;
+}
+.reviews-section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c2a29;
+    border-bottom: 1px solid #e5e0da;
+    padding-bottom: 12px;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+/* レビュー一覧 */
+.reviews-list {
+    margin-bottom: 50px;
+}
+.review-item {
+    border-bottom: 1px solid #f0ede9;
+    padding: 24px 0;
+    position: relative;
+}
+.review-item:last-child {
+    border-bottom: none;
+}
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+.review-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: #2c2a29;
+}
+.review-meta {
+    font-size: 12px;
+    color: #595450; /* 茶鼠色 */
+    margin-bottom: 12px;
+}
+.review-comment {
+    color: #403c39;
+    font-size: 14px;
+    line-height: 1.75;
+    white-space: pre-wrap;
+}
+
+/* レビュー削除ボタン */
+.delete-review-btn {
+    position: absolute;
+    right: 0;
+    top: 24px;
+    background: none;
+    border: none;
+    color: #8a1c1c; /* 統一感のあるボルドーレッド */
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Noto Serif JP', serif;
+    transition: opacity 0.2s;
+}
+.delete-review-btn:hover {
+    opacity: 0.7;
+}
+
+/* レビュー投稿エリア */
+.review-form-area {
+    background-color: #fcfbfa; /* 羊皮紙の白 */
+    border: 1px solid #e5e0da;
+    border-radius: 4px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(44, 42, 41, 0.02);
+}
+.review-form-area h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c2a29;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+.review-form-area p {
+    color: #595450;
+    font-size: 14px;
+}
+
+/* フォーム要素 */
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c2a29;
+    margin-bottom: 8px;
+}
+.form-group select,
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    border: 1px solid #e5e0da;
+    border-radius: 2px;
+    background-color: #ffffff;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    color: #2c2a29;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+.form-group select:focus,
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #c5a880; /* フォーカス時は真鍮ゴールド */
+}
+.form-group select {
+    width: 120px;
+    padding: 8px;
+}
+.form-group input[type="text"] {
+    max-width: 600px;
+    padding: 10px;
+}
+.form-group textarea {
+    padding: 12px;
+    resize: vertical;
+}
+
+/* レビュー送信ボタン（今すぐ購入ボタンと対になる墨色） */
+.submit-review-btn {
+    background-color: #2c2a29;
+    color: #fcfbfa;
+    border: 1px solid #2c2a29;
+    padding: 12px 30px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.submit-review-btn:hover {
+    background-color: #595450;
+    border-color: #595450;
+}
+
+/* ==========================================================================
+   ★ レビュー用のモバイルレスポンシブ対応
+   ========================================================================== */
+@media (max-width: 768px) {
+    .review-form-area {
+        padding: 20px;
+    }
+    .form-group input[type="text"] {
+        max-width: 100%;
+    }
+    .submit-review-btn {
+        width: 100%; /* スマホ時は押しやすく幅いっぱいに */
+    }
+    .delete-review-btn {
+        position: static;
+        display: block;
+        margin-top: 15px;
+        text-align: right;
+    }
+}

@@ -138,6 +138,15 @@
 
                 <div class="product-info">
                     <h3>{{ $product->name }}</h3>
+
+                    <div class="star-rating-container">
+                        @php $avgRating = $product->reviews_avg_rating ?? 0; @endphp
+                        <div class="star-rating" style="--rating: {{ $avgRating }};" title="評価: {{ number_format($avgRating, 1) }}">
+                            ★★★★★
+                        </div>
+                        <span class="rating-number">{{ number_format($avgRating, 1) }}</span>
+                    </div>
+
                     <p class="price">¥{{ number_format($product->price) }}</p>
 
                     <div class="product-actions">
