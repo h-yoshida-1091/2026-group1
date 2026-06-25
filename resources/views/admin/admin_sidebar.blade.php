@@ -19,6 +19,11 @@
             <li><a href="/admin/categories" class="menu-link border-purple">カテゴリー一覧</a></li>
         </ul>
 
+        <h2 class="widget-title">ユーザー管理</h2>
+        <ul class="admin-menu-list">
+            <li><a href="/admin/users" class="menu-link border-bread">ユーザー一覧</a></li>
+        </ul>
+
         <h2 class="widget-title">お問い合わせ管理</h2>
         <ul class="admin-menu-list">
             <li><a href="/admin/contact" class="menu-link border-yellow">お問い合わせ一覧</a></li>
@@ -148,6 +153,10 @@
     background-color: #9b59b6;
     color: #fff !important;
 }
+.menu-link.border-bread:hover {
+    background-color: #b45f06;
+    color: #fff !important;
+}
 .menu-link.border-yellow:hover {
     background-color: #f1c40f;
     color: #fff !important;
@@ -157,9 +166,11 @@
     color: #fff !important;
 }
 
+
 .border-blue { border-left: 6px solid #3498db; }
 .border-green { border-left: 6px solid #2ecc71; }
 .border-purple { border-left: 6px solid #9b59b6; }
+.border-bread { border-left: 6px solid #b45f06; }
 .border-yellow { border-left: 6px solid #f1c40f; }
 .border-black { border-left: 6px solid #2c3e50; }
 

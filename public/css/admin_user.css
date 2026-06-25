@@ -1,0 +1,92 @@
+/* ページタイトル */
+.page-title {
+    text-align: center;
+    margin: 30px 0;
+}
+
+/* 全体レイアウト */
+.user-container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* ユーザー一覧 */
+.user-list {
+    flex: 2;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.user-table th {
+    background: #f8f8f8;
+    font-weight: bold;
+}
+
+.user-table tr:hover {
+    background: #f0f0f0;
+}
+
+/* ユーザー追加フォーム */
+.user-form {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+/* ラベル */
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 入力フォーム */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* 追加ボタン */
+.cart-btn {
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cart-btn:hover {
+    opacity: 0.85;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+    display: block;
+}
