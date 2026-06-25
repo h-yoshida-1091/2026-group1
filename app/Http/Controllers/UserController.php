@@ -35,6 +35,11 @@ class UserController extends Controller
             //セッションの再生成（セキュリティ対策）
             $request->session()->regenerate();
 
+            if(filled(Auth::user()->role))
+            {
+                return redirect('/admin/products');
+            }
+
             //「追加」スコアの未計算チェック ＆ バックグラウンド実行
             $userId = Auth::id();
             $allProductIds = \App\Models\Product::pluck('id')->toArray();
@@ -80,14 +85,14 @@ class UserController extends Controller
             'name' => 'required|string|max:100',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|max:255|confirmed',
-            'postal_code' => 'required|string|max:7',
+            'postal_code' => 'required|string|digits:7',
             'address' => 'required|string|max:255',
         ],[
             //エラー表示
             'email.unique' => 'このメールアドレスは既に登録されています',
             'password.confirmed' => 'パスワードが一致していません',
             'password.min' => 'パスワードは８文字以上で入力してください',
-            'postal_code.max' => '郵便番号は７文字以内で入力してください',
+            'postal_code.size' => '郵便番号は７桁で入力してください',
         ]);
 
         //データベースへ格納
@@ -96,7 +101,8 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password), //暗号化
             'postal_code' => $request->postal_code,
-            'address' => $request->address
+            'address' => $request->address,
+            'role' => null,
         ]);
 
         //会員登録後、ログイン画面に移動しメッセージを表示
@@ -145,13 +151,13 @@ class UserController extends Controller
             'current_password' => ['required', 'current_password'],
             'password' => ['nullable', 'string', 'min:8', 'max:255', 'confirmed'],
             'address' => ['required', 'string', 'max:255'],
-            'postal_code' => ['required', 'string', 'max:7'],
+            'postal_code' => ['required', 'string', 'digits:7'],
         ], [
             'name.required' => 'お名前は必須項目です',
             'email.required' => 'メールアドレスは必須項目です',
             'email.email' => '正しいメールアドレスの形式で入力してください',
             'email.unique' => 'このメールアドレスは既に登録されています',
-            'postal_code' => '郵便番号は７文字以内で入力してください',
+            'postal_code.size' => '郵便番号は７桁で入力してください',
             'address.required' => '住所は必須項目です',
             'password.min' => '新しいパスワードは８文字以上で入力してください',
             'password.confirmed' => '新しいパスワード（確認用）と一致していません',
