@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cart_item;
 use App\Models\Product;
-use App\Models\Product_image;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderCompleteMail;
 use Exception;
 
 class OrderController extends Controller
@@ -195,6 +196,8 @@ class OrderController extends Controller
 
             // すべての処理が成功したので、データベースに変更を確定反映（コミット）
             DB::commit();
+            //購入完了メールの送信処理
+            Mail::to($user->email)->send(new OrderCompleteMail($user, $cartItems, $products, $total));
 
             $userId = $user->id;
             dispatch(function () use ($userId) {
