@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminUserController;
 use Symfony\Component\Finder\Iterator\VcsIgnoredFilterIterator;
 
 
@@ -89,6 +90,13 @@ Route::post('/admin/categories', [AdminCategoryController::class, 'store']);
 Route::post('/admin/categories/edit/{id}', [AdminCategoryController::class, 'update']);
 // カテゴリー削除
 Route::post('/admin/categories/delete', [AdminCategoryController::class, 'destroy']);
+
+// ユーザー管理
+Route::get('/admin/users', [AdminUserController::class, 'index']);
+// ユーザー追加
+Route::post('/admin/users/create', [AdminUserController::class, 'store']);
+// ユーザー削除
+Route::post('/admin/users/delete', [AdminUserController::class, 'destroy']);
 
 // お問い合わせ画面の表示
 Route::get('/contact', [ContactController::class, 'index']);
