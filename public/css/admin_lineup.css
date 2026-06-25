@@ -183,3 +183,4 @@
     flex: 1;            /* 横幅の残りのスペースをすべて使い切る設定 */
     padding: 20px;
     box-sizing: border-box;
+}
