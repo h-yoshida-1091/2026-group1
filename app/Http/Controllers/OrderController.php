@@ -10,6 +10,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderCompleteMail;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -101,9 +102,9 @@ class OrderController extends Controller
             // リストに追加しない（空のコレクションを渡す）
             $cartItems = collect([]);
             $products = collect([]);
-            $subtotals =[];
+            $subtotals = [];
             $total = 0;
-        }else {
+        } else {
             // 通常通りリストに追加する
             $cartItems = collect([
                 (object)[
@@ -113,10 +114,10 @@ class OrderController extends Controller
             ]);
 
             $products = collect([$product]);
-            $subtotals = [ $product->price * $quantity ];
+            $subtotals = [$product->price * $quantity];
             $total = $subtotals[0];
         }
-        
+
         return view('purchase.confirm', [
             'purchaseType' => 'now',
             'user' => $user,
@@ -196,8 +197,12 @@ class OrderController extends Controller
 
             // すべての処理が成功したので、データベースに変更を確定反映（コミット）
             DB::commit();
+
             //購入完了メールの送信処理
             Mail::to($user->email)->send(new OrderCompleteMail($user, $cartItems, $products, $total));
+
+            // おすすめ商品取得
+            $recommendedProducts = $this->getRecommendedProducts($user->id);
 
             $userId = $user->id;
             dispatch(function () use ($userId) {
@@ -206,10 +211,17 @@ class OrderController extends Controller
             })->afterResponse();
 
             // 8. 完了画面へリダイレクト（例: サンクスページなど）
-            return view('purchase.complete');
+            return view('purchase.complete', compact('recommendedProducts'));
         } catch (Exception $e) {
             // 途中でエラーが発生した場合、ここまでのDB操作をすべて無かったことにする（ロールバック）
             DB::rollBack();
+
+            // エラーログに詳細を記録し、ユーザーを元の画面（またはカートなど）にエラーメッセージ付きで戻す
+            Log::error('注文確定処理でエラーが発生しました: ' . $e->getMessage(), [
+                'exception' => $e
+            ]);
+
+            return redirect('/cart')->with('error_message', '注文処理中に予期せぬエラーが発生しました。お手数ですが再度お試しください。');
         }
     }
 
@@ -230,9 +242,9 @@ class OrderController extends Controller
                 ->first();
 
             if ($product) {
-
+                // productsテーブルの image_id を使って画像を取得する
                 $image = DB::table('product_images')
-                    ->where('product_id', $product->id)
+                    ->where('id', $product->image_id) // product_id ではなく id で検索
                     ->value('image_url');
 
                 $product->score = $score->score;

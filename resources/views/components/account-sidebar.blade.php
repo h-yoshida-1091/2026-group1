@@ -14,11 +14,6 @@
            注文履歴
         </a>
 
-        <a href="#" 
-           class="nav-item {{ request()->routeIs('addresses.*') ? 'active' : '' }}">
-           お届け先一覧
-        </a>
-
          <form method="POST" action="{{ route('account.destroy') }}" style="display: none;" id="delete-form">
             @csrf
             @method('DELETE')
