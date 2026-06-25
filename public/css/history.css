@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   サイドバー (聖典の目録を繰るようなナビゲーション)
+   ========================================================================== */
+.account-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .account-sidebar {
+        width: 100%;
+    }
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    background-color: #fcfbfa; /* ほんのり羊皮紙を思わせる高貴な白 */
+    border: 1px solid #e5e0da; /* 静かな境界線 */
+    border-radius: 2px; /* 直線的でフォーマルな印象へ */
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(44, 42, 41, 0.02);
+}
+
+@media (max-width: 768px) {
+    .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+/* ナビゲーションアイテム */
+.nav-item {
+    display: block;
+    padding: 15px 20px;
+    color: #595450; /* 茶鼠色 */
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e5e0da;
+    transition: all 0.2s ease;
+}
+
+.nav-item:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .nav-item {
+        flex: 1 1 auto;
+        text-align: center;
+        padding: 12px 10px;
+        border-bottom: none;
+        border-right: 1px solid #e5e0da;
+    }
+    .nav-item:last-child {
+        border-right: none;
+    }
+}
+
+/* ホバー＆アクティブ（現在地）状態 */
+.nav-item:hover {
+    background-color: #ffffff;
+    color: #c5a880; /* ホバー時は真鍮ゴールド */
+}
+
+.nav-item.active {
+    background-color: #2c2a29; /* 現在地は重厚な墨色 */
+    color: #fcfbfa;            /* 高貴な白文字 */
+    border-color: #2c2a29;
+    pointer-events: none;       /* 現在のページなのでクリック無効化 */
+}
+
+/* 【追加】右側のメインコンテンツ内の要素の「上の余白」を強制リセット */
+.history-main-content h2 {
+    margin-top: 0 !important; /* 💡見出しの上の余白をゼロにする */
+    padding-top: 0 !important;
+}
+
+.history-container {
+    flex-grow: 1;
+}
+
+.account-container { 
+    max-width: 1200px; 
+    margin: 20px auto 40px auto; /* 上は20px、下は40pxにセパレート */
+    padding: 0 15px; 
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+@media (min-width: 769px) {
+    .account-container {
+        flex-direction: row;
+        align-items: start;
+    }
+}

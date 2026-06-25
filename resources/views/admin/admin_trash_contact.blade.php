@@ -62,6 +62,10 @@
 </head>
 <body>
 
+@include('admin.admin_header')
+
+@include('admin.admin_sidebar')
+
 <div class="container-fluid my-5 px-5">
     @if(session('success_message'))
         <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
