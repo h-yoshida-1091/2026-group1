@@ -3,7 +3,7 @@
 $is_logged_in = Auth::check();
 $user_name = $is_logged_in ? Auth::user()->name : '';
 
-// 3. 検索フォーム用のカテゴリ一覧をデータベースから取得
+// 2. 検索フォーム用のカテゴリ一覧をデータベースから取得
 $categories = \DB::table('categories')->get();
 @endphp
 

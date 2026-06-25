@@ -11,10 +11,12 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminUserController;
 use Symfony\Component\Finder\Iterator\VcsIgnoredFilterIterator;
+
 
 // 商品一覧
 Route::get('/products', [ProductController::class, 'index']);
@@ -89,6 +91,13 @@ Route::post('/admin/categories/edit/{id}', [AdminCategoryController::class, 'upd
 // カテゴリー削除
 Route::post('/admin/categories/delete', [AdminCategoryController::class, 'destroy']);
 
+// ユーザー管理
+Route::get('/admin/users', [AdminUserController::class, 'index']);
+// ユーザー追加
+Route::post('/admin/users/create', [AdminUserController::class, 'store']);
+// ユーザー削除
+Route::post('/admin/users/delete', [AdminUserController::class, 'destroy']);
+
 // お問い合わせ画面の表示
 Route::get('/contact', [ContactController::class, 'index']);
 // お問い合わせデータの保存処理
@@ -109,4 +118,9 @@ Route::post('/admin/contact/{id}/restore', [ContactController::class, 'adminRest
 Route::delete('/admin/contact/{id}/force-delete', [ContactController::class, 'adminForceDelete']);
 // ゴミ箱から選択したデータを一括で完全に削除する処理
 Route::delete('/admin/contact/bulk-delete', [ContactController::class, 'adminBulkDelete']);
+
+// レビュー投稿・削除用ルート
+Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth');
+Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->middleware('auth');
+
 
