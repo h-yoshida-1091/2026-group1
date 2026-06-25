@@ -95,12 +95,14 @@ $favorite_url = '/products?' . http_build_query($favorite_params);
                     </a>
                     @endif
 
+                    @if ($is_logged_in)
                     <a href="{{ $favorite_url }}" id="header-favorite-btn" data-current-count="{{ $favorite_count }}" class="header-icon-btn position-relative {{ request('favorite') ? 'active-filter' : '' }}" title="お気に入りで絞り込み">
                         <i class="fa-solid fa-heart fs-5 text-danger"></i>
                         <span id="header-favorite-badge" class="position-absolute badge rounded-pill bg-danger {{ $favorite_count == 0 ? 'd-none' : '' }}">
                             {{ $favorite_count }}
                         </span>
                     </a>
+                    @endif
 
                     <a href="/cart" class="header-icon-btn position-relative" title="カートを見る">
                         <i class="fa-solid fa-cart-shopping fs-5"></i>

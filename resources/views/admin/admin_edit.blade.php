@@ -1,156 +1,169 @@
-@include('admin.admin_header')
+<!DOCTYPE html>
+<html lang="ja">
 
-<link rel="stylesheet" href="{{ asset('css/admin_edit.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>【管理画面】商品編集</title>
+    <link rel="stylesheet" href="{{ asset('css/admin_edit.css') }}">
+</head>
 
-<div class="admin-main-layout">
+<body>
 
-    @include('admin.admin_sidebar')
+    @include('admin.admin_header')
 
-    <div class="admin-container" style="padding-top: 20px;">
+    <div class="admin-main-layout">
 
-        <h1 class="page-title">商品編集</h1>
+        @include('admin.admin_sidebar')
 
-        <div class="product-detail">
+        <div class="admin-container" style="padding-top: 20px;">
 
-            <div class="product-image">
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" id="preview">
-            </div>
+            <h1 class="page-title">商品編集</h1>
 
-            <div class="product-info">
+            <div class="product-detail">
 
-                <form action="/admin/products/edit/{{ $product->id }}" method="post" enctype="multipart/form-data">
-                    @csrf
+                <div class="product-image">
+                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" id="preview">
+                </div>
 
-                    <div>
-                        <label>
-                            <input type="radio" name="image_type" value="url" checked onclick="toggleImageInput()"> URLから入力
-                        </label>
-                        <label>
-                            <input type="radio" name="image_type" value="file" onclick="toggleImageInput()"> ファイルから選択
-                        </label>
-                    </div>
+                <div class="product-info">
 
-                    <br>
+                    <form action="/admin/products/edit/{{ $product->id }}" method="post" enctype="multipart/form-data">
+                        @csrf
 
-                    <div id="url_input">
-                        <label>画像URL</label>
-                        <input type="text" name="image_url" id="image_url" value="{{ old('image_url', $product->image_url) }}">
-                        @error('image_url')
-                        <span class="error-message" style="color: red; display: block; margin-top: 5px;">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div id="file_input" style="display:none;">
-                        <label>画像ファイル</label>
-                        <input type="file" name="image_file" id="image_file" accept="image/*">
-                        @error('image_file')
-                        <span class="error-message" style="color: red; display: block; margin-top: 5px;">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <br>
-
-                    <div class="product-header">
                         <div>
-                            <label>商品名</label>
-                            <input type="text" name="name" value="{{ $product->name }}" required>
+                            <label>
+                                <input type="radio" name="image_type" value="url" checked onclick="toggleImageInput()"> URLから入力
+                            </label>
+                            <label>
+                                <input type="radio" name="image_type" value="file" onclick="toggleImageInput()"> ファイルから選択
+                            </label>
                         </div>
-                    </div>
 
-                    <br>
+                        <br>
 
-                    <div>
-                        <label>価格</label>
-                        <input type="number" name="price" value="{{ $product->price }}" required>
-                    </div>
+                        <div id="url_input">
+                            <label>画像URL</label>
+                            <input type="text" name="image_url" id="image_url" value="{{ old('image_url', $product->image_url) }}">
+                            @error('image_url')
+                            <span class="error-message" style="color: red; display: block; margin-top: 5px;">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    <br>
+                        <div id="file_input" style="display:none;">
+                            <label>画像ファイル</label>
+                            <input type="file" name="image_file" id="image_file" accept="image/*">
+                            @error('image_file')
+                            <span class="error-message" style="color: red; display: block; margin-top: 5px;">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    <div>
-                        <label>在庫数</label>
-                        <input type="number" name="stock" value="{{ $product->stock }}" required>
-                    </div>
+                        <br>
 
-                    <br>
+                        <div class="product-header">
+                            <div>
+                                <label>商品名</label>
+                                <input type="text" name="name" value="{{ $product->name }}" required>
+                            </div>
+                        </div>
 
-                    <div class="description">
-                        <h3>商品説明</h3>
-                        <textarea name="description" required>{{ $product->description }}</textarea>
-                    </div>
+                        <br>
 
-                    <br>
+                        <div>
+                            <label>価格</label>
+                            <input type="number" name="price" value="{{ $product->price }}" required>
+                        </div>
 
-                    <div>
-                        <label>カテゴリ</label>
-                        <select name="category_id" required>
-                            @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <br>
 
-                    <br>
+                        <div>
+                            <label>在庫数</label>
+                            <input type="number" name="stock" value="{{ $product->stock }}" required>
+                        </div>
 
-                    <button type="submit" class="cart-btn">更新する</button>
+                        <br>
 
-                </form>
+                        <div class="description">
+                            <h3>商品説明</h3>
+                            <textarea name="description" required>{{ $product->description }}</textarea>
+                        </div>
+
+                        <br>
+
+                        <div>
+                            <label>カテゴリ</label>
+                            <select name="category_id" required>
+                                @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <br>
+
+                        <button type="submit" class="cart-btn">更新する</button>
+
+                    </form>
+
+                </div>
 
             </div>
 
         </div>
-
     </div>
-</div>
-<script>
-    function toggleImageInput() {
-        const type = document.querySelector('input[name="image_type"]:checked').value;
-        const urlDiv = document.getElementById('url_input');
-        const fileDiv = document.getElementById('file_input');
-        const urlInput = document.getElementById('image_url');
-        const fileInput = document.getElementById('image_file');
+    <script>
+        function toggleImageInput() {
+            const type = document.querySelector('input[name="image_type"]:checked').value;
+            const urlDiv = document.getElementById('url_input');
+            const fileDiv = document.getElementById('file_input');
+            const urlInput = document.getElementById('image_url');
+            const fileInput = document.getElementById('image_file');
 
-        if (type === 'url') {
-            urlDiv.style.display = 'block';
-            urlInput.disabled = false;
+            if (type === 'url') {
+                urlDiv.style.display = 'block';
+                urlInput.disabled = false;
 
-            fileDiv.style.display = 'none';
-            fileInput.disabled = true;
-        } else {
-            urlDiv.style.display = 'none';
-            urlInput.disabled = true;
-
-            fileDiv.style.display = 'block';
-            fileInput.disabled = false;
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        toggleImageInput();
-
-        document.getElementById('image_file').addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('preview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        document.getElementById('image_url').addEventListener('input', function() {
-            const preview = document.getElementById('preview');
-            if (this.value) {
-                preview.src = this.value;
-                preview.style.display = 'block';
+                fileDiv.style.display = 'none';
+                fileInput.disabled = true;
             } else {
-                preview.style.display = 'none';
+                urlDiv.style.display = 'none';
+                urlInput.disabled = true;
+
+                fileDiv.style.display = 'block';
+                fileInput.disabled = false;
             }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleImageInput();
+
+            document.getElementById('image_file').addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.getElementById('preview');
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            document.getElementById('image_url').addEventListener('input', function() {
+                const preview = document.getElementById('preview');
+                if (this.value) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
         });
-    });
-</script>
+    </script>
+
+</body>
+
+</html>

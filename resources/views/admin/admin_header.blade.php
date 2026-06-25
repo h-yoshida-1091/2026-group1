@@ -18,7 +18,7 @@ $categories = \DB::table('categories')->get();
 <header class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold fs-3 text-primary" href="/admin/products">
-            <i class="fa-solid fa-shop me-2"></i>MyShop_Admin
+            <i class="fa-solid fa-shop me-2"></i> 管理者ページ
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,11 +44,6 @@ $categories = \DB::table('categories')->get();
                     </button>
                 </div>
             </form>
-
-            <!-- 商品追加ボタン ↓ここに追加 -->
-            <a href="/admin/products/create" class="btn btn-primary ms-2 text-nowrap">
-                <i class="fa-solid fa-plus me-1"></i>商品追加
-            </a>
 
             <div class="d-flex align-items-center justify-content-end header-user-actions" style="min-width: 300px;">
 
