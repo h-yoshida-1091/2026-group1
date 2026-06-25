@@ -51,10 +51,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="postal_code" class="form-label">郵便番号</label>
+                        <label for="postal_code" class="form-label">郵便番号（数字のみ、最大７文字）</label>
                         <input type="text" id="postal_code" name="postal_code"
                             class="form-control p-postal-code @error('postal_code') is-invalid @enderror"
-                            value="{{ old('postal_code', $user->postal_code ?? '') }}" placeholder="123-4567">
+                            maxlength="7" inputmode="numeric" pattern="\d*"
+                            value="{{ old('postal_code', $user->postal_code ?? '') }}" placeholder="1234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         @error('postal_code', 'updatePassword')
                         <span class="error-message">{{ $message }}</span>
                         @enderror
