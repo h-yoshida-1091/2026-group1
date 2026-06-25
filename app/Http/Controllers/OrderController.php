@@ -31,6 +31,29 @@ class OrderController extends Controller
 
         $products = Product::whereIn('id', $cartItems->pluck('product_id'))->get();
 
+        // 購入確認直前の在庫チェック
+        $hasStockError = false;
+        $errorMessages = [];
+
+        foreach ($cartItems as $cartItem) {
+            $product = $products->firstWhere('id', $cartItem->product_id);
+
+            if ($product && $cartItem->quantity > $product->stock) {
+                $hasStockError = true;
+                $errorMessages[] = $product->name . 'の在庫上限（' . $product->stock . '個）に達しました。';
+
+                // カート内の実際の数量も、商品テーブルの最大在庫数に強制補正して即時保存
+                Cart_item::where('user_id', $user->id)
+                    ->where('product_id', $product->id)
+                    ->update(['quantity' => $product->stock]);
+            }
+        }
+
+        // 1件でも他ユーザーの購入による在庫減少（超過）を検知したら、カート画面に押し戻す
+        if ($hasStockError) {
+            return redirect('/cart')->with('errors_array', $errorMessages);
+        }
+
         // 3. 商品ごとに小計を計算
         $subtotals = [];
         foreach ($cartItems as $cartItem) {
@@ -63,7 +86,7 @@ class OrderController extends Controller
         $user = Auth::user();
 
         if (!$user) {
-            return redirect()->route('login')->with('error', 'ログインが必要です。');
+            return redirect('/login')->with('error_message', '今すぐ購入機能を利用するにはログインが必要です。');
         }
 
         $productId = $request->input('products.0.id');
@@ -71,21 +94,28 @@ class OrderController extends Controller
 
         $product = Product::findOrFail($productId);
 
-        $cartItems = collect([
-            (object)[
-                'product_id' => $product->id,
-                'quantity' => $quantity,
-            ]
-        ]);
+        // 今すぐ購入でも在庫上限を超えていた場合は自動適用
+        if ($quantity > $product->stock) {
+            session()->flash('now_purchase_error', $product->name . 'の在庫上限（' . $product->stock . '個）に達しました。');
+            // リストに追加しない（空のコレクションを渡す）
+            $cartItems = collect([]);
+            $products = collect([]);
+            $subtotals =[];
+            $total = 0;
+        }else {
+            // 通常通りリストに追加する
+            $cartItems = collect([
+                (object)[
+                    'product_id' => $product->id,
+                    'quantity' => $quantity,
+                ]
+            ]);
 
-        $products = collect([$product]);
-
-        $subtotals = [
-            $product->price * $quantity
-        ];
-
-        $total = $subtotals[0];
-
+            $products = collect([$product]);
+            $subtotals = [ $product->price * $quantity ];
+            $total = $subtotals[0];
+        }
+        
         return view('purchase.confirm', [
             'purchaseType' => 'now',
             'user' => $user,
@@ -115,15 +145,13 @@ class OrderController extends Controller
                     'quantity' => $request->quantity,
                 ]
             ]);
-
         } else {
 
             $cartItems = Cart_item::where('user_id', $user->id)->get();
-
         }
 
         $products = Product::whereIn('id', $cartItems->pluck('product_id'))
-        ->get();
+            ->get();
 
         $total = 0;
 
@@ -145,7 +173,7 @@ class OrderController extends Controller
             $orderId = DB::table('orders')->insertGetId([
                 'user_id'    => $user->id,
                 'sumprice'   => $total,
-                'order_date' => now(), 
+                'order_date' => now(),
             ]);
 
             // 6. order_items テーブルにカートの商品を1つずつ保存
@@ -176,7 +204,6 @@ class OrderController extends Controller
 
             // 8. 完了画面へリダイレクト（例: サンクスページなど）
             return view('purchase.complete');
-
         } catch (Exception $e) {
             // 途中でエラーが発生した場合、ここまでのDB操作をすべて無かったことにする（ロールバック）
             DB::rollBack();
