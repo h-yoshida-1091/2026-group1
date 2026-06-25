@@ -1,8 +1,16 @@
 @include('header')
 
+<title>購入確認</title>
+
 <link rel="stylesheet" href="{{ asset('css/confirm.css') }}">
 
 <h1 class="title">購入確認</h1>
+
+@if (session('now_purchase_error'))
+    <div class="alert alert-danger" style="color: red; background-color: #fff5f5; border: 1px solid #ffcccc; padding: 12px; margin-bottom: 20px; border-radius: 4px; font-weight: bold;">
+        {{ session('now_purchase_error') }}
+    </div>
+@endif
 
 <table class="confirm-table">
     <thead>
@@ -55,7 +63,7 @@
 
     <input type="hidden" name="purchase_type" value="{{ $purchaseType }}">
 
-    @if($purchaseType === 'now')
+    @if($purchaseType === 'now'&& count($products) > 0)
     <input type="hidden" name="product_id" value="{{ $products[0]->id }}">
 
     <input type="hidden" name="quantity" value="{{ $cartItems[0]->quantity }}">
@@ -98,7 +106,7 @@
         <div class="submit-section">
 
             <a href="/cart" class="btn-back-cart">
-                カートに戻る
+                カートを見る
             </a>
 
             <button type="submit" class="btn-complete" @if(empty($products) || count($products)===0) disabled @endif>

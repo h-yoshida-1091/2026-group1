@@ -29,6 +29,9 @@ return new class extends Migration
 
             //住所
             $table->string('address', 255);
+
+            //管理者
+            $table->string('role', 255)->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

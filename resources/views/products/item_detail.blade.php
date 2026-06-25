@@ -1,19 +1,16 @@
 @include('header')
+<title>商品詳細</title>
 
 <link rel="stylesheet" href="{{ asset('css/detail.css') }}">
-
-<a href="/products" class="back-link">一覧へ戻る</a>
 
 <h1 class="page-title">商品詳細</h1>
 
 <div class="product-detail">
 
-    <!-- 商品画像 -->
     <div class="product-image">
         <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
     </div>
 
-    <!-- 商品情報 -->
     <div class="product-info">
 
         <div class="product-header">
@@ -30,22 +27,26 @@
             ¥{{ number_format($product->price) }}
         </p>
 
-        <p class="stock">
-            在庫：{{ $product->stock }}
-        </p>
-
         <div class="description">
             <h3>商品説明</h3>
             <p>{{ $product->description }}</p>
         </div>
 
+        <div class="quantity-area" style="margin: 15px 0;">
+            <label for="quantity-select" style="font-weight: bold; margin-right: 10px;">数量：</label>
+            <select id="quantity-select" class="form-select" style="width: 100px; display: inline-block;">
+                @for ($i = 1; $i <= min($product->stock, 10); $i++)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </select>
+        </div>
+
         <div class="button-area">
 
-            <!-- カートに入れる -->
-            <form action="/cart/add" method="POST">
+            <form action="/cart/add" method="POST" id="cart-form">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                <input type="hidden" name="quantity" value="1">
+                <input type="hidden" name="quantity" id="cart-quantity" value="1">
 
                 <button type="submit" class="cart-btn">
                     カートに入れる
@@ -54,8 +55,7 @@
 
             <div class="sub-buttons">
 
-                <!-- 今すぐ購入 -->
-                <form action="/purchase/now" method="POST">
+                <form action="/purchase/now" method="POST" id="purchase-form">
                     @csrf
 
                     <input type="hidden"
@@ -64,6 +64,7 @@
 
                     <input type="hidden"
                         name="products[0][quantity]"
+                        id="purchase-quantity"
                         value="1">
 
                     <button type="submit" class="buy-now-btn">
@@ -71,7 +72,6 @@
                     </button>
                 </form>
 
-                <!-- 商品一覧へ戻る -->
                 <a href="/products" class="back-products-btn">
                     商品一覧へ戻る
                 </a>
@@ -87,6 +87,21 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
+        // --- 数量セレクトボックスの連動処理 ---
+        const quantitySelect = document.getElementById('quantity-select');
+        const cartQuantityInput = document.getElementById('cart-quantity');
+        const purchaseQuantityInput = document.getElementById('purchase-quantity');
+
+        if (quantitySelect) {
+            quantitySelect.addEventListener('change', function() {
+                const selectedValue = this.value;
+                // ドロップダウンで選ばれた数値を、それぞれのフォームのhidden inputに同期させる
+                if (cartQuantityInput) cartQuantityInput.value = selectedValue;
+                if (purchaseQuantityInput) purchaseQuantityInput.value = selectedValue;
+            });
+        }
+
+        // --- お気に入り機能の非同期通信 ---
         const favoriteButton = document.querySelector('.favorite-btn');
 
         if (!favoriteButton) return;

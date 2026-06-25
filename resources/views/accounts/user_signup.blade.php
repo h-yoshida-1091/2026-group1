@@ -51,9 +51,9 @@
             </div>
 
             <div class="form-group">
-                <label for="postal_code">郵便番号</label>
+                <label for="postal_code">郵便番号（数字のみ、最大７文字）</label>
                 <div class="postal-code-container" style="display: flex; gap: 10px;">
-                    <input type="text" id="postal_code" name="postal_code" class="p-postal-code" placeholder="123-4567" style="flex: 1;">
+                    <input type="text" id="postal_code" name="postal_code" class="p-postal-code" maxlength="7" inputmode="numeric" pattern="\d*" placeholder="1234567" style="flex: 1;" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
             </div>
 
