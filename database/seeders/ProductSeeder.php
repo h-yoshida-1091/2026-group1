@@ -30,15 +30,15 @@ class ProductSeeder extends Seeder
                 'stock' => 10
             ],
             [
-                'category_id' => 1,
+                'category_id' => 2,
                 'image_id' => 2,
-                'name' => 'イスラム経典',
+                'name' => 'クルアーン',
                 'description' => 'イスラム教の聖典であり、神（アッラー）の言葉が預言者ムハンマドに啓示されたものです',
                 'price' => 980,
                 'stock' => 8
             ],
             [
-                'category_id' => 1,
+                'category_id' => 3,
                 'image_id' => 3,
                 'name' => '旧約聖書',
                 'description' => '紀元前4〜5世紀頃に成立し、イエス・キリスト誕生以前の神とイスラエル民族の関係を描く書物です',
@@ -46,7 +46,7 @@ class ProductSeeder extends Seeder
                 'stock' => 5
             ],
             [
-                'category_id' => 2,
+                'category_id' => 4,
                 'image_id' => 4,
                 'name' => '新約聖書',
                 'description' => 'イエス・キリストの生涯以降に成立し、キリストを通じた新しい契約と救いの道を記しています',
@@ -54,7 +54,7 @@ class ProductSeeder extends Seeder
                 'stock' => 7
             ],
             [
-                'category_id' => 2,
+                'category_id' => 5,
                 'image_id' => 5,
                 'name' => 'ヴェーダ',
                 'description' => 'ヴェーダは紀元前1000年頃から紀元前500年頃にかけてインドで編纂された一連の宗教文書で、バラモン教やヒンドゥー教の聖典として重要視されています',
@@ -62,7 +62,7 @@ class ProductSeeder extends Seeder
                 'stock' => 6
             ],
             [
-                'category_id' => 2,
+                'category_id' => 5,
                 'image_id' => 6,
                 'name' => '叙事詩「ラーマーヤナ」',
                 'description' => '古代インドの大長編叙事詩。ヒンドゥー教の聖典の一つであり、『マハーバーラタ』と並ぶインド2大叙事詩の一つである。',
@@ -70,7 +70,7 @@ class ProductSeeder extends Seeder
                 'stock' => 4
             ],
             [
-                'category_id' => 3,
+                'category_id' => 5,
                 'image_id' => 7,
                 'name' => '叙事詩「マハーバーラタ」',
                 'description' => '伝説のリシ（聖仙）ヴィヤーサが著作したとされるバラタ族にまつわる大叙事詩',
@@ -86,7 +86,7 @@ class ProductSeeder extends Seeder
                 'stock' => 3
             ],
             [
-                'category_id' => 3,
+                'category_id' => 6,
                 'image_id' => 9,
                 'name' => 'ネクロノミコン',
                 'description' => 'クトゥルフ神話に登場する魔導書の1つであり、特に有名な禁忌の書物です',

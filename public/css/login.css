@@ -1,12 +1,16 @@
+@charset "UTF-8";
+
 /* ==========================================================================
-   全体の設定（画面の中央に配置する）
+   全体の設定（画面の中央に配置する・教典テーマ）
    ========================================================================== */
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-    background-color: #f4f7f6; /* 薄いグレーの背景 */
+    /* 美しい明朝系・セリフ体へ統一 */
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', 'Sawarabi Mincho', 'Hiragino Mincho ProN', 'MS Mincho', serif;
+    background-color: #f5f2ed; /* 静寂を感じさせる薄いベージュの背景 */
+    letter-spacing: 0.5px;
     
     /* Flexboxを使って画面の真ん中に配置 */
     display: flex;
@@ -16,53 +20,59 @@ body {
 }
 
 /* ==========================================================================
-   白枠のコンテナ（新規登録のサイズ感に統一）
+   白枠のコンテナ（書物をイメージした高貴な白）
    ========================================================================== */
 .login-container,
 .register-container {
-    background-color: #ffffff;
+    background-color: #fcfbfa; /* ほんのり羊皮紙を思わせる高貴な白 */
     padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* ほんのり影をつける */
+    border: 1px solid #e5e0da;
+    border-radius: 4px; /* 直線的でフォーマルな印象へ */
+    box-shadow: 0 4px 20px rgba(44, 42, 41, 0.05); /* 墨色ベースの淡い影 */
     width: 100%;
-    max-width: 400px; /* 新規登録の幅に統一 */
+    max-width: 400px;
     box-sizing: border-box;
 }
 
-/* タイトルを中央寄せ（新規登録の余白に合わせる） */
+/* タイトルを中央寄せ */
 .login-container h1,
 .register-container h1 {
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1.5px; /* 厳かな印象を与えるために広めに */
     text-align: center;
-    margin-bottom: 30px;
-    color: #333333;
+    margin-bottom: 35px;
+    color: #2c2a29; /* 深い墨色 */
 }
 
 /* ==========================================================================
    入力フォーム・ボタンのデザイン
    ========================================================================== */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
-    color: #555555;
+    font-weight: 600;
+    color: #595450; /* 茶鼠色 */
     font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
-/* ログインのinputも、新規登録のtextarea等と完全に同じ見た目（縦幅・余白）にします */
 .form-group input,
 .form-group textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    font-size: 16px;
+    border: 1px solid #e5e0da;
+    border-radius: 2px; /* 丸みを抑える */
+    background-color: #ffffff;
+    color: #2c2a29;
+    font-size: 15px;
     box-sizing: border-box;
-    font-family: inherit;
+    font-family: inherit; /* 明朝体を継承 */
+    transition: border-color 0.2s, background-color 0.2s;
 }
 
 /* 住所欄（textarea）の引き伸ばし制限 */
@@ -70,58 +80,62 @@ body {
     resize: vertical;
 }
 
-/* 入力欄にカーソルが当たった時の色 */
+/* 入力欄にカーソルが当たった時の色（ゴールド） */
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #007bff;
+    border-color: #c5a880; /* 真鍮ゴールド */
+    background-color: #ffffff;
     outline: none;
 }
 
-/* ボタン（新規登録のボタンと同じ高さ・スタイルに統一） */
+/* ボタン（真鍮ゴールドベースの重厚なスタイル） */
 .btn-login,
 .btn-register {
     width: 100%;
     padding: 12px;
-    background-color: #007bff; /* 青色のボタン */
+    background-color: #c5a880; /* 真鍮ゴールド */
     color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
+    border: 1px solid #c5a880;
+    border-radius: 2px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
 }
 
 .btn-login:hover,
 .btn-register:hover {
-    background-color: #0056b3;
+    background-color: #bfaea2; /* 少し落ち着いたアンティーク調のトーンに */
+    border-color: #bfaea2;
 }
 
 /* ==========================================================================
-   フッター（新規登録のテキスト配置にログイン側を合わせる）
+   フッター（リンク周り）
    ========================================================================== */
 .login-footer,
 .register-footer {
     text-align: center;
-    margin-top: 25px; /* 少し余裕を持たせる */
+    margin-top: 30px;
 }
 
-/* 新規登録画面にあった「既にアカウントをお持ちですか？」等のテキスト用の設定 */
 .register-footer p {
     margin: 0 0 8px 0;
-    color: #666666;
-    font-size: 14px;
+    color: #8c847c; /* 落ち着いたグレーブラウン */
+    font-size: 13px;
 }
 
 /* リンクのデザイン */
 .login-footer a,
 .register-footer a {
-    color: #007bff;
+    color: #595450; /* 初期状態は茶鼠色 */
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
+    transition: color 0.2s;
 }
 
 .login-footer a:hover,
 .register-footer a:hover {
+    color: #c5a880; /* ホバー時にゴールドへ変化 */
     text-decoration: underline;
 }

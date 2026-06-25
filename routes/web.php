@@ -35,6 +35,11 @@ Route::post('/purchase/now', [OrderController::class, 'nowPurchase']);
 //　購入完了
 Route::post('/purchase/complete', [OrderController::class, 'complete']);
 
+//注文履歴
+Route::middleware(['auth'])->group(function () {
+    Route::get('/purchase/history', [UserController::class, 'showOrderHistory'])->name('purchase.history');
+});
+
 // ログイン画面
 Route::get('/login', [UserController::class, 'login_Get'])->name('login');
 Route::post('/login', [UserController::class, 'login_Post']);
@@ -88,3 +93,20 @@ Route::post('/admin/categories/delete', [AdminCategoryController::class, 'destro
 Route::get('/contact', [ContactController::class, 'index']);
 // お問い合わせデータの保存処理
 Route::post('/contact', [ContactController::class, 'store']);
+// 管理者用お問い合わせ一覧画面
+Route::get('/admin/contact', [ContactController::class, 'adminIndex']);
+// 管理者用返信画面の表示
+Route::get('/admin/contact/{id}/reply', [ContactController::class, 'adminReply']);
+// 管理者用返信処理（ステータス更新）
+Route::post('/admin/contact/{id}/reply', [ContactController::class, 'adminSendReply']);
+// お問い合わせをゴミ箱に移動する処理
+Route::post('/admin/contact/{id}/trash', [ContactController::class, 'adminTrash']);
+// ゴミ箱に入ったお問い合わせの一覧画面
+Route::get('/admin/trash', [ContactController::class, 'adminTrashIndex']);
+// ゴミ箱から元に戻す（復元）処理
+Route::post('/admin/contact/{id}/restore', [ContactController::class, 'adminRestore']);
+// ゴミ箱から完全に削除する（個別物理削除）処理
+Route::delete('/admin/contact/{id}/force-delete', [ContactController::class, 'adminForceDelete']);
+// ゴミ箱から選択したデータを一括で完全に削除する処理
+Route::delete('/admin/contact/bulk-delete', [ContactController::class, 'adminBulkDelete']);
+

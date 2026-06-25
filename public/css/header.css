@@ -1,154 +1,75 @@
 @charset "UTF-8";
 
 /* ==========================================
-   ECサイト共通ヘッダー カスタムスタイル
+   ECサイト共通ヘッダー カスタムスタイル（教典・神聖テーマ）
 ========================================== */
 
-/* ヘッダー全体のベース（少し影をつけて立体感を出す） */
+/* ヘッダー全体のベース（温かみのある白と、静かな影） */
 header.navbar {
-    background-color: #ffffff !important; /* 真っ白にして清潔感を */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* ほのかな下の影 */
-    padding: 0.75rem 0;
+    background-color: #fcfbfa !important; /* ほんのり羊皮紙を思わせる高貴な白 */
+    box-shadow: 0 2px 12px rgba(44, 42, 41, 0.06); /* 墨色の淡い影 */
+    padding: 0.85rem 0;
     transition: all 0.3s ease;
 }
 
-/* 1. サイトロゴのスタイリング */
+/* 1. サイトロゴのスタイリング（クラシックなセリフ体・明朝体へ） */
 .navbar-brand {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: 0.5px;
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', 'Sawarabi Mincho', 'Hiragino Mincho ProN', 'MS Mincho', serif;
+    font-weight: 600;
+    letter-spacing: 1.5px; /* 文字間を広げて厳かな印象に */
+    color: #2c2a29 !important; /* 深い墨色 */
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* ロゴにマウスを乗せた時の動き（ちょっと浮き上がる） */
+/* ロゴにマウスを乗せた時の動き */
 .navbar-brand:hover {
-    opacity: 0.85;
+    opacity: 0.75;
     transform: translateY(-1px);
 }
 
 .navbar-brand i {
-    color: #0d6efd; /* ロゴのアイコンカラー（Bootstrapのprimary） */
+    color: #c5a880; /* ロゴアイコン：金箔・真鍮をイメージしたゴールド */
 }
 
 /* 2. 商品名検索フォームのスタイリング */
 .input-group .form-control {
-    border-radius: 20px 0 0 20px; /* 左側を丸く */
+    font-family: 'Noto Serif JP', serif;
+    border-radius: 4px 0 0 4px; /* 丸みを抑え、書物のような直線的な美しさに */
+    border-color: #e5e0da;
     border-right: none;
     padding-left: 1.25rem;
+    background-color: #ffffff;
 }
 
 .input-group .form-control:focus {
-    border-color: #ced4da;
-    box-shadow: none; /* フォーカス時の青い枠線を消してスッキリ */
-    background-color: #f8f9fa;
+    border-color: #c5a880; /* フォーカス時はゴールドの枠線に */
+    box-shadow: none;
+    background-color: #ffffff;
 }
 
-/* 虫眼鏡マークの検索ボタン */
+/* 検索ボタン */
 .input-group .btn-outline-secondary {
-    border-radius: 0 20px 20px 0; /* 右側を丸く */
+    border-radius: 0 4px 4px 0; /* 丸みを抑える */
     border-left: none;
-    background-color: #f8f9fa;
-    border-color: #ced4da;
-    color: #6c757d;
+    background-color: #ffffff;
+    border-color: #e5e0da;
+    color: #8c847c;
     transition: all 0.2s ease;
     padding-right: 1.25rem;
 }
 
 /* 検索ボタンにマウスを乗せた時 */
 .input-group .btn-outline-secondary:hover {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    background-color: #c5a880; /* ゴールドに変化 */
+    border-color: #c5a880;
     color: #ffffff;
 }
 
-/* 4. カートアイコンのスタイリング */
-.btn-outline-dark {
-    border: none; /* 枠線を消してスタイリッシュに */
-    background-color: #f8f9fa;
-    color: #333333;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50% !important; /* まん丸のボタンにする */
-    transition: all 0.2s ease;
-}
-
-/* カートアイコンにマウスを乗せた時 */
-.btn-outline-dark:hover {
-    background-color: #e9ecef;
-    color: #0d6efd;
-    transform: scale(1.05); /* 少し大きく */
-}
-
-/* カートの数量バッジ（リアルタイムカウント用） */
-.badge.bg-danger {
-    background-color: #ff3838 !important; /* 鮮やかな赤 */
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 0.35em 0.5em;
-    min-width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 2px !important;
-    right: 2px !important;
-    transform: translate(50%, -50%);
-    box-shadow: 0 0 0 2px #ffffff; /* バッジの周りに白いフチをつけて見やすく */
-}
-
-/* ユーザー名・ボタン周りの微調整 */
-.navbar-text {
-    font-size: 0.9rem;
-    color: #495057;
-}
-
-.navbar-text strong {
-    color: #212529;
-}
-
-/* ログイン・ログアウトボタンの角を少し丸く */
-.header-action-btn {
-    border-radius: 15px;
-    padding: 0.4rem 1rem;
-    font-weight: 500;
-}
-
-.header-category-select {
-    width: 105px !important;    /* 横幅をさらに削って「95px」に完全固定 */
-    max-width: 105px !important;
-    
-    font-size: 0.75rem;        /* 文字サイズをかなり小さく（これで見えるようになります） */
-    font-weight: bold;         /* 小さくした分、太字にして視認性を確保 */
-    
-    /* 内側の余白を限界まで削って、文字が書けるスペースを広げる */
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    padding-left: 0.3rem;      /* 左の余白を最小限に */
-    padding-right: 1.2rem;     /* 右側（矢印マーク）の余白も極限まで詰める */
-    
-    background-color: #f8f9fa;
-    border-right: none;
-    color: #495057;            /* 文字色を少し濃くして、小さくても読みやすく */
-    
-    /* 万が一、これでも入り切らない超ロングなカテゴリ名があった時の安全弁（切れるのを防ぐ） */
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-/* クリックされて選択肢が開いた時、またはマウスを乗せた時 */
-.header-category-select:focus,
-.header-category-select:hover {
-    width: 180px; /* 長いカテゴリー名も収まる幅まで自動で広げる */
-    color: #212529;
-}
-/* アカウント設定・カートボタン共通の丸型スタイル */
+/* 4. カート・アカウント共通の丸型スタイル（少しクラシックに） */
 .header-icon-btn {
-    border: none;
-    background-color: #f8f9fa;
-    color: #333333;
+    border: 1px solid #e5e0da; /* 輪郭をうっすらと与えて静的な美しさを */
+    background-color: #ffffff;
+    color: #2c2a29;
     width: 42px;
     height: 42px;
     display: flex;
@@ -160,25 +81,104 @@ header.navbar {
 }
 
 .header-icon-btn:hover {
-    background-color: #e9ecef;
-    color: #0d6efd;
-    transform: scale(1.05);
+    background-color: #f7f5f0;
+    color: #c5a880; /* ホバー時はゴールドに */
+    border-color: #c5a880;
+    transform: scale(1.03);
 }
 
-/* カートの数字バッジの位置微調整 */
+/* 旧.btn-outline-darkの互換性維持 */
+.btn-outline-dark {
+    border: 1px solid #e5e0da;
+    background-color: #ffffff;
+    color: #2c2a29;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important;
+    transition: all 0.2s ease;
+}
+.btn-outline-dark:hover {
+    background-color: #f7f5f0;
+    color: #c5a880;
+    border-color: #c5a880;
+    transform: scale(1.03);
+}
+
+/* カートの数量バッジ（深みのある赤で厳かに） */
+.badge.bg-danger,
 .header-icon-btn .badge {
-    top: -5px;
-    right: -5px;
+    background-color: #8a1c1c !important; /* ボルドー・バーガンディ（深紅） */
+    font-family: 'Garamond', 'Georgia', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35em 0.5em;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: -3px !important;
+    right: -3px !important;
+    transform: translate(30%, -30%);
+    box-shadow: 0 0 0 2px #fcfbfa; /* ヘッダーの背景色に合わせたフチ */
+}
+
+/* ユーザー名・ボタン周りの微調整 */
+.navbar-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.85rem;
+    color: #595450;
+}
+
+.navbar-text strong {
+    color: #2c2a29;
+}
+
+/* ログイン・ログアウトボタン（丸みを抑え、落ち着いたトーンに） */
+.header-action-btn {
+    font-family: 'Noto Serif JP', serif;
+    border-radius: 4px; /* 直線的でフォーマルな印象 */
+    padding: 0.4rem 1.2rem;
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+/* カテゴリ選択セレクトボックス */
+.header-category-select {
+    font-family: 'Noto Serif JP', serif;
+    width: 105px !important;
+    max-width: 105px !important;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.4rem;
+    padding-right: 1.2rem;
+    background-color: #ffffff;
+    border-color: #e5e0da;
+    border-right: none;
+    color: #595450;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.header-category-select:focus,
+.header-category-select:hover {
+    width: 180px;
+    color: #2c2a29;
+    border-color: #c5a880;
 }
 
 /* 📱 スマートフォンなどの縮小画面用の最適化 */
 @media (max-width: 991.98px) {
-    /* 検索バーを幅いっぱいに広げる */
     .w-50 {
         width: 100% !important;
     }
-    
-    /* ログイン情報・カートなどを縦並びにしつつ左寄せに綺麗に整える */
     .header-user-actions {
         flex-direction: column;
         align-items: flex-start !important;
@@ -188,7 +188,6 @@ header.navbar {
         margin-top: 10px;
         padding-bottom: 10px;
     }
-    
     .header-user-actions .me-3 {
         margin-right: 0 !important;
     }

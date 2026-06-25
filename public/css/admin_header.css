@@ -1,114 +1,140 @@
 @charset "UTF-8";
 
-/* ==========================================
-   ECサイト共通ヘッダー カスタムスタイル
-========================================== */
+/* ==========================================================================
+   ECサイト共通ヘッダー カスタムスタイル（教典・神聖テーマ）
+   ========================================================================== */
 
-/* ヘッダー全体のベース（少し影をつけて立体感を出す） */
+/* ヘッダー全体のベース（羊皮紙を思わせる高貴な白と淡い墨色の影） */
 header.navbar {
-    background-color: #ffffff !important; /* 真っ白にして清潔感を */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* ほのかな下の影 */
+    background-color: #fcfbfa !important; /* 高貴な白 */
+    border-bottom: 1px solid #e5e0da; /* 静かな境界線 */
+    box-shadow: 0 2px 12px rgba(44, 42, 41, 0.03); /* ほのかな下の影 */
     padding: 0.75rem 0;
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', serif;
     transition: all 0.3s ease;
 }
 
-/* 1. サイトロゴのスタイリング */
+/* 1. サイトロゴのスタイリング（神殿の碑文のような格式高さ） */
 .navbar-brand {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: 0.5px;
+    font-family: 'Garamond', 'Noto Serif JP', serif;
+    font-weight: 600;
+    color: #2c2a29 !important; /* 深い墨色 */
+    letter-spacing: 2px; /* 厳かな印象のために広めに */
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* ロゴにマウスを乗せた時の動き（ちょっと浮き上がる） */
+/* ロゴにマウスを乗せた時の動き */
 .navbar-brand:hover {
-    opacity: 0.85;
+    opacity: 0.8;
     transform: translateY(-1px);
 }
 
 .navbar-brand i {
-    color: #0d6efd; /* ロゴのアイコンカラー（Bootstrapのprimary） */
+    color: #c5a880 !important; /* ロゴのアイコンは真鍮ゴールド */
+    margin-right: 6px;
 }
 
-/* 2. 商品名検索フォームのスタイリング */
+/* 2. 商品名検索フォームのスタイリング（直線的なカット） */
 .input-group .form-control {
-    border-radius: 20px 0 0 20px; /* 左側を丸く */
+    border: 1px solid #e5e0da;
+    border-radius: 2px 0 0 2px; /* 丸みを廃止し、直線的でフォーマルに */
     border-right: none;
-    padding-left: 1.25rem;
+    padding-left: 1rem;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #2c2a29;
 }
 
 .input-group .form-control:focus {
-    border-color: #ced4da;
-    box-shadow: none; /* フォーカス時の青い枠線を消してスッキリ */
-    background-color: #f8f9fa;
+    border-color: #c5a880; /* フォーカス時はゴールドに */
+    box-shadow: none;
+    background-color: #ffffff;
+}
+
+/* カテゴリ選択（セレクトボックス）の調和 */
+.header-category-select {
+    width: 105px !important;
+    max-width: 105px !important;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Noto Serif JP', serif;
+    
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.4rem;
+    padding-right: 1.2rem;
+    
+    background-color: #ffffff;
+    border: 1px solid #e5e0da;
+    border-right: none;
+    color: #595450; /* 茶鼠色 */
+    border-radius: 0;
+    
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+/* カテゴリにマウスを乗せた時・開いた時（横幅を広げ、ゴールドで縁取り） */
+.header-category-select:focus,
+.header-category-select:hover {
+    width: 150px !important;
+    max-width: 150px !important;
+    color: #2c2a29;
+    border-color: #c5a880;
+    outline: none;
 }
 
 /* 虫眼鏡マークの検索ボタン */
 .input-group .btn-outline-secondary {
-    border-radius: 0 20px 20px 0; /* 右側を丸く */
+    border: 1px solid #e5e0da;
+    border-radius: 0 2px 2px 0; /* 丸みを抑える */
     border-left: none;
-    background-color: #f8f9fa;
-    color: #6c757d;
+    background-color: #ffffff;
+    color: #8c847c;
     transition: all 0.2s ease;
-    padding-right: 1.25rem;
+    padding-right: 1rem;
 }
 
 /* 検索ボタンにマウスを乗せた時 */
 .input-group .btn-outline-secondary:hover {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    background-color: #c5a880; /* 真鍮ゴールド */
+    border-color: #c5a880;
     color: #ffffff;
 }
 
-/* ユーザー名・ボタン周りの微調整 */
+/* ユーザー名・テキスト周りの微調整 */
 .navbar-text {
-    font-size: 0.9rem;
-    color: #495057;
+    font-size: 0.85rem;
+    color: #595450; /* 茶鼠色 */
+    letter-spacing: 0.5px;
 }
 
 .navbar-text strong {
-    color: #212529;
+    color: #2c2a29; /* 深い墨色 */
+    font-weight: 600;
 }
 
-/* ログイン・ログアウトボタンの角を少し丸く */
+/* ログイン・ログアウトボタン（厳かなアクションボタン） */
 .header-action-btn {
-    border-radius: 15px;
-    padding: 0.4rem 1rem;
-    font-weight: 500;
+    border-radius: 2px; /* 直線的なカット */
+    padding: 0.4rem 1.2rem;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-family: 'Noto Serif JP', serif;
 }
 
-.header-category-select {
-    width: 105px !important;    /* 横幅をさらに削って「95px」に完全固定 */
-    max-width: 105px !important;
-    
-    font-size: 0.75rem;        /* 文字サイズをかなり小さく（これで見えるようになります） */
-    font-weight: bold;         /* 小さくした分、太字にして視認性を確保 */
-    
-    /* 内側の余白を限界まで削って、文字が書けるスペースを広げる */
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    padding-left: 0.3rem;      /* 左の余白を最小限に */
-    padding-right: 1.2rem;     /* 右側（矢印マーク）の余白も極限まで詰める */
-    
-    background-color: #f8f9fa;
-    border-right: none;
-    color: #495057;            /* 文字色を少し濃くして、小さくても読みやすく */
-    
-    /* 万が一、これでも入り切らない超ロングなカテゴリ名があった時の安全弁（切れるのを防ぐ） */
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-/* クリックされて選択肢が開いた時、またはマウスを乗せた時 */
-.header-category-select:focus,
-.header-category-select:hover {
-    width: 180px; /* 長いカテゴリー名も収まる幅まで自動で広げる */
-    color: #212529;
+/* カートやお気に入りなどのアイコンボタン */
+.header-icon-btn {
+    color: #595450;
+    transition: all 0.2s ease;
 }
 
 .header-icon-btn:hover {
-    background-color: #e9ecef;
-    color: #0d6efd;
+    background-color: transparent;
+    color: #c5a880; /* マウスホバーで真鍮ゴールドに光る */
     transform: scale(1.05);
 }
 
@@ -119,18 +145,23 @@ header.navbar {
         width: 100% !important;
     }
     
-    /* ログイン情報・カートなどを縦並びにしつつ左寄せに綺麗に整える */
+    /* ログイン情報・カートなどを美しく整列 */
     .header-user-actions {
         flex-direction: column;
         align-items: flex-start !important;
         justify-content: flex-start !important;
         min-width: auto !important;
         gap: 15px;
-        margin-top: 10px;
+        margin-top: 15px;
         padding-bottom: 10px;
     }
     
     .header-user-actions .me-3 {
         margin-right: 0 !important;
+    }
+    
+    .header-category-select:focus,
+    .header-category-select:hover {
+        width: 105px !important; /* スマホ時は崩れを防ぐため幅固定 */
     }
 }
