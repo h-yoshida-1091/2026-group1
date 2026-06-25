@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新規登録はこちら - ECサイト</title>
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+
+    <script src="https://yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8" defer></script>
 </head>
 
 <body>
@@ -21,15 +23,12 @@
                 </ul>
             </div>
         @endif
-            <form action="/account" method="post" class="register-form">
-                @csrf
-                <div class="form-group">
-                    <label for="name">お名前</label>
-                    <input type="text" id="name" name="name" placeholder="山田 太郎" required>
-                </div>
+            
+        <form action="/account" method="post" class="register-form h-adr">
 
-        <form action="/account" method="post" class="register-form">
             @csrf
+
+            <span class="p-country-name" style="display:none;">Japan</span>
 
             <div class="form-group">
                 <label for="name">お名前</label>
@@ -54,14 +53,13 @@
             <div class="form-group">
                 <label for="postal_code">郵便番号</label>
                 <div class="postal-code-container" style="display: flex; gap: 10px;">
-                    <input type="text" id="postal_code" name="postal_code" placeholder="123-4567" style="flex: 1;">
-                    <button type="button" id="btn-postal-search" class="btn-search">住所検索</button>
+                    <input type="text" id="postal_code" name="postal_code" class="p-postal-code" placeholder="123-4567" style="flex: 1;">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="address">お届け先住所</label>
-                <textarea id="address" name="address" rows="3" placeholder="東京都〇〇区1-2-3" required></textarea>
+                <textarea id="address" name="address" class="p-region p-locality p-street-address" rows="3" placeholder="東京都〇〇区1-2-3" required></textarea>
             </div>
 
             <button type="submit" class="btn-register">登録する</button>

@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* ==========================================
    1. 画面端に密着させるフル幅レイアウト
    ========================================== */
@@ -7,13 +9,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f5f5f5;
-    padding: 10px 20px;
+    background-color: #fcfbfa; /* 羊皮紙を思わせる高貴な白 */
+    padding: 12px 20px;
     margin: 0;
-    /* 周囲の無駄な余白を完全カット */
     width: 100%;
     box-sizing: border-box;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #e5e0da;
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', serif;
 }
 
 /* メイン領域：上部ナビと左端に完全にくっつける */
@@ -21,14 +23,13 @@
     display: flex;
     width: 100%;
     margin: 0;
-    /* 上下の隙間をゼロにしてナビに密着 */
     padding: 0;
-    /* 左右の余白をゼロにして画面端に密着 */
     align-items: flex-start;
     box-sizing: border-box;
+    background-color: #ffffff;
 }
 
-/* サイドバー：左端に固定し、枠線を消してスッキリ密着 */
+/* サイドバー */
 .sidebar {
     width: 240px;
     flex-shrink: 0;
@@ -36,35 +37,38 @@
     padding: 0;
 }
 
-/* サイドバーの中身のカード：無駄な丸みや外側の余白を排除して左端に寄せる */
+/* サイドバーの中身のカード */
 .sidebar-widget {
-    background: #fff;
-    border-right: 1px solid #e0e0e0;
-    /* 右側だけ区切り線を残す */
-    border-bottom: 1px solid #e0e0e0;
-    padding: 20px 15px;
+    background: #fcfbfa; /* ほんのり色づいた背景 */
+    border-right: 1px solid #e5e0da;
+    border-bottom: 1px solid #e5e0da;
+    padding: 24px 18px;
     min-height: calc(100vh - 60px);
-    /* 画面下部まで綺麗に背景を伸ばす */
     box-sizing: border-box;
+    font-family: 'Noto Serif JP', serif;
 }
 
-/* ★ここに引っ越し：PC表示（通常時）は「×」ボタンを隠しておく */
+/* PC表示（通常時）は「×」ボタンを隠しておく */
 .sidebar-close-btn {
     display: none;
 }
 
-/* 右側商品コンテンツエリア：少しだけ内側に余白を持たせる */
+/* 右側商品コンテンツエリア */
 .content-products {
     flex-grow: 1;
-    padding: 20px;
+    padding: 24px;
     box-sizing: border-box;
+    background-color: #ffffff;
 }
 
 /* 「商品一覧」のタイトルを左寄せに変更 */
 .page-title-left {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 0 0 20px 0;
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #2c2a29; /* 深い墨色 */
+    letter-spacing: 1px;
+    margin: 0 0 24px 0;
     text-align: left;
 }
 
@@ -74,26 +78,26 @@
 .product-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    /* 限界まで横に敷き詰める */
-    gap: 20px;
+    gap: 24px;
     width: 100%;
 }
 
 .product-card {
     width: 100% !important;
     margin: 0 !important;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
+    background: #ffffff;
+    border: 1px solid #e5e0da;
+    border-radius: 4px; /* 直線的でフォーマルな印象へ */
+    padding: 16px;
     position: relative;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s;
+    box-shadow: 0 2px 8px rgba(44, 42, 41, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-sizing: border-box;
 }
 
 .product-card:hover {
     transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(197, 168, 128, 0.15); /* ほのかにゴールドの影を纏わせる */
 }
 
 /* ==========================================
@@ -108,51 +112,57 @@
 
 .filter-title {
     font-size: 0.9rem;
-    color: #555;
+    color: #595450; /* 茶鼠色 */
     font-weight: bold;
 }
 
 .filter-tag {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 4px 10px;
-    border-radius: 4px;
+    background-color: #ffffff;
+    border: 1px solid #e5e0da;
+    padding: 4px 12px;
+    border-radius: 2px;
     font-size: 0.85rem;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    color: #2c2a29;
 }
 
-/* お気に入りタグの特別スタイル */
+/* 特別な条件指定のタグ（お気に入りなど、深みのある赤をベースに） */
 .filter-tag.border-danger {
-    border-color: #ffc107 !important;
-    border-color: #f5c2c2 !important;
-    background-color: #fff5f5;
+    border-color: #8a1c1c !important; /* ボルドー */
+    background-color: #fbf5f5;
+    color: #8a1c1c;
 }
 
 .remove-tag-btn {
     background: none;
     border: none;
-    color: #aaa;
+    color: #bfaea2;
     font-weight: bold;
     cursor: pointer;
     padding: 0 2px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1;
+    transition: color 0.2s;
 }
 
 .remove-tag-btn:hover {
-    color: #e74c3c;
+    color: #8a1c1c;
 }
 
 .clear-all-btn {
     background: none;
     border: none;
-    color: #0066cc;
+    color: #595450;
     cursor: pointer;
     font-size: 0.85rem;
     text-decoration: underline;
     padding: 4px 8px;
+}
+
+.clear-all-btn:hover {
+    color: #c5a880; /* ゴールド */
 }
 
 .sort-group {
@@ -163,15 +173,20 @@
    4. ダブルスライダー・価格リンク
    ========================================== */
 .widget-title {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #333;
-    padding-bottom: 5px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #2c2a29;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #c5a880; /* ゴールドの繊細な下線 */
+    padding-bottom: 6px;
+    letter-spacing: 0.5px;
 }
 
 .slider-text-range {
+    font-family: 'Garamond', 'Georgia', serif;
     font-size: 0.95rem;
     font-weight: bold;
+    color: #2c2a29;
     margin-bottom: 15px;
     text-align: center;
 }
@@ -186,18 +201,18 @@
 .slider-track {
     position: absolute;
     width: 100%;
-    height: 6px;
-    background: #ddd;
+    height: 4px;
+    background: #e5e0da;
     top: 50%;
     transform: translateY(-50%);
-    border-radius: 3px;
+    border-radius: 2px;
     z-index: 1;
 }
 
 .double-slider-container input[type="range"] {
     position: absolute;
     width: 100%;
-    height: 6px;
+    height: 4px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
@@ -208,27 +223,34 @@
     z-index: 2;
 }
 
+/* スライダーつまみをゴールドに */
 .double-slider-container input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 18px;
-    width: 18px;
+    height: 16px;
+    width: 16px;
     border-radius: 50%;
-    background: #0066cc;
-    border: 2px solid #fff;
+    background: #c5a880; /* 真鍮ゴールド */
+    border: 2px solid #ffffff;
     cursor: pointer;
     pointer-events: auto;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 4px rgba(44, 42, 41, 0.25);
 }
 
 .price-apply-btn {
     width: 100%;
-    background: #333;
-    color: #fff;
+    background: #2c2a29; /* 墨色 */
+    color: #fcfbfa;
     border: none;
-    padding: 6px;
-    border-radius: 4px;
+    padding: 8px;
+    border-radius: 2px;
     font-size: 0.85rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.price-apply-btn:hover {
+    background: #c5a880; /* ホバーでゴールドに */
 }
 
 .slider-action-row {
@@ -242,22 +264,24 @@
 }
 
 .price-range-list li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .price-range-link {
     font-size: 0.9rem;
-    color: #0066cc;
+    color: #595450;
     text-decoration: none;
+    transition: color 0.2s;
 }
 
 .price-range-link:hover {
+    color: #c5a880;
     text-decoration: underline;
 }
 
 .price-range-link.active {
     font-weight: bold;
-    color: #333;
+    color: #8a1c1c; /* アクティブな価格帯は深紅に */
 }
 
 /* ==========================================
@@ -265,7 +289,7 @@
    ========================================== */
 .product-image {
     width: 100%;
-    height: 160px;
+    height: 180px;
     margin-bottom: 15px;
 }
 
@@ -273,20 +297,27 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    background: #f8f8f8;
-    border-radius: 8px;
+    background: #fcfbfa; /* 商品画像の背景も合わせる */
+    border: 1px solid #e5e0da;
+    border-radius: 4px;
 }
 
 .product-info h3 {
-    font-size: 16px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #2c2a29;
+    line-height: 1.4;
     margin-bottom: 10px;
-    height: 45px;
+    height: 42px;
     overflow: hidden;
 }
 
+/* 価格表示（深みのあるボルドーレッドでクラシックに） */
 .price {
-    color: #e60012;
-    font-size: 20px;
+    font-family: 'Garamond', 'Georgia', serif;
+    color: #8a1c1c; 
+    font-size: 1.3rem;
     font-weight: bold;
     margin: 10px 0;
 }
@@ -298,69 +329,92 @@
     gap: 8px;
 }
 
+/* カートボタン：真鍮ゴールドベース */
 .cart-btn {
     width: 100%;
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    background: #007bff;
-    color: white;
+    padding: 9px;
+    border: 1px solid #c5a880;
+    border-radius: 2px;
+    background: #c5a880;
+    color: #ffffff;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
 }
 
+.cart-btn:hover {
+    background: #bfaea2;
+    border-color: #bfaea2;
+}
+
+/* 詳細を見るボタン：落ち着いた墨色ベース */
 .detail-link {
     display: block;
     text-align: center;
     padding: 8px;
-    border-radius: 6px;
-    background: #333;
-    color: white;
+    border-radius: 2px;
+    background: #fcfbfa;
+    border: 1px solid #e5e0da;
+    color: #595450;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.detail-link:hover {
+    background: #2c2a29;
+    color: #ffffff;
+    border-color: #2c2a29;
 }
 
 .favorite-area {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 12px;
+    right: 12px;
     z-index: 3;
 }
 
 .favorite-btn {
     border: none;
     background: none;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
-    color: #ccc;
+    color: #e5e0da;
+    transition: color 0.2s, transform 0.2s;
 }
 
+.favorite-btn:hover {
+    transform: scale(1.1);
+}
+
+/* お気に入り登録時の色（深紅） */
 .favorite-btn.favorited {
-    color: #e60012;
+    color: #8a1c1c;
 }
 
-/* PC用のトグルボタンは通常非表示 */
+/* PC用のトグルボタン */
 .mobile-sidebar-toggle {
     display: none;
     width: 36px;
     height: 34px;
-    border-radius: 8px;
+    border-radius: 4px;
     background-color: #ffffff;
-    color: #111111;
-    border: 1px solid #d5d9d9;
+    color: #2c2a29;
+    border: 1px solid #e5e0da;
     justify-content: center;
     align-items: center;
     font-size: 0.95rem;
     cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.1s;
+    box-shadow: 0 1px 3px rgba(44, 42, 41, 0.05);
+    transition: background-color 0.2s;
 }
 
-/* タップした時・ホバーした時に少しだけグレーにする */
 .mobile-sidebar-toggle:hover,
 .mobile-sidebar-toggle:active {
-    background-color: #f7fafa;
-    border-color: #d5d9d9;
+    background-color: #fcfbfa;
+    border-color: #c5a880;
 }
 
 /* ==========================================
@@ -368,62 +422,51 @@
    ========================================== */
 @media (max-width: 768px) {
 
-    /* トグルボタンを表示する */
     .mobile-sidebar-toggle {
         display: flex;
     }
 
-    /* ナビゲーションバーの並びを調整 */
     .sort-navigation-bar {
         padding: 8px 12px;
         gap: 10px;
         align-items: center;
     }
 
-    /* サイドバーを「ドロワー（引き出し）」化して画面外（左側）に隠す */
     .sidebar {
         position: fixed;
         top: 0;
         left: -260px;
-        /* 通常時は画面の左外に隠す */
         width: 260px;
         height: 100vh;
         z-index: 9999;
-        /* ヘッダー等よりも前面に出す */
         transition: left 0.3s ease;
-        /* スッと出てくるアニメーション */
-        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.15);
+        box-shadow: 5px 0 20px rgba(44, 42, 41, 0.15);
     }
 
-    /* JavaScriptで .active クラスがついたら左端に現れる */
     .sidebar.active {
         left: 0;
     }
 
-    /* スマホ版サイドバーの中身：縦いっぱいに白背景を広げる */
     .sidebar-widget {
         height: 100%;
         overflow-y: auto;
         border-right: none;
         padding: 40px 20px 20px 20px;
         position: relative;
-        /* ×ボタンの配置基準にする */
+        background: #fcfbfa;
     }
 
-    /* スマホ表示の時は商品リストを2列、または1列に敷き詰める */
     .product-list {
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 10px;
+        gap: 12px;
     }
 
     .content-products {
-        padding: 10px;
+        padding: 12px;
     }
 
-    /* スマホ表示の際に、サイドバーを閉じるための「×」ボタン用スタイル */
     .sidebar-close-btn {
         display: flex;
-        /* 中央揃え */
         align-items: center;
         justify-content: center;
         position: absolute;
@@ -433,87 +476,78 @@
         height: 30px;
         background: none;
         border: none;
-        font-size: 1.6rem;
-        color: #666;
+        font-size: 1.5rem;
+        color: #8c847c;
         cursor: pointer;
         line-height: 1;
     }
 
-    /* タップした時にちょっと薄くするエフェクト */
     .sidebar-close-btn:active {
         opacity: 0.5;
     }
 
-    /* 商品画像のコンテナを重ね合わせの基準点にする */
     .position-relative-box {
         position: relative;
         overflow: hidden;
-        /* はみ出したリボンなどをカットする場合 */
     }
 
-    /* シールの共通設定 */
     .stock-badge {
         position: absolute;
         z-index: 2;
-        font-weight: bold;
+        font-weight: 600;
         text-align: center;
         user-select: none;
+        font-family: 'Noto Serif JP', serif;
     }
 
-    /* ==========================================
-   ① 在庫数 1：残りわずか（目立たない場所に小さく）
-   ========================================== */
+    /* ① 残りわずか（深みのある赤の厳かなラベル） */
     .badge-few {
         top: 8px;
         left: 8px;
-        background-color: #ff3838;
-        /* 警告色の赤 */
+        background-color: #8a1c1c;
         color: #ffffff;
-        font-size: 11px;
+        font-size: 10px;
         padding: 3px 8px;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        border-radius: 2px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         letter-spacing: 0.5px;
     }
 
-    /* ==========================================
-   ② 在庫数 0：売り切れ（大きく全面に被せる）
-   ========================================== */
+    /* ② 売り切れ（静かにマスクをかける） */
     .badge-soldout {
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.45);
-        /* 画像を暗くマスクする半透明ブラック */
+        background-color: rgba(44, 42, 41, 0.5); /* 墨色ベースの半透明マスク */
         display: flex;
         align-items: center;
         justify-content: center;
         transition: background-color 0.3s;
     }
 
-    /* 「SOLD OUT」の文字が入る円形またはラベルデザイン */
+    /* 「SOLD OUT」の文字が入るラベル（墨色×ゴールド線） */
     .badge-soldout span {
-        background-color: #333333;
-        color: #ffffff;
-        font-size: 14px;
-        letter-spacing: 1px;
-        padding: 8px 16px;
-        border-radius: 2px;
-        border: 2px solid #ffffff;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        background-color: #2c2a29;
+        color: #fcfbfa;
+        font-size: 13px;
+        font-family: 'Garamond', 'Georgia', serif;
+        letter-spacing: 1.5px;
+        padding: 6px 14px;
+        border-radius: 0;
+        border: 1px solid #c5a880; /* ゴールドの境界線 */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-    /* 売り切れ商品の画像自体を少し白黒（セピア）っぽくしてさらに分かりやすくする場合 */
     .img-soldout {
-        filter: grayscale(40%) opacity(80%);
+        filter: grayscale(60%) opacity(75%);
     }
 
-    /* 在庫切れ時のカートボタンのグレースタイル */
+    /* 在庫切れ時のカートボタン */
     .cart-btn:disabled {
-        background-color: #bdc3c7 !important;
-        border-color: #bdc3c7 !important;
-        color: #ffffff !important;
+        background-color: #e5e0da !important;
+        border-color: #e5e0da !important;
+        color: #8c847c !important;
         cursor: not-allowed;
     }
 }
