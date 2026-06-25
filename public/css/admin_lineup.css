@@ -1,19 +1,9 @@
 @charset "UTF-8";
 
-/* ===== ページヘッダー（カート配置エリア） ===== */
-.page-header {
-    width: 90%;
-    margin: 30px auto 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', serif;
-}
-
 /* ページタイトル（厳かで深い墨色） */
 .page-title {
     text-align: center;
-    margin: 0;
+    margin: 30px 0;
     color: #2c2a29; /* 深い墨色 */
     font-size: 26px;
     font-weight: 600;
@@ -162,24 +152,3 @@
 .cart-link:hover {
     opacity: 0.85;
 }
-
-.sidebar-open-btn {
-    top: 20px !important;
-    left: 20px !important;
-}
-
-/* ===================================================
-   管理画面 全体の横並びレイアウト（サイドバーを回り込ませない設定）
-   =================================================== */
-.admin-main-layout {
-    display: flex;       /* これで左サイドバー、右コンテンツを横並びにします */
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-}
-
-/* 右側の商品一覧コンテンツエリア */
-.admin-container {
-    flex: 1;            /* 横幅の残りのスペースをすべて使い切る設定 */
-    padding: 20px;
-    box-sizing: border-box;

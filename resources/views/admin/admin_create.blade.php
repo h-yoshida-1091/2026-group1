@@ -1,6 +1,15 @@
-@include('admin.admin_header')
+<!DOCTYPE html>
+<html lang="ja">
 
-<link rel="stylesheet" href="{{ asset('css/admin_create.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>【管理画面】商品追加</title>
+    <link rel="stylesheet" href="{{ asset('css/admin_create.css') }}">
+</head>
+
+<body>
+
+@include('admin.admin_header')
 
 <div class="admin-main-layout">
 
@@ -36,7 +45,7 @@
                         <label>画像URL</label>
                         <input type="text" name="image_url" id="image_url" value="{{ old('image_url') }}">
                         @error('image_url')
-                            <span class="error-message" style="color: red; display: block; margin-top: 5px;">{{ $message }}</span>
+                        <span class="error-message" style="color: red; display: block; margin-top: 5px;">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -44,7 +53,7 @@
                         <label>画像ファイル</label>
                         <input type="file" name="image_file" id="image_file" accept="image/*">
                         @error('image_file')
-                            <span class="error-message" style="color: red; display: block; margin-top: 5px;">{{ $message }}</span>
+                        <span class="error-message" style="color: red; display: block; margin-top: 5px;">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -99,7 +108,9 @@
 
         </div>
 
-    </div> </div> <script>
+    </div>
+</div>
+<script>
     function toggleImageInput() {
         const type = document.querySelector('input[name="image_type"]:checked').value;
         const urlDiv = document.getElementById('url_input');
@@ -149,3 +160,7 @@
         });
     });
 </script>
+
+</body>
+
+</html>

@@ -418,6 +418,42 @@
 }
 
 /* ==========================================
+   5-2. レーティング（評価）パーツ
+   ========================================== */
+.star-rating-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0 8px 0;
+    font-size: 14px;
+}
+
+.star-rating {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    color: #e5e0da; /* 塗られていない星の色（グレー） */
+    font-family: sans-serif;
+    letter-spacing: 2px;
+}
+
+.star-rating::before {
+    content: "★★★★★";
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    color: #c5a880; /* 真理文庫に合う真鍮・ゴールド系の色 */
+    width: calc(var(--rating) / 5 * 100%); /* 少数点以下の割合だけ横幅を広げて色付け */
+}
+
+.rating-number {
+    font-family: 'Garamond', 'Georgia', serif; /* 数値もクラシックな明朝・セリフ体に統一 */
+    color: #595450; /* 茶鼠色へ微調整 */
+    font-weight: bold;
+}
+
+/* ==========================================
    6. スマートフォン・タブレット向け（768px以下）
    ========================================== */
 @media (max-width: 768px) {
