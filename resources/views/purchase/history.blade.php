@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注文履歴 - ECサイト</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/history.css') }}">
+
     <style>
         body { background-color: #f8f9fa; }
         .history-container { max-width: 900px; margin: 40px auto; padding: 0 15px; }
@@ -19,53 +22,59 @@
 
     @include('header')
 
-    <div class="history-container">
-        <h2 class="mb-4 text-dark fw-bold">注文履歴</h2>
+    <div class="account-container">
+        <x-account-sidebar />
 
-        {{-- ⭕️ 注文が1件も無い場合の処理 --}}
-        @if($orders->isEmpty())
-            <div class="alert alert-info text-center py-4">
+
+        <div class="history-container">
+            <h2 class="mb-4 text-dark fw-bold">注文履歴</h2>
+
+            {{-- ⭕️ 注文が1件も無い場合の処理 --}}
+            @if($orders->isEmpty())
+                <div class="alert alert-info text-center py-4">
                 <p class="mb-3">まだ購入された商品はありません。</p>
-                <a href="/products" class="btn btn-primary btn-sm">商品を見に行く</a>
-            </div>
-        @else
-            {{-- ⭕️ コントローラから渡された $orderDetails をループで回す --}}
-            @foreach ($orderDetails as $detail)
-                <div class="order-card">
+                    <a href="/products" class="btn btn-primary btn-sm">商品を見に行く</a>
+                </div>
+            @else
+                {{-- ⭕️ コントローラから渡された $orderDetails をループで回す --}}
+                @foreach ($orderDetails as $detail)
+                    <div class="order-card">
                     
-                    <div class="order-header">
-                        <div class="row align-items-center text-secondary small">
-                            <div class="col-6 col-md-3">
-                                <div class="text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">注文日</div>
-                                <div class="text-dark font-weight-bold">{{ \Carbon\Carbon::parse($detail['order']->order_date)->format('Y年m月d日') }}</div>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <div class="text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">合計金額</div>
-                                <div class="text-dark font-weight-bold">¥{{number_format($detail['order']->sumprice ?? 0) }}</div>
-                            </div>
-                            <div class="col-12 col-md-6 text-md-end mt-2 mt-md-0">
-                                <span class="badge bg-secondary">注文番号： {{ $detail['order']->id }}</span>
+                        <div class="order-header">
+                            <div class="row align-items-center text-secondary small">
+                                <div class="col-6 col-md-3">
+                                    <div class="text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">注文日</div>
+                                    <div class="text-dark font-weight-bold">{{ \Carbon\Carbon::parse($detail['order']->order_date)->format('Y年m月d日') }}</div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">合計金額</div>
+                                    <div class="text-dark font-weight-bold">¥{{number_format($detail['order']->sumprice ?? 0) }}</div>
+                                </div>
+                                <div class="col-12 col-md-6 text-md-end mt-2 mt-md-0">
+                                    <span class="badge bg-secondary">注文番号： {{ $detail['order']->id }}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="order-body">
-                        @foreach ($detail['items'] as $item)
-                            <div class="product-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="mb-1 text-dark" style="font-size: 1rem;">{{ $item->name }}</h5>
-                                    <span class="text-muted small">数量: {{ $item->quantity }} 点 / 単価: ¥{{ number_format($item->price) }}</span>
+                        <div class="order-body">
+                            @foreach ($detail['items'] as $item)
+                                <div class="product-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-1 text-dark" style="font-size: 1rem;">{{ $item->name }}</h5>
+                                        <span class="text-muted small">数量: {{ $item->quantity }} 点 / 単価: ¥{{ number_format($item->price) }}</span>
+                                    </div>
+                                    <div class="text-end fw-bold text-dark">
+                                        ¥{{ number_format($item->price * $item->quantity) }}
+                                    </div>
                                 </div>
-                                <div class="text-end fw-bold text-dark">
-                                    ¥{{ number_format($item->price * $item->quantity) }}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+                            @endforeach
+                        </div>
 
-                </div>
-            @endforeach
-        @endif
+                    </div>
+                @endforeach
+            @endif
+        </div>
+    
     </div>
 
     @include('footer')

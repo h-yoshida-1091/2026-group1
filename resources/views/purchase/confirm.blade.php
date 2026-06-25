@@ -1,5 +1,7 @@
 @include('header')
 
+<title>購入確認</title>
+
 <link rel="stylesheet" href="{{ asset('css/confirm.css') }}">
 
 <h1 class="title">購入確認</h1>
