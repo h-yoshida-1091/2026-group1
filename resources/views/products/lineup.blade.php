@@ -4,7 +4,7 @@
 </head>
 
 @include('header')
-<link rel="stylesheet" href="{{ asset('css/lineup.css') }}">
+<link rel="stylesheet" href="{{ asset('css/lineup.css') }}?v={{ filemtime(public_path('css/lineup.css')) }}">
 
 <div class="sort-navigation-bar">
     <button type="button" class="mobile-sidebar-toggle" onclick="toggleMobileSidebar()" title="絞り込み条件を開く">
