@@ -1,35 +1,37 @@
-/*タイトル*/
+@charset "UTF-8";
 
+/* ===== タイトル（厳かで深い墨色） ===== */
 .title {
     text-align: center;
-    color: #2c3e50;
-    font-size: 32px;
-    font-weight: bold;
-    margin: 20px 0 30px;
+    color: #2c2a29; /* 深い墨色 */
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', serif;
+    font-size: 28px; /* 少し小ぶりに、上品に */
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin: 20px 0 35px;
 }
 
 
-/*カート商品カード*/
-
+/* ===== カート商品カード（羊皮紙ベースにゴールドのアクセントライン） ===== */
 .cart-item {
     display: grid;
     grid-template-columns: 180px 1fr 220px;
-
     gap: 30px;
     align-items: start;
 
-    background: #fff;
-    border: 1px solid #ddd;
-    border-left: 5px solid #bf0000;
-    border-radius: 8px;
+    background: #fcfbfa; /* ほんのり羊皮紙を思わせる高貴な白 */
+    border: 1px solid #e5e0da;
+    border-left: 4px solid #c5a880; /* 真鍮ゴールドの繊細なアクセントライン */
+    border-radius: 2px; /* 直線的でフォーマルな印象へ */
 
     padding: 25px;
     margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(44, 42, 41, 0.03);
+    font-family: 'Noto Serif JP', serif;
 }
 
 
-/*商品画像*/
-
+/* ===== 商品画像エリア ===== */
 .image-area {
     width: 180px;
     height: 180px;
@@ -38,9 +40,9 @@
     justify-content: center;
     align-items: center;
 
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid #e5e0da;
+    border-radius: 2px;
 }
 
 .image-area img {
@@ -50,43 +52,37 @@
 }
 
 
-/*商品情報エリア*/
-
+/* ===== 商品情報エリア ===== */
 .info-area {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-
-/* 商品名 */
-
+/* 商品名（墨色で知的な佇まい） */
 .product-name {
-    font-size: 24px;
-    font-weight: bold;
-    color: #bf0000;
-    line-height: 1.7;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c2a29;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
 }
-
 
 /* 在庫 */
-
 .stock-area {
-    font-size: 15px;
-    color: #666;
+    font-size: 14px;
+    color: #595450; /* 茶鼠色 */
 }
 
-
-/*個数エリア*/
-
+/* 個数変更エリア */
 .quantity-area {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
-
-    font-size: 18px;
-    font-weight: bold;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c2a29;
 }
 
 .quantity-area form {
@@ -94,169 +90,169 @@
 }
 
 .quantity-area span {
+    font-family: 'Garamond', 'Georgia', serif;
     min-width: 30px;
     text-align: center;
     font-size: 18px;
     font-weight: bold;
 }
 
+/* 個数ボタン（墨色ベース） */
 .quantity-area button {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
 
-    border: none;
-    border-radius: 6px;
+    border: 1px solid #2c2a29;
+    border-radius: 2px;
 
-    background: #2c3e50;
-    color: white;
+    background: #2c2a29;
+    color: #fcfbfa;
 
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
+    transition: all 0.2s ease;
 }
 
 .quantity-area button:hover {
-    background: #bf0000;
+    background: #c5a880; /* ホバー時にゴールドへ */
+    border-color: #c5a880;
 }
 
 
-/*ボタンエリア*/
-
+/* ===== 操作ボタンエリア ===== */
 .action-buttons {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-
-/* 今すぐ購入 */
-
+/* 今すぐ購入（ゴールド調でクラシックに） */
 .buy-now-btn {
-    padding: 10px 18px;
-
-    background: #28a745;
-    color: white;
-
-    border: none;
-    border-radius: 6px;
-
+    padding: 8px 16px;
+    background: #c5a880;
+    color: #ffffff;
+    border: 1px solid #c5a880;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
 }
 
-
-/* 削除 */
-
+/* 削除（深みのあるボルドーレッド） */
 .delete-form button {
-    padding: 10px 18px;
-
-    background: #dc3545;
-    color: white;
-
-    border: none;
-    border-radius: 6px;
-
+    padding: 8px 16px;
+    background: #ffffff;
+    color: #8a1c1c;
+    border: 1px solid #e5e0da;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    text-decoration: none;
+    transition: all 0.2s ease;
 }
 
+.buy-now-btn:hover {
+    background: #bfaea2;
+    border-color: #bfaea2;
+}
 
-.buy-now-btn:hover,
 .delete-form button:hover {
-    opacity: 0.85;
+    background: #8a1c1c;
+    color: #ffffff;
+    border-color: #8a1c1c;
 }
 
 
-/*右側価格エリア*/
-
+/* ===== 右側価格エリア（美しいセリフ体数字） ===== */
 .price-area {
+    font-family: 'Garamond', 'Georgia', serif;
     text-align: right;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
-    color: #bf0000;
+    color: #8a1c1c; /* 単価は深紅に */
+    letter-spacing: 0.5px;
 }
 
 .subtotal-area {
+    font-family: 'Garamond', 'Georgia', serif;
     text-align: right;
-    font-size: 20px;
-    font-weight: bold;
-    color: #2c3e50;
-
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c2a29; /* 小計は墨色で落ち着かせる */
     margin-top: 20px;
 }
 
 
-/*合計金額*/
-
+/* ===== 合計金額エリア（ゴールドの重厚な上線） ===== */
 .total {
-    margin-top: 30px;
+    font-family: 'Garamond', 'Georgia', 'Noto Serif JP', serif;
+    margin-top: 35px;
     padding-top: 20px;
-
-    border-top: 3px solid #2c3e50;
-
+    border-top: 2px solid #c5a880; /* ゴールドの上線に変更 */
     text-align: right;
-
-    font-size: 32px;
+    font-size: 28px;
     font-weight: bold;
-    color: #2c3e50;
+    color: #8a1c1c; /* 最終合計は格式高い深紅に */
+    letter-spacing: 0.5px;
 }
 
 
-/*部ボタン*/
-
+/* ===== 下部遷移ボタンエリア ===== */
 .purchase {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-
     gap: 15px;
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .purchase form {
     margin: 0;
 }
 
-
-/* 商品一覧へ戻る */
-
+/* 商品一覧へ戻る（静かで上品な白） */
 .back-products-btn {
     display: inline-block;
+    padding: 12px 28px;
 
-    padding: 14px 30px;
+    border: 1px solid #e5e0da;
+    border-radius: 2px;
 
-    border: 2px solid #2c3e50;
-    border-radius: 6px;
-
-    background: #fff;
-    color: #2c3e50;
+    background: #ffffff;
+    color: #595450;
 
     text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
 .back-products-btn:hover {
-    background: #ecf0f1;
+    background: #2c2a29;
+    color: #ffffff;
+    border-color: #2c2a29;
 }
 
-
-/* 購入確認 */
-
+/* 購入確認手続きへ（墨色で厳かに進む） */
 .purchase-btn {
-    padding: 14px 30px;
+    padding: 12px 28px;
 
-    border: none;
-    border-radius: 6px;
+    border: 1px solid #2c2a29;
+    border-radius: 2px;
 
-    background: #2c3e50;
-    color: #fff;
+    background: #2c2a29;
+    color: #fcfbfa;
 
-    font-size: 18px;
-    font-weight: bold;
-
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .purchase-btn:hover {
-    background: #1f2d3a;
+    background: #595450;
+    border-color: #595450;
 }

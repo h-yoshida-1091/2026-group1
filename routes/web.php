@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminCategoryController;
 use Symfony\Component\Finder\Iterator\VcsIgnoredFilterIterator;
 
 // 商品一覧
@@ -79,9 +80,33 @@ Route::post('/admin/products/edit/{id}', [AdminProductController::class, 'update
 Route::get('/admin/products/create', [AdminProductController::class, 'create']);
 Route::post('/admin/products/create', [AdminProductController::class, 'store']);
 
+// カテゴリー管理画面（一覧）
+Route::get('/admin/categories', [AdminCategoryController::class, 'index']);
+// カテゴリー追加
+Route::post('/admin/categories', [AdminCategoryController::class, 'store']);
+// カテゴリー変更
+Route::post('/admin/categories/edit/{id}', [AdminCategoryController::class, 'update']);
+// カテゴリー削除
+Route::post('/admin/categories/delete', [AdminCategoryController::class, 'destroy']);
+
 // お問い合わせ画面の表示
 Route::get('/contact', [ContactController::class, 'index']);
 // お問い合わせデータの保存処理
 Route::post('/contact', [ContactController::class, 'store']);
 // 管理者用お問い合わせ一覧画面
 Route::get('/admin/contact', [ContactController::class, 'adminIndex']);
+// 管理者用返信画面の表示
+Route::get('/admin/contact/{id}/reply', [ContactController::class, 'adminReply']);
+// 管理者用返信処理（ステータス更新）
+Route::post('/admin/contact/{id}/reply', [ContactController::class, 'adminSendReply']);
+// お問い合わせをゴミ箱に移動する処理
+Route::post('/admin/contact/{id}/trash', [ContactController::class, 'adminTrash']);
+// ゴミ箱に入ったお問い合わせの一覧画面
+Route::get('/admin/trash', [ContactController::class, 'adminTrashIndex']);
+// ゴミ箱から元に戻す（復元）処理
+Route::post('/admin/contact/{id}/restore', [ContactController::class, 'adminRestore']);
+// ゴミ箱から完全に削除する（個別物理削除）処理
+Route::delete('/admin/contact/{id}/force-delete', [ContactController::class, 'adminForceDelete']);
+// ゴミ箱から選択したデータを一括で完全に削除する処理
+Route::delete('/admin/contact/bulk-delete', [ContactController::class, 'adminBulkDelete']);
+
