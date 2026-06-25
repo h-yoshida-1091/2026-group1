@@ -4,7 +4,7 @@
 </head>
 
 @include('header')
-<link rel="stylesheet" href="{{ asset('css/lineup.css') }}">
+<link rel="stylesheet" href="{{ asset('css/lineup.css') }}?v={{ filemtime(public_path('css/lineup.css')) }}">
 
 <div class="sort-navigation-bar">
     <button type="button" class="mobile-sidebar-toggle" onclick="toggleMobileSidebar()" title="絞り込み条件を開く">
@@ -97,8 +97,9 @@
                 @foreach($priceRanges as $range)
                 <li>
                     <a href="javascript:void(0)"
-                        onclick="clickPriceRange({{ $range['min'] }}, {{ $range['max'] }})"
-                        class="price-range-link {{ (request('min_price') == $range['min'] && request('max_price') == $range['max']) ? 'active' : '' }}">
+                        data-min="{{ $range['min'] }}"
+                        data-max="{{ $range['max'] }}"
+                        class="price-range-link price-filter {{ (request('min_price') == $range['min'] && request('max_price') == $range['max']) ? 'active' : '' }}">
                         {{ $range['label'] }}
                     </a>
                 </li>
@@ -131,13 +132,22 @@
                     </div>
                     @endif
 
-                    <a href="/products/detail?id={{ $product->id }}" >
+                    <a href="/products/detail?id={{ $product->id }}">
                         <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="{{ $product->stock === 0 ? 'img-soldout' : '' }}">
                     </a>
                 </div>
 
                 <div class="product-info">
                     <h3>{{ $product->name }}</h3>
+
+                    <div class="star-rating-container">
+                        @php $avgRating = $product->reviews_avg_rating ?? 0; @endphp
+                        <div class="star-rating" style="--rating: {{ $avgRating }};" title="評価: {{ number_format($avgRating, 1) }}">
+                            ★★★★★
+                        </div>
+                        <span class="rating-number">{{ number_format($avgRating, 1) }}</span>
+                    </div>
+
                     <p class="price">¥{{ number_format($product->price) }}</p>
 
                     <div class="product-actions">

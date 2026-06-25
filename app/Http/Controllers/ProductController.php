@@ -18,8 +18,10 @@ class ProductController extends Controller
 
         //ヘッダー用にカテゴリーを全件取得
         $categories = Category::all();
-        //リクエストパラメータの取得
-        $query = Product::query();
+        
+        // ★ 変更：初期クエリビルダ作成時にレビューの平均評価を一緒に取得する設定を追加
+        $query = Product::withAvg('reviews', 'rating');
+        
         $keyword = $request->input('keyword');
         $categoryId = $request->input('category_id');
         $minPriceParam = $request->input('min_price');
@@ -145,6 +147,7 @@ class ProductController extends Controller
         $categoryName = null;
         if ($categoryId) {
             // 全カテゴリの中から、現在選択されているIDのカテゴリを1件探す
+            $categories = Category::all(); // コレクションでのファーストウェアのために再担保、または冒頭のを再利用
             $currentCategory = $categories->firstWhere('id', $categoryId);
             if ($currentCategory) {
                 $categoryName = $currentCategory->name;
@@ -175,7 +178,9 @@ class ProductController extends Controller
         $categories = Category::all();
         // 指定IDの商品を取得
         $id = $request->query('id');
-        $product = Product::findOrFail($id);
+        
+        // ★ 変更：その商品に紐づく「レビュー情報」と「投稿したユーザー情報」をEagerロードでまとめて取得
+        $product = Product::with(['reviews.user'])->findOrFail($id);
 
         $image = Product_image::find($product->image_id);
         $product->image_url = $image ? $image->image_url : null;
@@ -187,8 +192,11 @@ class ProductController extends Controller
             ->where('product_id', $product->id)
             ->exists();
 
-        // 詳細画面へ
-        return view('products.item_detail', compact('product', 'categories'));
+        // ★ 追加：この商品の平均スコアを計算（レビューが無い場合は 0.0）
+        $averageRating = $product->reviews->avg('rating') ?? 0;
+
+        // 詳細画面へ（★変更：averageRating もコンパクトで一緒に渡却）
+        return view('products.item_detail', compact('product', 'categories', 'averageRating'));
     }
 
     //お気に入り登録処理
