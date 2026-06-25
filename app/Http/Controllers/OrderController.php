@@ -182,4 +182,36 @@ class OrderController extends Controller
             DB::rollBack();
         }
     }
+
+    public function getRecommendedProducts($userId)
+    {
+        $scores = DB::table('recommend_scores')
+            ->where('user_id', $userId)
+            ->orderByDesc('score')
+            ->limit(3)
+            ->get();
+
+        $products = [];
+
+        foreach ($scores as $score) {
+
+            $product = DB::table('products')
+                ->where('id', $score->product_id)
+                ->first();
+
+            if ($product) {
+
+                $image = DB::table('product_images')
+                    ->where('product_id', $product->id)
+                    ->value('image_url');
+
+                $product->score = $score->score;
+                $product->image_url = $image;
+
+                $products[] = $product;
+            }
+        }
+
+        return $products;
+    }
 }

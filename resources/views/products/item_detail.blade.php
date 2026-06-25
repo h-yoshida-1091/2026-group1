@@ -46,7 +46,7 @@
             <form action="/cart/add" method="POST">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                <input type="hidden" name="quantity" value="{{ $product->quantity }}">
+                <input type="hidden" name="quantity" value="1">
 
                 <button type="submit" class="cart-btn">
                     カートに入れる
