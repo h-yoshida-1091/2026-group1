@@ -89,4 +89,14 @@ Route::get('/admin/contact', [ContactController::class, 'adminIndex']);
 Route::get('/admin/contact/{id}/reply', [ContactController::class, 'adminReply']);
 // 管理者用返信処理（ステータス更新）
 Route::post('/admin/contact/{id}/reply', [ContactController::class, 'adminSendReply']);
+// お問い合わせをゴミ箱に移動する処理
+Route::post('/admin/contact/{id}/trash', [ContactController::class, 'adminTrash']);
+// ゴミ箱に入ったお問い合わせの一覧画面
+Route::get('/admin/trash', [ContactController::class, 'adminTrashIndex']);
+// ゴミ箱から元に戻す（復元）処理
+Route::post('/admin/contact/{id}/restore', [ContactController::class, 'adminRestore']);
+// ゴミ箱から完全に削除する（個別物理削除）処理
+Route::delete('/admin/contact/{id}/force-delete', [ContactController::class, 'adminForceDelete']);
+// ゴミ箱から選択したデータを一括で完全に削除する処理
+Route::delete('/admin/contact/bulk-delete', [ContactController::class, 'adminBulkDelete']);
 
