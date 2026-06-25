@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('baibai6161'),
                 'postal_code' => '0590551',
                 'address' => '北海道登別市登別温泉町６５',
-                'role' => 'null',
+                'role' => null,
             ],
             [
                 'name' => '黒峰 凛',
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('kuroneko184'),
                 'postal_code' => '4130005',
                 'address' => '静岡県熱海市春日町１－２',
-                'role' => 'null',
+                'role' => null,
             ],
             [
                 'name' => '春宮 航',
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('spring5151'),
                 'postal_code' => '7900842',
                 'address' => '愛媛県松山市道後湯之町５－６',
-                'role' => 'null',
+                'role' => null,
             ],
             [
                 'name' => '海森 夏美',
@@ -59,7 +59,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('summer5151'),
                 'postal_code' => '3771711',
                 'address' => '群馬県吾妻郡草津町草津',
-                'role' => 'null',
+                'role' => null,
             ],
             [
                 'name' => '秋川 実',
@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('fall5151'),
                 'postal_code' => '6511401',
                 'address' => '兵庫県神戸市北区有馬町８３３',
-                'role' => 'null',
+                'role' => null,
             ],
             [
                 'name' => '冬木 こころ',
@@ -75,7 +75,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('winter5151'),
                 'postal_code' => '5092207',
                 'address' => '岐阜県下呂市湯之島５７０',
-                'role' => 'null',
+                'role' => null,
             ],
             [
                 'name' => '朝野 聡',
@@ -83,7 +83,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('morning114'),
                 'postal_code' => '2500631',
                 'address' => '神奈川県足柄下郡箱根町仏石原１２８３－９７',
-                'role' => 'null',
+                'role' => null,
             ],
             [
                 'name' => '宵崎 玖瑠美',
@@ -91,7 +91,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('midnight114'),
                 'postal_code' => '8740822',
                 'address' => '大分県別府市観見寺１',
-                'role' => 'null',
+                'role' => null,
             ],
         ]);
 
