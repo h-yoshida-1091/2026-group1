@@ -1,7 +1,18 @@
+/* フォント */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+* {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
 /* ページタイトル */
 .page-title {
     text-align: center;
-    margin: 30px 0;
+    margin: 40px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a2e;
+    letter-spacing: 2px;
 }
 
 /* 全体レイアウト */
@@ -11,11 +22,25 @@
     display: flex;
     gap: 40px;
     align-items: flex-start;
+    padding-bottom: 60px;
 }
 
 /* ユーザー一覧 */
 .user-list {
     flex: 2;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+}
+
+.user-list h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f0f0f5;
 }
 
 .user-table {
@@ -23,36 +48,65 @@
     border-collapse: collapse;
 }
 
-.user-table th,
-.user-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
 .user-table th {
-    background: #f8f8f8;
-    font-weight: bold;
+    background: #1a1a2e;
+    color: #fff;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
 }
 
-.user-table tr:hover {
-    background: #f0f0f0;
+.user-table th:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.user-table th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.user-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f5;
+}
+
+.user-table tr:last-child td {
+    border-bottom: none;
+}
+
+.user-table tr:hover td {
+    background: #f7f7fc;
 }
 
 /* ユーザー追加フォーム */
 .user-form {
     flex: 1;
     background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+}
+
+.user-form h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f0f0f5;
 }
 
 /* ラベル */
 label {
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 13px;
+    color: #555;
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
 }
 
 /* 入力フォーム */
@@ -60,33 +114,71 @@ input[type="text"],
 input[type="email"],
 input[type="password"] {
     width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 10px 14px;
+    border: 1.5px solid #e0e0e8;
+    border-radius: 8px;
     font-size: 14px;
+    color: #333;
+    background: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #4a4a8a;
+    box-shadow: 0 0 0 3px rgba(74, 74, 138, 0.1);
+    background: #fff;
 }
 
 /* 追加ボタン */
 .cart-btn {
     width: 100%;
-    padding: 12px;
-    background: #28a745;
+    padding: 13px;
+    background: linear-gradient(135deg, #28a745, #20c997);
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 700;
     cursor: pointer;
+    letter-spacing: 1px;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
 .cart-btn:hover {
-    opacity: 0.85;
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
 /* エラーメッセージ */
 .error-message {
     color: #dc3545;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     margin-top: 5px;
     display: block;
+    font-weight: 500;
+}
+
+/* 削除ボタン */
+.delete-btn {
+    padding: 7px 16px;
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 3px 8px rgba(220, 53, 69, 0.3);
+}
+
+.delete-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
 }

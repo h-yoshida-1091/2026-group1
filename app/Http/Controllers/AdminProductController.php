@@ -9,16 +9,29 @@ use App\Models\Category;
 
 class AdminProductController extends Controller
 {
-    // 商品一覧
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        $categories = Category::all(); // 追加
+        $categories = Category::all();
+        $query = Product::query();
+
+        // キーワード検索
+        if ($request->filled('keyword')) {
+            $query->where('name', 'LIKE', "%{$request->input('keyword')}%");
+        }
+
+        // カテゴリ検索
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->input('category_id'));
+        }
+
+        $products = $query->get();
+
         foreach ($products as $product) {
             $image = Product_image::find($product->image_id);
             $product->image_url = $image ? $image->image_url : null;
         }
-        return view('admin.admin_lineup', compact('products', 'categories')); // categoriesを追加
+
+        return view('admin.admin_lineup', compact('products', 'categories'));
     }
 
     // 商品削除
