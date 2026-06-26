@@ -162,7 +162,7 @@
                                         <i class="fa-solid fa-triangle-exclamation me-1"></i>優先度：高
                                     </span>
                                     @elif($contact->priority == 2)
-                                    <span class="badge bg-light priority-badge text-secondary border">
+                                    <span class="badge bg-warning priority-badge text-dark">
                                         <i class="fa-solid fa-minus me-1"></i>優先度：中
                                     </span>
                                     @else
