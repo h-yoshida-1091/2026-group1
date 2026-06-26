@@ -27,7 +27,7 @@ class ProductSeeder extends Seeder
                 'name' => '真言宗 常用経典',
                 'description' => '真言宗の常用経典として最も重要なのは「理趣経」であり、正式名称は「大楽金剛不空真実三昧耶経・般若波羅蜜多理趣分」です',
                 'price' => 2500,
-                'stock' => 10
+                'stock' => 2
             ],
             [
                 'category_id' => 2,
