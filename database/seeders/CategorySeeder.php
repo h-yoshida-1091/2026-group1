@@ -35,6 +35,9 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => '魔術書'
+            ],
+            [
+                'name' => '奇書'
             ]
         ]);
 
