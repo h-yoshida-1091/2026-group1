@@ -115,7 +115,7 @@ class ProductSeeder extends Seeder
                 'name' => 'ドグラ・マグラ',
                 'description' => '単なる推理小説にとどまらず、心理学、犯罪学、遺伝学、宗教哲学などを横断する思想的実験の書とも評価されています。「読むと気が狂う」と称されるほどの難解さと独創性で知られています。単なる難解さだけでなく、読者の認識構造を揺さぶる仕掛けが施されており、文学史上でも特異な存在として評価されています',
                 'price' => 2513,
-                'stock' => 9
+                'stock' => 0
             ],
             [
                 'category_id' => 7,
@@ -147,7 +147,7 @@ class ProductSeeder extends Seeder
                 'name' => '妙法蓮華経',
                 'description' => '法華経の正式名称であり、すべての生き物を救い、仏の境地へ導く教えを説く大乗仏教の経典です。サンスクリット語で Saddharmapundarika-sutra（サッダルマ・プンダリーカ・スートラ） と呼ばれ、鳩摩羅什によって漢訳されました',
                 'price' => 300,
-                'stock' => 20
+                'stock' => 1
             ],
             [
                 'category_id' => 1,
