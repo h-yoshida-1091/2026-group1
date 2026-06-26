@@ -1,218 +1,212 @@
-<?php
+<!DOCTYPE html>
+<html lang="ja">
 
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\Contact;
-use App\Models\Category;
-use App\Services\GroqContactAnalysisService;
-use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactReplyMail;
-
-class ContactController extends Controller
-{
-    //サービスを保持するプロパティ
-    protected $groqService;
-
-    // コンストラクタでサービスを注入
-    public function __construct(GroqContactAnalysisService $groqService)
-    {
-        $this->groqService = $groqService;
-    }
-
-    // お問い合わせ画面の表示
-    public function index()
-    {
-        // 未ログインならログイン画面へ遷移させ、メッセージを表示
-        if (!Auth::check()) {
-            return redirect('/login')->with('error_message', 'お問い合わせ機能を利用するにはログインが必要です。');
+<head>
+    <meta charset="UTF-8">
+    <title>【管理画面】お問い合わせ一覧</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-size: 1rem;
         }
 
-        $categories = Category::all();
-
-        // ログイン中のユーザー情報を取得
-        $user = Auth::user();
-
-        return view('contact.index', compact('categories', 'user'));
-    }
-
-    // DBへの保存処理
-    public function store(Request $request)
-    {
-        //  念のためPOST時も未ログインチェック
-        if (!Auth::check()) {
-            return redirect('/login')->with('error_message', 'お問い合わせ機能を利用するにはログインが必要です。');
+        .table-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        $userId = Auth::id();
-        $userEmail = Auth::user()->email;
-
-        // 連投スパム対策：過去24時間以内に同じユーザー（または同じメールアドレス）からの送信があるかチェック
-        $lastContact = Contact::where('email', $userEmail)
-            ->where('created_at', '>=', Carbon::now()->subDay())
-            ->first();
-
-        if ($lastContact) {
-            return redirect('/contact')->with('error_message', '連続でのお問い合わせは制限されています。次のお問い合わせは、前回送信から24時間後にお願いいたします。');
+        .table th {
+            padding: 18px 12px;
+            font-size: 1.05rem;
         }
 
-        // 入力制限しているため、名前とメールアドレスはセッションから強制的に取得してバリデーションにかける
-        $request->merge([
-            'name'  => Auth::user()->name,
-            'email' => $userEmail,
-        ]);
-
-        // バリデーション
-        $validated = $request->validate([
-            'name'    => 'required|string|max:255',
-            'email'   => 'required|email|max:255',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string|max:2000',
-        ], [
-            'subject.required' => '件名を入力してください。',
-            'message.required' => 'お問い合わせ内容を入力してください。',
-        ]);
-
-        // AI解析サービスを呼び出す前に、件名が短すぎる場合や、英数字のみの件名の場合はスパム判定とする
-        if (mb_strlen($validated['subject']) < 3 || preg_match('/^[a-zA-Z0-9\s]+$/', $validated['subject'])) {
-            $aiAnalysis = ['is_spam' => true, 'priority' => 2];
-        } else {
-            // サービスを呼び出し、AI解析を実行
-            $aiAnalysis = $this->groqService->analyzeContact($validated['subject'], $validated['message']);
+        .table td {
+            padding: 20px 12px;
+            font-size: 1rem;
         }
 
-        // 解析結果に基づいてステータスと優先度を決定
-        if ($aiAnalysis['is_spam']) {
-            $validated['status'] = 'スパム';
-            $validated['previous_status'] = '未対応';
-        }
-        $validated['priority'] = $aiAnalysis['priority'];
-
-        // DBへ保存
-        Contact::create($validated);
-
-        //  完了メッセージに注記を追加してリダイレクト
-        return redirect('/contact')->with('success_message', "お問い合わせを受け付けました。ありがとうございました。\nお問い合わせに対する回答は、後日ご登録のメールアドレスに送信いたします。");
-    }
-
-    // 管理者用お問い合わせ一覧画面の表示
-    public function adminIndex()
-    {
-        // ステータスが「ゴミ箱」以外のものを最新順に取得
-        $contacts = Contact::whereNotIn('status', ['ゴミ箱', 'スパム'])
-                    ->orderBy('priority', 'desc')
-                    ->latest()
-                    ->get();
-        
-        // 管理者用の一覧画面にデータを渡して表示
-        return view('admin.admin_contact', compact('contacts'));
-    }
-
-    // 返信画面の表示
-    public function adminReply($id)
-    {
-        // 対象のお問い合わせを1件取得（なければ404エラー）
-        $contact = Contact::findOrFail($id);
-
-        return view('admin.admin_reply', compact('contact'));
-    }
-
-    // 管理者用：返信処理（メール送信 ＆ ステータス更新）
-    public function adminSendReply(Request $request, $id)
-    {
-        $contact = Contact::findOrFail($id);
-
-        // バリデーション
-        $request->validate([
-            'reply_message' => 'required|string|max:2000',
-        ], [
-            'reply_message.required' => '返信内容を入力してください。',
-        ]);
-
-        //1. 入力された返信本文を取得
-        $replyMessage = $request->input('reply_message');
-
-        //2. 実際にお客様のメールアドレス宛にメールを送信！
-        Mail::to($contact->email)->send(new ContactReplyMail($replyMessage));
-
-        // 3. ステータスを「対応済」に更新して保存
-        $contact->status = '対応済';
-        $contact->save();
-
-        // 一覧画面にリダイレクト
-        return redirect('/admin/contact')->with('success_message', "お問い合わせ #{$id} の返信メールを送信し、「対応済」に更新しました。");
-    }
-
-    // お問い合わせをゴミ箱に移動する処理
-    public function adminTrash($id)
-    {
-        $contact = Contact::findOrFail($id);
-
-        //ゴミ箱に移動する前のステータスを退避させておく
-        $contact->previous_status = $contact->status;
-        $contact->status = 'ゴミ箱';
-        $contact->save();
-
-        return redirect('/admin/contact')->with('success_message', "お問い合わせをゴミ箱に移動しました。");
-    }
-
-    // ゴミ箱に入ったお問い合わせ一覧の表示
-    public function adminTrashIndex()
-    {
-        // ステータスが「ゴミ箱」のものだけを最新順に取得
-        $contacts = Contact::whereIn('status', ['ゴミ箱', 'スパム'])
-                    ->latest()
-                    ->get();
-
-        // ゴミ箱専用のビューを開く
-        return view('admin.admin_trash_contact', compact('contacts'));
-    }
-
-    // ゴミ箱から元の状態に復元する
-    public function adminRestore($id)
-    {
-        $contact = Contact::findOrFail($id);
-
-        // 退避しておいた元のステータスに戻す（万が一なければ未対応にする）
-        $contact->status = $contact->previous_status ?? '未対応';
-        $contact->previous_status = null; // 復元したのでクリア
-        $contact->save();
-
-        return redirect('/admin/trash')->with('success_message', "お問い合わせを一覧に復元しました。");
-    }
-
-    // 選択データの一括完全削除
-    public function adminBulkDelete(Request $request)
-    {
-        // 画面のチェックボックスから送信されたIDの配列を取得
-        $contactIds = $request->input('contact_ids');
-
-        if (empty($contactIds)) {
-            return redirect('/admin/trash')->with('error_message', "削除するデータが選択されていません。");
+        .msg-text-box {
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 1rem;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            line-height: 1.6;
         }
 
-        // 選択されたIDのデータを一括で物理削除
-        Contact::whereIn('id', $contactIds)
-            ->whereIn('status', ['ゴミ箱', 'スパム'])
-            ->delete();
-
-        return redirect('/admin/trash')->with('success_message', "選択されたお問い合わせを一括で完全に削除しました。");
-    }
-
-    // お問い合わせをゴミ箱・スパムから1件単体で完全に物理削除する処理
-    public function adminForceDelete($id)
-    {
-        // 対象のお問い合わせを取得（なければ404エラー）
-        $contact = Contact::findOrFail($id);
-
-        // 安全対策：ステータスが「ゴミ箱」または「スパム」のものだけ削除を許可する
-        if (in_array($contact->status, ['ゴミ箱', 'スパム'])) {
-            $contact->delete(); // データベースから完全に削除
-            return redirect('/admin/trash')->with('success_message', "お問い合わせ #{$id} を完全に削除しました。");
+        .table tbody tr {
+            transition: background-color 0.2s;
         }
 
-        return redirect('/admin/trash')->with('error_message', "このステータスのお問い合わせは直接削除できません。");
-    }
-}
+        .table tbody tr:hover {
+            background-color: #fafbfc;
+        }
+
+        .status-badge {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+        .priority-badge {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 991.98px) {
+            .table thead {
+                display: none;
+            }
+
+            .table tbody tr {
+                display: block;
+                margin-bottom: 20px;
+                padding: 20px;
+                background: #ffffff;
+                border: 1px solid #e3e6f0;
+                border-radius: 10px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+            }
+
+            .table td {
+                display: block;
+                width: 100% !important;
+                padding: 10px 0 !important;
+                border: none !important;
+                text-align: left !important;
+            }
+
+            .table td:nth-child(1)::before {
+                content: "【受信日時】 ";
+                font-weight: bold;
+                color: #4e73df;
+                display: inline-block;
+                margin-right: 5px;
+            }
+
+            .msg-text-box {
+                margin-top: 5px;
+            }
+
+            .table td:last-child {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                background: #f8f9fa;
+                padding: 12px !important;
+                margin-top: 15px;
+                border-radius: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    @include('admin.admin_header')
+
+    @include('admin.admin_sidebar')
+
+    <div class="container-fluid my-5 px-5">
+        @if (session('success_message'))
+        <div class="alert alert-success shadow-sm mb-4">
+            <i class="fa-solid fa-circle-check me-2"></i> {{ session('success_message') }}
+        </div>
+        @endif
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h2 fw-bold text-dark m-0"><i class="fa-solid fa-inbox me-3 text-primary"></i>お問い合わせ管理一覧</h1>
+        </div>
+
+        <div class="table-container p-4">
+            @if($contacts->isEmpty())
+            <div class="text-center text-muted py-5">
+                <i class="fa-regular fa-folder-open fs-1 mb-3 d-block"></i>
+                現在、届いているお問い合わせはありません。
+            </div>
+            @else
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 15%;">受信日時</th>
+                            <th style="width: 15%;">お客様情報</th>
+                            <th style="width: 20%;">優先度・件名</th>
+                            <th style="width: 35%;">お問い合わせ内容</th>
+                            <th style="width: 15%; text-align: center;">状態 / 操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($contacts as $contact)
+                        <tr>
+                            <td class="text-secondary fw-medium">
+                                {{ $contact->created_at->format('Y/m/d H:i') }}
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark fs-5 mb-1">{{ $contact->name }}</div>
+                                <div class="text-muted" style="font-size: 0.9rem;">{{ $contact->email }}</div>
+                            </td>
+                            <td>
+                                <div class="mb-2">
+                                    @if($contact->priority == 3)
+                                    <span class="badge bg-danger priority-badge text-white">
+                                        <i class="fa-solid fa-triangle-exclamation me-1"></i>優先度：高
+                                    </span>
+                                    @elif($contact->priority == 2)
+                                    <span class="badge bg-warning priority-badge text-dark">
+                                        <i class="fa-solid fa-minus me-1"></i>優先度：中
+                                    </span>
+                                    @else
+                                    <span class="badge bg-info priority-badge text-dark">
+                                        <i class="fa-solid fa-comment-dots me-1"></i>優先度：低
+                                    </span>
+                                    @endif
+                                </div>
+                                <div class="fw-bold text-dark fs-6">{{ $contact->subject }}</div>
+                            </td>
+                            <td>
+                                <div class="msg-text-box text-dark">{{ $contact->message }}</div>
+                            </td>
+                            <td style="text-align: center;">
+                                <div class="mb-3">
+                                    @if($contact->status === '対応済')
+                                    <span class="badge bg-success status-badge text-white"><i class="fa-solid fa-check me-1"></i>対応済</span>
+                                    @else
+                                    <span class="badge bg-warning status-badge text-dark"><i class="fa-solid fa-clock me-1"></i>未対応</span>
+                                    @endif
+                                </div>
+
+                                <div class="d-flex flex-column gap-2 align-items-center">
+                                    <a href="/admin/contact/{{ $contact->id }}/reply" class="btn btn-primary btn-sm fw-bold px-3 py-2 w-100">
+                                        <i class="fa-solid fa-reply me-1"></i> 返信画面へ
+                                    </a>
+
+                                    <form action="/admin/contact/{{ $contact->id }}/trash" method="POST" class="w-100" onsubmit="return confirm('このお問い合わせをゴミ箱に移動しますか？')">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger btn-sm fw-bold px-3 py-2 w-100">
+                                            <i class="fa-solid fa-trash-can me-1"></i> ゴミ箱へ
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @endif
+        </div>
+    </div>
+
+</body>
+
+</html>
