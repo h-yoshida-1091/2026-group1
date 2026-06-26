@@ -124,7 +124,7 @@
         @endif
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h2 fw-bold text-dark m-0"><i class="fa-solid fa-inbox me-3 text-primary"></i>お問い合わせ管理一覧</h1>
+            <h1 class="h2 fw-bold text-dark m-0"><i class="fa-solid fa-inbox me-3 text-primary"></i>お問い合わせ管理</h1>
         </div>
 
         <div class="table-container p-4">
@@ -140,9 +140,9 @@
                         <tr>
                             <th style="width: 15%;">受信日時</th>
                             <th style="width: 15%;">お客様情報</th>
-                            <th style="width: 20%;">件名</th>
+                            <th style="width: 20%;">優先度・件名</th>
                             <th style="width: 35%;">お問い合わせ内容</th>
-                            <th style="width: 15%; text-align: center;">状態・優先度 / 操作</th>
+                            <th style="width: 15%; text-align: center;">状態 / 操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -161,11 +161,13 @@
                                     <span class="badge bg-danger priority-badge text-white">
                                         <i class="fa-solid fa-triangle-exclamation me-1"></i>優先度：高
                                     </span>
-                                    @elif($contact->priority == 2)
+                                    @endif
+                                    @if($contact->priority == 2)
                                     <span class="badge bg-warning priority-badge text-dark">
                                         <i class="fa-solid fa-minus me-1"></i>優先度：中
                                     </span>
-                                    @else
+                                    @endif
+                                    @if($contact->priority == 1)
                                     <span class="badge bg-info priority-badge text-dark">
                                         <i class="fa-solid fa-comment-dots me-1"></i>優先度：低
                                     </span>
