@@ -19,7 +19,7 @@ class ProductImagesSeeder extends Seeder
         //データ挿入
         DB::table('product_images')->insert([
             ['image_url' => 'https://www.touken-world.jp/wp/wp-content/uploads/2020/06/2eb442efdd1e633fa05aaa381b5c452d.jpg'],
-            ['image_url' => 'https://images.freeimages.com/images/large-previews/ed2/quran-1306696.jpg'],
+            ['image_url' => 'https://m.media-amazon.com/images/I/41c6YdFkqOL._SY445_SX342_.jpg'],
             ['image_url' => 'https://tse1.explicit.bing.net/th/id/OIP.d5HHOj7X0KDhybShAy7U1gHaJD?cb=thfc1falcon2&rs=1&pid=ImgDetMain&o=7&rm=3'],
             ['image_url' => 'https://wlpm.xsrv.jp/wings/images/s105902.jpg'],
             ['image_url' => 'https://m.media-amazon.com/images/I/51E0eytLZ0L._SL1000_.jpg'],
