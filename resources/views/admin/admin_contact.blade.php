@@ -39,7 +39,6 @@
             line-height: 1.6;
         }
 
-        /* ★ 行全体のタップスタイル（clickable-rowやカーソルポインタ）を完全に削除 */
         .table tbody tr {
             transition: background-color 0.2s;
         }
@@ -55,7 +54,6 @@
             font-weight: bold;
         }
 
-        /* ★ 優先度バッジのスタイル定義 */
         .priority-badge {
             font-size: 0.8rem;
             padding: 4px 10px;
@@ -63,7 +61,6 @@
             font-weight: bold;
         }
 
-        /* 画面が半分くらいに縮小されたときのレスポンシブ対応 */
         @media (max-width: 991.98px) {
             .table thead {
                 display: none;
@@ -160,11 +157,11 @@
                             </td>
                             <td>
                                 <div class="mb-2">
-                                    @if($contact->priority === 3)
+                                    @if($contact->priority == 3)
                                     <span class="badge bg-danger priority-badge text-white">
                                         <i class="fa-solid fa-triangle-exclamation me-1"></i>優先度：高
                                     </span>
-                                    @elif($contact->priority === 2)
+                                    @elif($contact->priority == 2)
                                     <span class="badge bg-light priority-badge text-secondary border">
                                         <i class="fa-solid fa-minus me-1"></i>優先度：中
                                     </span>
